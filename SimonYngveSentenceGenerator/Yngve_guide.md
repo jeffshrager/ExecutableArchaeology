@@ -10,6 +10,11 @@ reserved. (See copyright details at the end of this document.)
 
 ---
 
+*Warning: Large parts of this document were created using AI
+assistance. Don't quote it unless you've checked it yourself.*
+
+---
+
 ## Before You Arrive: What Is Yngve's Sentence Generator?
 
 In 1959–61 Victor Yngve, at MIT's Research Laboratory of Electronics,
