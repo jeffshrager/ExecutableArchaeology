@@ -50,7 +50,7 @@ guess).
   was recently unearthed by Mia Golec and Emily Davis (both of CMU)
   with Jeff Shrager. The scan of the listing, along with a transcribed
   card deck, is in the Executable Archaeologyrepo:
-  <https://github.com/jeffshrager/ExecutableArchaeology/blob/main/SimonYngveSentenceGenerator/Yngve_guide.md>.
+  <https://github.com/jeffshrager/ExecutableArchaeology/blob/main/SimonYngveSentenceGenerator/>.
 
 Across the first page, in pencil, is a cover note. My reading is:
 *"[salutation illegible] — here is an almost debugged version & some
