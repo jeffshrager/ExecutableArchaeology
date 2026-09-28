@@ -572,7 +572,61 @@ So `10L2` pushes the name L2, `11W0` pushes what W0 holds, and `12H0` pushes the
 
 **Reading the scan.** Printed columns, left to right: machine address, comment, NAME, PQ+SYMB (run together, e.g. `10T1`), LINK, card ID. Data-term cards show PQ as `1` (integer) or `21` (alphanumeric). Several page images overlap their neighbours by a few lines at the fanfold, so a transcriber must remove the duplicates. The header line (`OPERATOR-007 … 12:42:26 R350.039 IPL 015 060`) and the closing `STOP / PMTM / 00:21:53 020` are job-control output whose fields I can't decode with confidence.
 
-**Running it.** As far as I can tell the listing is complete: four routines, 70 rules, 48 words, three numeric constants, and the start card. L1, L2, and the T symbols need no data because they are used as bare symbols and empty lists. A transcribed card deck, `ysimon.card`, is in the ExecutableArchaeology repository (<https://github.com/jeffshrager/ExecutableArchaeology/blob/main/SimonYngveSentenceGenerator/Yngve_guide.md>). **The deck is a work in progress and does not yet run on our IPL-V emulators.** It applies the pencil fix at C3055/C3058, keeps the unnumbered trace cards, and writes the printout's local labels (`90`, `910`) in the 1964 input form (`9-0`, `9-10`). Shrager's Common Lisp IPL-V interpreter (github.com/jeffshrager/IPL-V) currently lacks J123, J129, and J153, all small to add. The deck also has no print-line reservation card, which some systems may need for J154–J161. Exact reproduction of the 1962 sentences would also require the installation's J129 multiplier, which is not in this listing. With any other generator you get different sentences from the same grammar.
+**Running it.** As far as I can tell the listing is complete: four routines, 70 rules, 48 words, three numeric constants, and the start card. The ExecutableArchaeology repository has two card decks (<https://github.com/jeffshrager/ExecutableArchaeology/blob/main/SimonYngveSentenceGenerator/>):
+
+- `ysimon.card` is a faithful transcription. It applies the pencil fix at C3055/C3058, keeps the unnumbered trace cards, and writes the printout's local labels (`90`, `910`) in the 1964 input form (`9-0`, `9-10`).
+- `ysimon-fixed.card` is the same program adapted to run on an IBM 1620. See the next section.
+
+The listing never defines L1 and L2 as data; they are used as bare symbols and empty lists. The 1962 system must have accepted this, since its trace shows L2 stacking correctly, but not every IPL-V does. The 1620 does not. Shrager's Common Lisp IPL-V interpreter (github.com/jeffshrager/IPL-V) currently lacks J123, J129, and J153, all small to add. The deck also has no print-line reservation card, which some systems may need for J154–J161. Exact reproduction of the 1962 sentences would also require the installation's J129 multiplier, which is not in this listing.
+
+---
+
+## Running It Today: The 1620 Version
+
+`ysimon-fixed.card` runs on Wendell Terry Beyer's 1963 IPL-V interpreter for the IBM 1620 (University of Oregon), under Paul Kimpel's retro-1620 emulator. It uses the Mod-3-4 interpreter decks and the headless command-line driver in Shrager's fork (github.com/jeffshrager/retro-1620-fork). Load four decks, in this order:
+
+1. `IPL-V-Interpreter-Mod-3-4-Deck-1.card` (the loader)
+2. `ysimon-fixed.card`
+3. `IPL-V-Subroutines.card`
+4. `IPL-V-Interpreter-Mod-3-4-Deck-2.card` (the interpreter)
+
+The fixed deck is generated from `ysimon.card` by `retro1620/adapt.py`, and `retro1620/run.sh` does the whole job: build, load, run, decode. The deck's own comment cards list the changes. There are five:
+
+- **Card format.** Data terms lose the sign that `ysimon.card` puts in column 48, and integers are right-justified in the LINK field (columns 57–61), as Beyer's loader requires.
+- **L1 and L2 are defined as empty lists.** On the 1620, a regional symbol that is never defined as data does not behave as an empty list. With L2 undefined, pushes did not stack: every pop found a one-item L2, the main clause was lost, and the run crashed at the first comma.
+- **J82 is replaced by a three-card routine, C8** (`J60 J60 J80`: locate, locate, take the symbol). This works around a bug in the interpreter, not in Simon's program (see below).
+- **C3 is rewritten.** Beyer's system has no print line: no J155, J157, J160, or J161. The new C3 punches each word symbol and then its fragments with J152, one card each. `retro1620/decode.py` reassembles the words. The pencil fix (`10L1 / J75 J71`) is kept.
+- **The C2 trace uses J152 instead of J153**, which the 1620 system also lacks.
+
+C0, C1, C2, and the grammar are otherwise card-for-card the 1962 program. With these changes the run does what the 1962 run did not: it prints all twenty sentences and halts cleanly at the end of C0's loop. A few of them:
+
+```
+ 4. A PROUD SANDDOME IS HEATED
+ 7. WHEN ENGINEER SMALL IS POLISHED , HE IS OILED
+14. ENGINEER SMALL IS PROUD. OF WATER AND ENGINE S
+17. HE KEEPS THE FOUR DRIVINGWHEEL S , A HEATED AND BLACK TRAIN AND SMALL
+18. WHEN A OILED , BIG , BLACK AND BIG BOILER HAS THE HEATED , BIG AND
+    POLISHED FIREBOX S IN FOUR POLISHED DRIVINGWHEEL S AND STEAM , HE IS
+    POLISHED
+```
+
+All twenty, each with its derivation trace, are in `retro1620/sentences.txt`. The 1962 blemishes survive the trip: the floating `S` and comma, `PROUD.` with its stray period, and Yngve's own `A OILED`.
+
+> **★ DON'T MISS**
+>
+> The J82 problem is a 63-year-old bug in the 1620 interpreter. In Beyer's SPS source, the table cells of the J routines are laid out like this:
+>
+> ```
+> J80   DS  ,J0+12*80
+> J81   DS  12
+> J82   DS  12
+> ```
+>
+> A DS card with an explicit address does not move the assembler's location counter, so `J81 DS 12` is placed after whatever came *before* J80. That was J71. So J81, J82, and J83 label the cells of J72, J73, and J74. The OCR of the 1963 listing shows the same addresses, so this is not a transcription error. J81 itself is reached through its own J cell and works, provided J80 is loaded. J82 does J60 and then calls "J81" through the wrong cell, so it cannot work. J83 would fail the same way. A further catch: the loader loads a machine-coded J routine only if the program names it, and naming J81 does not bring in J80. C8 names J80, which also repairs C1's J81.
+
+> **★ DON'T MISS**
+>
+> The 1620 run uses the same seed as 1962 (N0 = 53). Its first six random draws are those of the 1962 trace: A0 [0], A13 [0], A14 [3], A7 [0], A18 [1], A1 [2]. The first sentence even opens the same way: `WHEN THE STEAM MAKES`. The draws diverge at the seventh, A12: [1] on the 1620, [3] in 1962. Six matching draws by chance would be about a 1-in-500 event. The likeliest reading is that both J129s multiply by the same constant, as the manual describes, and that they differ in word length or truncation, so the sequences separate after a few steps. (Inference; I have not checked the 1962 machine's J129.)
 
 ---
 
@@ -614,6 +668,8 @@ with their permission.
 - the C1–C3 control flow;
 - the trace-to-grammar correspondences in the Day in the Life, which were checked random draw by random draw.
 
+**From running it, high confidence:** everything in "Running It Today" about the 1620 is observed in runs of `ysimon-fixed.card` and small test decks on the retro-1620 emulator. That covers the J82/J83 table-cell bug (confirmed in the SPS source and the 1963 listing's assembled addresses), the J80 loading requirement, the undefined-list behavior, and the missing print-line routines.
+
 **From the IPL-V manual, high confidence:** J-function meanings and card types are from the 1964 IPL-V manual, 2nd edition, as OCR'd in Shrager's IPL-V repository. That edition postdates the listing, but the program's traced behavior is consistent with it (moderate-to-high confidence that 1962 meanings were the same).
 
 **From Yngve's paper, high confidence as to what the paper says:** the historical context, rule tabulation, five discontinuous constructions, vocabulary counts, and quoted phrase are from Yngve (1961/1962), read directly.
@@ -628,7 +684,9 @@ with their permission.
 - the identification of KES as Katherine Simon is the discoverers' (moderate-to-high; it fits the initials and the Simon account, but the listing doesn't spell it out);
 - who signed "Hal" (unknown);
 - the Yngve–Weizenbaum connection: the commute and the pattern-matching conversations come from Weizenbaum's interview as reported by McCorduck; the "Y" in `YMATCH` standing for Yngve is speculation;
-- whether this program marks a research interest in language at Carnegie or a family hobby (open; see "What Makes It Worth Visiting").
+- whether this program marks a research interest in language at Carnegie or a family hobby (open; see "What Makes It Worth Visiting");
+- that the 1962 and 1620 J129s share a multiplier, from six matching draws (moderate);
+- that the 1962 system accepted undefined L1 and L2 as empty lists (inferred from its trace, where L2 stacks correctly).
 
 **Not established here:** the host machine is not named on the printout. Why no data term exceeds four characters is not documented.
 
@@ -638,7 +696,11 @@ with their permission.
 
 *Works consulted in preparing this guide; not all are cited above.*
 
+Beyer, W. T. (1964). "1620 IPL-V: A Non-numeric Problem Solving Tool." In *1620 Users Group, Western Region, Minutes* (Denver, June 1964), p. 147. Interpreter listing in the Feigenbaum papers, Stanford (SC0340, Box 46, Folder 52).
+
 Hutchins, J. (2012). "Victor H. Yngve (1920–2012)." *Computational Linguistics*, 38(3).
+
+Kimpel, P. *retro-1620: a web-based emulator for the IBM 1620 Model 2*. github.com/pkimpel/retro-1620. Headless driver and IPL-V decks: github.com/jeffshrager/retro-1620-fork.
 
 Lenski, L. (1940). *The Little Train*. Oxford University Press.
 
