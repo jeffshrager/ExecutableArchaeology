@@ -3,19 +3,62 @@
 Copyright © 2026 Jeff Shrager (<jshrager@gmail.com>). All rights
 reserved. (See copyright details at the end of this document.)
 
-*For the curious visitor who wants to read a 1962 line-printer listing of the first random sentence generator: Victor Yngve's phrase-structure machine, carried from MIT's COMIT into Carnegie Tech's IPL-V by Herbert Simon and his daughter Katherine, and caught "almost debugged"*
+*For the curious visitor who wants to study one of the first random
+ sentence generator: Victor Yngve's phrase-structure machine, carried
+ from MIT's COMIT into Carnegie Tech's IPL-V by Herbert Simon and his
+ daughter Katherine*
 
 ---
 
 ## Before You Arrive: What Is Yngve's Sentence Generator?
 
-In 1959–61 Victor Yngve, at MIT's Research Laboratory of Electronics, wrote a program that produced English sentences at random from a phrase-structure grammar. The grammar was built to generate the first ten sentences of Lois Lenski's 1940 children's book *The Little Train* — the story of Engineer Small and his steam engine — together with anything else its rules permitted. Yngve reported the work in "Random Generation of English Sentences," presented at the National Physical Laboratory, Teddington, in September 1961 (proceedings published 1962). His program was written in COMIT, his own string-processing language, on an IBM 704. The same model of sentence production gave rise to Yngve's **depth hypothesis** (1960): a speaker producing words left to right needs only a small temporary memory, about seven items, and English grammar is shaped to keep that memory from overflowing.
+In 1959–61 Victor Yngve, at MIT's Research Laboratory of Electronics,
+wrote a program that produced English sentences at random from a
+phrase-structure grammar. The grammar was built to generate the first
+ten sentences of Lois Lenski's 1940 children's book *The Little Train*
+— the story of Engineer Small and his steam engine — together with
+anything else its rules permitted. Yngve reported the work in "Random
+Generation of English Sentences," presented at the National Physical
+Laboratory, Teddington, in September 1961 (proceedings published
+1962). His program was written in COMIT, his own string-processing
+language, on an IBM 704. The same model of sentence production gave
+rise to Yngve's **depth hypothesis** (1960): a speaker producing words
+left to right needs only a small temporary memory, about seven items,
+and English grammar is shaped to keep that memory from overflowing.
 
-Yngve matters to computing as well as to linguistics. COMIT (1957–58) was the first string-processing language, built so linguists could write rules instead of machine code, and it was an important precursor of SNOBOL. He also left a trace on the most famous language program of the decade. In his interview for Pamela McCorduck's *Machines Who Think*, Joseph Weizenbaum recalled commuting to MIT with his neighbor Yngve and talking about pattern matching. The core matching routine Weizenbaum added to SLIP for ELIZA is named `YMATCH` (see the ELIZA guide in this repository). The "Y" may well stand for Yngve, although nothing in the code says so.
+Yngve matters to computing as well as to linguistics. COMIT (1957–58)
+was the first string-processing language, built so linguists could
+write rules instead of machine code, and it was an important precursor
+of SNOBOL. He also left a trace on the most famous language program of
+the decade. In his interview for Pamela McCorduck's *Machines Who
+Think*, Joseph Weizenbaum recalled commuting to MIT with his neighbor
+Yngve and talking about pattern matching. The core matching routine
+Weizenbaum added to SLIP for ELIZA is named `YMATCH` (see the ELIZA
+guide in this repository). The "Y" may well stand for Yngve, although
+this is merely a hypothesis (or, perhaps more correctly, a wild-ass
+guess).
 
-**A note on what you're reading.** This is *not* Yngve's COMIT program. It is an IPL-V re-implementation. The header reads `COPY OF YNGVES SENTENCE GENERATOR` and `GENERATIVE GRAMMAR - KES AND HAS`. The job was run on 25 June 1962 under the account `H A SIMON`. HAS is Herbert A. Simon; KES has been identified as his daughter, Katherine Simon. So this appears to be a father-and-daughter port of Yngve's program. The listing survives as a photographed line-printer printout in the Herbert A. Simon Papers, Box 14, folder FF964, Carnegie Mellon University Archives, where it was recently unearthed by Mia Golek and Emily Davis (both of CMU) with Jeff Shrager. The scan of the listing, along with a transcribed card deck, is in the IPLAI repository: <https://github.com/jeffshrager/IPLAI/tree/main/SimonYngveSentenceGenerator>.
+**A note on what you're reading.** This is *not* Yngve's COMIT
+  program. It is an IPL-V re-implementation. The header reads `COPY OF
+  YNGVES SENTENCE GENERATOR` and `GENERATIVE GRAMMAR - KES AND
+  HAS`. The job was run on 25 June 1962 under the account `H A
+  SIMON`. HAS is Herbert A. Simon; KES has been identified as his
+  daughter, Katherine Simon. So this appears to be a
+  father-and-daughter port of Yngve's program. The listing survives as
+  a photographed line-printer printout in the Herbert A. Simon Papers,
+  Box 14, folder FF964, Carnegie Mellon University Archives, where it
+  was recently unearthed by Mia Golec and Emily Davis (both of CMU)
+  with Jeff Shrager. The scan of the listing, along with a transcribed
+  card deck, is in the IPLAI repository:
+  <https://github.com/jeffshrager/IPLAI/tree/main/SimonYngveSentenceGenerator>.
 
-Across the first page, in pencil, is a cover note. My reading is: *"[salutation illegible] — here is an almost debugged version & some output attached. Hal."* Neither the writer nor the recipient can be identified from the document alone. The signature is a small puzzle: Simon generally went by "Herb," so a note signed "Hal" on a Simon–Simon program may be from someone else in the Carnegie IPL group, or my reading of the handwriting may be wrong.
+Across the first page, in pencil, is a cover note. My reading is:
+*"[salutation illegible] — here is an almost debugged version & some
+output attached. Hal."* Neither the writer nor the recipient can be
+identified from the document alone. The signature is a small puzzle:
+Simon generally went by "Herb," so a note signed "Hal" on a
+Simon–Simon program may be from someone else in the Carnegie IPL
+group, or my reading of the handwriting may be wrong.
 
 The printout contains four things:
 
@@ -24,7 +67,10 @@ The printout contains four things:
 - an execution trace of one full sentence and part of a second;
 - a handful of pencil corrections.
 
-That makes it three artifacts in one: a port of a landmark linguistics program into the landmark AI language, a working grammar you can read rule by rule, and a snapshot of debugging in progress. You can see the bug in the output, and the fix is written in pencil beside the code.
+That makes it three artifacts in one: a port of a landmark linguistics
+program into the landmark AI language, a working grammar you can read
+rule by rule, and a snapshot of debugging in progress. You can see the
+bug in the output, and the fix is written in pencil beside the code.
 
 ---
 
@@ -42,13 +88,15 @@ That makes it three artifacts in one: a port of a landmark linguistics program i
 [The Front Office]  C0 — twenty sentences, one bug, one pencil fix
 ```
 
-The whole program is under a hundred cards of code. The grammar is several hundred cards of data.
+The whole program is under a hundred cards of code. The grammar is
+several hundred cards of data.
 
 ---
 
 ## District 1: The Deck
 
-The first cards are IPL-V loader directives. The TYPE column is visible only on these cards:
+The first cards are IPL-V loader directives. The TYPE column is
+visible only on these cards:
 
 ```
 GENERATIVE GRAMMAR - KES AND HAS      1
@@ -120,7 +168,9 @@ The rule types, as the dispatcher's comments confirm:
 
 The numbering is systematic. A1xx are binary rules, A2xx unary, A3xx discontinuous, B words. Once you know that, you can navigate the data without a key.
 
-The words themselves are lists of alphanumeric data terms (`21` = P 2, alphanumeric; Q 1, data term). No term in the listing holds more than four characters, so longer words are chopped up:
+The words themselves are lists of alphanumeric data terms (`21` = P 2,
+alphanumeric; Q 1, data term). No term in the listing holds more than
+four characters, so longer words are chopped up:
 
 ```
       B25   910
@@ -135,9 +185,15 @@ The words themselves are lists of alphanumeric data terms (`21` = P 2, alphanume
             T4       0
 ```
 
-That is DRIVINGWHEEL, in three fragments that the printer will set side by side. The four-character limit is a fact of this listing. Whether it came from the host machine's word size or was the programmer's choice is not recorded, and the host machine is not named anywhere on the printout.
+That is DRIVINGWHEEL, in three fragments that the printer will set
+side by side. The four-character limit is a fact of this
+listing. Whether it came from the host machine's word size or was the
+programmer's choice is not recorded, and the host machine is not named
+anywhere on the printout.
 
-The listing has no category names, only numbers. Here is the grammar with T1 hops collapsed and words spelled out. **The category labels on the left are my own reading, not the program's:**
+The listing has no category names, only numbers. Here is the grammar
+with T1 hops collapsed and words spelled out. **The category labels on
+the left are my own reading, not the program's:**
 
 ```
 SENTENCE     A0   = A101 | A103
@@ -178,7 +234,9 @@ NOUN         A21  = DRIVINGWHEEL | TRAIN | ENGINE | BELL | WHISTLE
                     | BOILER | FIREBOX
 ```
 
-**How faithful is the copy?** Yngve's paper tabulates his grammar's 77 rules. Setting that tabulation beside this listing tests the "COPY OF" claim:
+**How faithful is the copy?** Yngve's paper tabulates his grammar's 77
+  rules. Setting that tabulation beside this listing tests the "COPY
+  OF" claim:
 
 | Rule kind | Yngve 1961 | This listing |
 |-----------|-----------|--------------|
@@ -188,9 +246,19 @@ NOUN         A21  = DRIVINGWHEEL | TRAIN | ENGINE | BELL | WHISTLE
 | A = B | 26 | 21 |
 | Total | 77 | 70 |
 
-The alternative rules match exactly, down to the one 11-way choice of nouns (A21) and the one 8-way choice of adjectives (A20). That is strong evidence this is Yngve's grammar and not a look-alike. The shortfalls are all in the structural rules. Yngve says many of his A = B rules were placeholders for a future, larger grammar, so dropping some is plausible.
+The alternative rules match exactly, down to the one 11-way choice of
+nouns (A21) and the one 8-way choice of adjectives (A20). That is
+strong evidence this is Yngve's grammar and not a look-alike. The
+shortfalls are all in the structural rules. Yngve says many of his A =
+B rules were placeholders for a future, larger grammar, so dropping
+some is plausible.
 
-Yngve's paper lists five constructions that use discontinuous rules: a firebox *under* its boiler, *keeps* it *oiled*, the water *in* the boiler, *when* it is heated*,*, and a sand-dome. Four have clear counterparts here: A302, A303, A304, and A301. SAND-DOME appears only as the plain word `SANDDOME` (B30). What Yngve's fifth rule did, and why it is absent, I can't determine from these sources.
+Yngve's paper lists five constructions that use discontinuous rules: a
+firebox *under* its boiler, *keeps* it *oiled*, the water *in* the
+boiler, *when* it is heated*,*, and a sand-dome. Four have clear
+counterparts here: A302, A303, A304, and A301. SAND-DOME appears only
+as the plain word `SANDDOME` (B30). What Yngve's fifth rule did, and
+why it is absent, I can't determine from these sources.
 
 The recursions Yngve describes are all present:
 
@@ -202,7 +270,8 @@ The recursions Yngve describes are all present:
 
 ## District 3: The Switchboard — C1
 
-C1 takes one grammar symbol in H0 and does whatever its type demands. It is recursive, and it is the whole generator.
+C1 takes one grammar symbol in H0 and does whatever its type
+demands. It is recursive, and it is the whole generator.
 
 ```
                                   C1    40H0             C1010
@@ -227,9 +296,17 @@ TYPE 4                            95    10L1             C1370
                                         J6       J65     C1380
 ```
 
-**Step by step.** The first three cards copy the symbol twice and print one copy; J152 is "print symbol." This produces the trace in the output (District 1's unnumbered cards). Then J10 fetches the value of attribute T0, the type. There follows a chain of compare-and-branch tests.
+**Step by step.** The first three cards copy the symbol twice and
+  print one copy; J152 is "print symbol." This produces the trace in
+  the output (District 1's unnumbered cards). Then J10 fetches the
+  value of attribute T0, the type. There follows a chain of
+  compare-and-branch tests.
 
-**Branching.** `70  90` has a blank SYMB and 90 in the LINK field. In this idiom (also used throughout Stefferud's Logic Theorist) the branch goes to LINK when the test *succeeded* (H5+) and falls through to the next card when it failed. So "IS IT TYPE 1 / GO TO 90" reads exactly as the comments say.
+**Branching.** `70 90` has a blank SYMB and 90 in the LINK field. In
+  this idiom (also used throughout Stefferud's Logic Theorist) the
+  branch goes to LINK when the test *succeeded* (H5+) and falls
+  through to the next card when it failed. So "IS IT TYPE 1 / GO TO
+  90" reads exactly as the comments say.
 
 **The handlers:**
 
@@ -514,7 +591,7 @@ Then there is the question of why it exists at all. Newell, Shaw, and Simon's IP
 
 ## Provenance and Sources
 
-The source is a photographed line-printer listing plus output, in the Herbert A. Simon Papers, Box 14, FF964, Carnegie Mellon University Archives, located by Mia Golek, Emily Davis, and Jeff Shrager. The scan's filename is `Simon_Papers__Box_14__FF964__OP007__25_June_62__release_.pdf`, and it is in the IPLAI repository with the card deck: <https://github.com/jeffshrager/IPLAI/tree/main/SimonYngveSentenceGenerator>. Every page is watermarked with the archive's copyright notice.
+The source is a photographed line-printer listing plus output, in the Herbert A. Simon Papers, Box 14, FF964, Carnegie Mellon University Archives, located by Mia Golec, Emily Davis, and Jeff Shrager. The scan's filename is `Simon_Papers__Box_14__FF964__OP007__25_June_62__release_.pdf`, and it is in the IPLAI repository with the card deck: <https://github.com/jeffshrager/IPLAI/tree/main/SimonYngveSentenceGenerator>. The listing copyright is help by CMU's Archives. It is reproduced here with their permission.
 
 **From the code, high confidence:**
 
