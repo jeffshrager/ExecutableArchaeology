@@ -4,7 +4,7 @@ Copyright © 2026 Jeff Shrager (<jshrager@gmail.com>). All rights
 reserved. (See copyright details at the end of this document.)
 
 *For the curious visitor who wants to study one of the first random
- sentence generator: Victor Yngve's phrase-structure machine, carried
+ sentence generators: Victor Yngve's phrase-structure machine, carried
  from MIT's COMIT into Carnegie Tech's IPL-V by Herbert Simon and his
  daughter Katherine*
 
@@ -54,7 +54,7 @@ guess).
   Box 14, folder FF964, Carnegie Mellon University Archives, where it
   was recently unearthed by Mia Golec and Emily Davis (both of CMU)
   with Jeff Shrager. The scan of the listing, along with a transcribed
-  card deck, is in the Executable Archaeologyrepo:
+  card deck, is in the Executable Archaeology repo:
   <https://github.com/jeffshrager/ExecutableArchaeology/blob/main/SimonYngveSentenceGenerator/>.
 
 Across the first page, in pencil, is a cover note. My reading is:
@@ -572,7 +572,7 @@ So `10L2` pushes the name L2, `11W0` pushes what W0 holds, and `12H0` pushes the
 
 **Reading the scan.** Printed columns, left to right: machine address, comment, NAME, PQ+SYMB (run together, e.g. `10T1`), LINK, card ID. Data-term cards show PQ as `1` (integer) or `21` (alphanumeric). Several page images overlap their neighbours by a few lines at the fanfold, so a transcriber must remove the duplicates. The header line (`OPERATOR-007 … 12:42:26 R350.039 IPL 015 060`) and the closing `STOP / PMTM / 00:21:53 020` are job-control output whose fields I can't decode with confidence.
 
-**Running it.** As far as I can tell the listing is complete: four routines, 70 rules, 48 words, three numeric constants, and the start card. L1, L2, and the T symbols need no data because they are used as bare symbols and empty lists. A transcribed card deck, `ysimon.card`, is in the IPLAI repository (<https://github.com/jeffshrager/ExecutableArchaeology/blob/main/SimonYngveSentenceGenerator/Yngve_guide.md>). **The deck is a work in progress and does not yet run on our IPL-V emulators.** It applies the pencil fix at C3055/C3058, keeps the unnumbered trace cards, and writes the printout's local labels (`90`, `910`) in the 1964 input form (`9-0`, `9-10`). Shrager's Common Lisp IPL-V interpreter (github.com/jeffshrager/IPL-V) currently lacks J123, J129, and J153, all small to add. The deck also has no print-line reservation card, which some systems may need for J154–J161. Exact reproduction of the 1962 sentences would also require the installation's J129 multiplier, which is not in this listing. With any other generator you get different sentences from the same grammar.
+**Running it.** As far as I can tell the listing is complete: four routines, 70 rules, 48 words, three numeric constants, and the start card. L1, L2, and the T symbols need no data because they are used as bare symbols and empty lists. A transcribed card deck, `ysimon.card`, is in the ExecutableArchaeology repository (<https://github.com/jeffshrager/ExecutableArchaeology/blob/main/SimonYngveSentenceGenerator/Yngve_guide.md>). **The deck is a work in progress and does not yet run on our IPL-V emulators.** It applies the pencil fix at C3055/C3058, keeps the unnumbered trace cards, and writes the printout's local labels (`90`, `910`) in the 1964 input form (`9-0`, `9-10`). Shrager's Common Lisp IPL-V interpreter (github.com/jeffshrager/IPL-V) currently lacks J123, J129, and J153, all small to add. The deck also has no print-line reservation card, which some systems may need for J154–J161. Exact reproduction of the 1962 sentences would also require the installation's J129 multiplier, which is not in this listing. With any other generator you get different sentences from the same grammar.
 
 ---
 
@@ -596,7 +596,15 @@ Then there is the question of why it exists at all. Newell, Shaw, and Simon's IP
 
 ## Provenance and Sources
 
-The source is a photographed line-printer listing plus output, in the Herbert A. Simon Papers, Box 14, FF964, Carnegie Mellon University Archives, located by Mia Golec, Emily Davis, and Jeff Shrager. The scan's filename is `Simon_Papers__Box_14__FF964__OP007__25_June_62__release_.pdf`, and it is in the IPLAI repository with the card deck: <https://github.com/jeffshrager/ExecutableArchaeology/blob/main/SimonYngveSentenceGenerator/Yngve_guide.md>. The listing copyright is help by CMU's Archives. It is reproduced here with their permission.
+The source is a photographed line-printer listing plus output, in the
+Herbert A. Simon Papers, Box 14, FF964, Carnegie Mellon University
+Archives, located by Mia Golec, Emily Davis, and Jeff Shrager. The
+scan's filename is `Simon_Papers__Box_14__FF964__OP007__25_June_62\
+\(release\).pdf`, and it is in the ExecutableArchaeology repository
+with the card deck:
+<https://github.com/jeffshrager/ExecutableArchaeology/blob/main/SimonYngveSentenceGenerator/ysimon.card>. The
+listing copyright is held by CMU's Archives. It is reproduced here
+with their permission.
 
 **From the code, high confidence:**
 
