@@ -572,10 +572,11 @@ So `10L2` pushes the name L2, `11W0` pushes what W0 holds, and `12H0` pushes the
 
 **Reading the scan.** Printed columns, left to right: machine address, comment, NAME, PQ+SYMB (run together, e.g. `10T1`), LINK, card ID. Data-term cards show PQ as `1` (integer) or `21` (alphanumeric). Several page images overlap their neighbours by a few lines at the fanfold, so a transcriber must remove the duplicates. The header line (`OPERATOR-007 … 12:42:26 R350.039 IPL 015 060`) and the closing `STOP / PMTM / 00:21:53 020` are job-control output whose fields I can't decode with confidence.
 
-**Running it.** As far as I can tell the listing is complete: four routines, 70 rules, 48 words, three numeric constants, and the start card. The ExecutableArchaeology repository has two card decks (<https://github.com/jeffshrager/ExecutableArchaeology/blob/main/SimonYngveSentenceGenerator/>):
+**Running it.** As far as I can tell the listing is complete: four routines, 70 rules, 48 words, three numeric constants, and the start card. The ExecutableArchaeology repository has three card decks (<https://github.com/jeffshrager/ExecutableArchaeology/blob/main/SimonYngveSentenceGenerator/>):
 
 - `ysimon.card` is a faithful transcription. It applies the pencil fix at C3055/C3058, keeps the unnumbered trace cards, and writes the printout's local labels (`90`, `910`) in the 1964 input form (`9-0`, `9-10`).
-- `ysimon-fixed.card` is the same program adapted to run on an IBM 1620. See the next section.
+- `ysimon-fixed.card` is the same program adapted to run on an IBM 1620. Like the 1962 run, it punches the derivation trace along with the sentences. See the next section.
+- `ysimon-fast.card` is the 1620 version without the trace. It types just the sentences on the console typewriter.
 
 The listing never defines L1 and L2 as data; they are used as bare symbols and empty lists. The 1962 system must have accepted this, since its trace shows L2 stacking correctly, but not every IPL-V does. The 1620 does not. Shrager's Common Lisp IPL-V interpreter (github.com/jeffshrager/IPL-V) currently lacks J123, J129, and J153, all small to add. The deck also has no print-line reservation card, which some systems may need for J154–J161. Exact reproduction of the 1962 sentences would also require the installation's J129 multiplier, which is not in this listing.
 
@@ -592,7 +593,7 @@ The listing never defines L1 and L2 as data; they are used as bare symbols and e
 
 The fixed deck is generated from `ysimon.card` by `retro1620/adapt.py`, and `retro1620/run.sh` does the whole job: build, load, run, decode. The deck's own comment cards list the changes. There are five:
 
-- **Card format.** Data terms lose the sign that `ysimon.card` puts in column 48, and integers are right-justified in the LINK field (columns 57–61), as Beyer's loader requires.
+- **Card format.** Integers are right-justified in the LINK field (columns 57–61), as Beyer's loader requires; a left-justified value is read 10,000 times too large. The deck also drops the sign that `ysimon.card` puts in column 48. That turned out to be unnecessary: column 48 is IPL-V's standard sign column, and the run is identical with the signs left in.
 - **L1 and L2 are defined as empty lists.** On the 1620, a regional symbol that is never defined as data does not behave as an empty list. With L2 undefined, pushes did not stack: every pop found a one-item L2, the main clause was lost, and the run crashed at the first comma.
 - **J82 is replaced by a three-card routine, C8** (`J60 J60 J80`: locate, locate, take the symbol). This works around a bug in the interpreter, not in Simon's program (see below).
 - **C3 is rewritten.** Beyer's system has no print line: no J155, J157, J160, or J161. The new C3 punches each word symbol and then its fragments with J152, one card each. `retro1620/decode.py` reassembles the words. The pencil fix (`10L1 / J75 J71`) is kept.
@@ -611,6 +612,14 @@ C0, C1, C2, and the grammar are otherwise card-for-card the 1962 program. With t
 ```
 
 All twenty, each with its derivation trace, are in `retro1620/sentences.txt`. The 1962 blemishes survive the trip: the floating `S` and comma, `PROUD.` with its stray period, and Yngve's own `A OILED`.
+
+**The fast version.** `ysimon-fixed.card` keeps the unnumbered trace cards, so most of its output is the derivation: 2,958 punched cards for twenty sentences. `ysimon-fast.card` is built by the same script (`adapt.py ../ysimon.card ../ysimon-fast.card --fast`) and differs in three ways:
+
+- The four trace cards (`40H0 / J152` in C1 and C2) are removed.
+- C0 opens with two new cards, `10N1 / 20W20`. W20 is the manual's *print unit cell*: it names the integer that selects the output unit. Beyer's output routine punches when that is zero and types when it is not, so pointing W20 at N1 (whose value is 1) sends every J152 to the console typewriter. Nothing is punched at all.
+- After each sentence, C3 types the symbol `C3` as an end-of-sentence marker, since without the trace nothing else separates one sentence from the next.
+
+The sentences are the same twenty, and the run takes about half a minute on the emulator. The typewriter still gets one word symbol or fragment per line (`B14`, `STEA`, `M`, …), because each J152 starts a new line and the 1620 system has no print-line routines for building up a line. `retro1620/fast_typewriter_output.txt` is the raw typescript; `retro1620/fast_sentences.txt` is the decoded text. At the end of every run the interpreter itself types `THE END`.
 
 > **★ DON'T MISS**
 >
@@ -668,7 +677,7 @@ with their permission.
 - the C1–C3 control flow;
 - the trace-to-grammar correspondences in the Day in the Life, which were checked random draw by random draw.
 
-**From running it, high confidence:** everything in "Running It Today" about the 1620 is observed in runs of `ysimon-fixed.card` and small test decks on the retro-1620 emulator. That covers the J82/J83 table-cell bug (confirmed in the SPS source and the 1963 listing's assembled addresses), the J80 loading requirement, the undefined-list behavior, and the missing print-line routines.
+**From running it, high confidence:** everything in "Running It Today" about the 1620 is observed in runs of `ysimon-fixed.card`, `ysimon-fast.card`, and small test decks on the retro-1620 emulator. That covers the J82/J83 table-cell bug (confirmed in the SPS source and the 1963 listing's assembled addresses), the J80 loading requirement, the undefined-list behavior, the missing print-line routines, W20 switching output to the typewriter, and the harmlessness of the column-48 sign.
 
 **From the IPL-V manual, high confidence:** J-function meanings and card types are from the 1964 IPL-V manual, 2nd edition, as OCR'd in Shrager's IPL-V repository. That edition postdates the listing, but the program's traced behavior is consistent with it (moderate-to-high confidence that 1962 meanings were the same).
 

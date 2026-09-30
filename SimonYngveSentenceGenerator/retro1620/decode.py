@@ -42,5 +42,5 @@ for i, (s, t) in enumerate(sentences, 1):
     print('%2d. %s' % (i, s))
     if '--trace' in sys.argv:
         print('    ' + ' '.join(t))
-if trace and not in_c3:
+if trace and trace != ['C3'] and not in_c3:
     print('(unfinished derivation at end: %s)' % ' '.join(trace[-40:]))

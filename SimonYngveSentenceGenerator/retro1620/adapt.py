@@ -15,10 +15,20 @@ Changes:
   3. C3: the 1620 system has no print line (J155/J157/J160/J161). Replace the
      line printer with J152 per word symbol and per fragment (card punch).
      The pencil fix (10L1 / J75 J71) is kept.
+
+With --fast: the unnumbered trace cards (40H0 / J152 in C1 and C2) are
+dropped, and C0 first sets W20 (the print unit cell) to N1, a nonzero
+integer, so Beyer's output routine types on the typewriter instead of
+punching. Only the sentences are typed, one word symbol or fragment per
+line, and C3 types the symbol C3 after each sentence as an end-of-sentence
+marker (decode.py splits on it).
+
+Usage: adapt.py src dst [--fast]
 """
 import sys
 
 src, dst = sys.argv[1], sys.argv[2]
+fast = '--fast' in sys.argv[3:]
 lines = open(src).read().split('\n')
 if lines and lines[-1] == '':
     lines.pop()
@@ -32,6 +42,10 @@ def card(comment='', name='', pq='', symb='', link='', ident=''):
 NEW_C3 = [
     card('C3 FOR 1620. NO PRINT LINE. PUNCH', 'C3', '10', '9-0', ident='C3040'),
     card('EACH WORD SYMBOL AND ITS FRAGMENTS', '', '00', 'J100', ident='C3050'),
+] + ([
+    card('FAST. TYPE C3 AS END OF SENTENCE', '', '10', 'C3'),
+    card('', '', '00', 'J152'),
+] if fast else []) + [
     card('ORIG 10L1 J71. PENCIL FIX FOLLOWS', '', '10', 'L1', ident='C3055'),
     card('PENCIL FIX. KEEP L1 HEAD', '', '00', 'J75', 'J71', ident='C3058'),
     card('PER WORD. PUNCH WORD SYMBOL', '9-0', '40', 'H0'),
@@ -55,15 +69,29 @@ HEADER = [
     'BECAUSE BEYER J82 IS BROKEN.',
     'C3 PUNCHES WORDS VIA J152 (NO',
     'PRINT LINE ON 1620). J153 TO J152.',
-]
+] + ([
+    'FAST VERSION. TRACE CARDS REMOVED.',
+    'C0 SETS W20 TO N1 (NONZERO) SO ALL',
+    'OUTPUT GOES TO THE TYPEWRITER.',
+    'EACH SENTENCE ENDS WITH SYMBOL C3.',
+] if fast else [])
 
 out, i = [], 0
 while i < len(lines):
     if i > 0 and lines[i - 1].rstrip().endswith('SPLIT PER PENCIL FIX (C3058).      1'):
         out.extend(('     ' + h).ljust(40) + '1' for h in HEADER)
     ln = lines[i]
+    if fast and 'TRACE (UNNUMBERED IN ORIGINAL)' in ln:
+        i += 1
+        continue
     body = ln.ljust(80)
     name, pq = body[42:47].strip(), body[48:50]
+    if fast and name == 'C0' and body[40] == ' ':
+        out.append(card('W20 = N1. OUTPUT TO TYPEWRITER', 'C0', '10', 'N1'))
+        out.append(card('INSTEAD OF CARD PUNCH', '', '20', 'W20'))
+        ln = (body[:42] + ' ' * 5 + body[47:]).rstrip()
+        body = ln.ljust(80)
+        name = ''
     # C3: replace from its first card to the card before the DATA header
     if name == 'C3':
         while not lines[i].strip().startswith('DATA'):
