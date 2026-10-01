@@ -7,7 +7,7 @@
      SPLIT PER PENCIL FIX (C3058).      1
      FIXED VERSION FOR IBM 1620 IPL-V   1
      BEYER INTERPRETER, MOD-3-4 DECKS.  1
-     MADE BY ADAPT.PY FROM YSIMON.CARD. 1
+     DERIVED FROM YSIMON.CARD.          1
      DATA TERM SIGN COL 48 DROPPED. INTS1
      RIGHT JUSTIFIED IN COLS 57-61.     1
      L1 AND L2 DEFINED AS EMPTY LISTS.  1
@@ -18,13 +18,16 @@
      FAST VERSION. TRACE CARDS REMOVED. 1
      C0 SETS W20 TO N1 (NONZERO) SO ALL 1
      OUTPUT GOES TO THE TYPEWRITER.     1
-     EACH SENTENCE ENDS WITH SYMBOL C3. 1
+     WORD SYMBOLS ARE NOT TYPED, ONLY   1
+     THE WORD FRAGMENTS.                1
+     SENTENCES END WITH A PERIOD (.0).  1
                                         2 A0    00      400
                                         2 B0    00      100
                                         2 C0    00      10
                                         2 L0    00      10
                                         2 N0    00      100
                                         2 T0    00      50
+                                        2 .0    00      1
      ROUTINES                           5       00
      W20 = N1. OUTPUT TO TYPEWRITER       C0    10N1
      INSTEAD OF CARD PUNCH                      20W20
@@ -102,17 +105,15 @@
                                                 30H0    9-1             C2500
                                           9-0   00J9                    C2600
                                                 52H0    J30             C2700
-     C3 FOR 1620. NO PRINT LINE. PUNCH    C3    109-0                   C3040
-     EACH WORD SYMBOL AND ITS FRAGMENTS         00J100                  C3050
-     FAST. TYPE C3 AS END OF SENTENCE           10C3
+     C3 FOR 1620. NO PRINT LINE. TYPE     C3    109-0                   C3040
+     EACH WORDS FRAGMENTS                       00J100                  C3050
+     FAST. TYPE PERIOD AT SENTENCE END          10.0
                                                 00J152
      ORIG 10L1 J71. PENCIL FIX FOLLOWS          10L1                    C3055
      PENCIL FIX. KEEP L1 HEAD                   00J75   J71             C3058
-     PER WORD. PUNCH WORD SYMBOL          9-0   40H0
-                                                00J152
-     THEN GENERATE ITS FRAGMENTS                109-10
+     PER WORD. GENERATE ITS FRAGMENTS     9-0   109-10
                                                 00J100  J4
-     PER FRAGMENT. PUNCH IT, H5+          9-10  00J152  J4
+     PER FRAGMENT. TYPE IT, H5+           9-10  00J152  J4
      C8 = J82. BEYER J82 IS BROKEN        C8    00J60
      (ITS J81 LINK HITS THE J72 CELL)           00J60
      NAMING J80 ALSO LOADS IT FOR J81           00J80   0
@@ -902,6 +903,6 @@
      LISTS MUST BE DEFINED ON 1620        L2    000     0
                                           N1    01          1
                                           N10   01         10
-     SENTENCE COUNT, NEGATED BY C0        N20   01         20
+     SENTENCE COUNT, NEGATED BY C0        N20   01          5
      RANDOM SEED, MOVED TO W10            N0    01         53
      START                              5       00C0

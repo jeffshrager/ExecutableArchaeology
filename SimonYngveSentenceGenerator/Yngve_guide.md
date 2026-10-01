@@ -591,12 +591,12 @@ The listing never defines L1 and L2 as data; they are used as bare symbols and e
 3. `IPL-V-Subroutines.card`
 4. `IPL-V-Interpreter-Mod-3-4-Deck-2.card` (the interpreter)
 
-The fixed deck is generated from `ysimon.card` by `retro1620/adapt.py`, and `retro1620/run.sh` does the whole job: build, load, run, decode. The deck's own comment cards list the changes. There are five:
+The fixed deck is `ysimon.card` with five changes, which its own comment cards list:
 
 - **Card format.** Integers are right-justified in the LINK field (columns 57–61), as Beyer's loader requires; a left-justified value is read 10,000 times too large. The deck also drops the sign that `ysimon.card` puts in column 48. That turned out to be unnecessary: column 48 is IPL-V's standard sign column, and the run is identical with the signs left in.
 - **L1 and L2 are defined as empty lists.** On the 1620, a regional symbol that is never defined as data does not behave as an empty list. With L2 undefined, pushes did not stack: every pop found a one-item L2, the main clause was lost, and the run crashed at the first comma.
 - **J82 is replaced by a three-card routine, C8** (`J60 J60 J80`: locate, locate, take the symbol). This works around a bug in the interpreter, not in Simon's program (see below).
-- **C3 is rewritten.** Beyer's system has no print line: no J155, J157, J160, or J161. The new C3 punches each word symbol and then its fragments with J152, one card each. `retro1620/decode.py` reassembles the words. The pencil fix (`10L1 / J75 J71`) is kept.
+- **C3 is rewritten.** Beyer's system has no print line: no J155, J157, J160, or J161. The new C3 punches each word symbol and then its fragments with J152, one card each, so a sentence has to be read down the cards. The pencil fix (`10L1 / J75 J71`) is kept.
 - **The C2 trace uses J152 instead of J153**, which the 1620 system also lacks.
 
 C0, C1, C2, and the grammar are otherwise card-for-card the 1962 program. With these changes the run does what the 1962 run did not: it prints all twenty sentences and halts cleanly at the end of C0's loop. A few of them:
@@ -611,15 +611,46 @@ C0, C1, C2, and the grammar are otherwise card-for-card the 1962 program. With t
     POLISHED
 ```
 
-All twenty, each with its derivation trace, are in `retro1620/sentences.txt`. The 1962 blemishes survive the trip: the floating `S` and comma, `PROUD.` with its stray period, and Yngve's own `A OILED`.
+The 1962 blemishes survive the trip: the floating `S` and comma, `PROUD.` with its stray period, and Yngve's own `A OILED`. The raw punched output of one run is in `retro1620/punch_output.txt`.
 
-**The fast version.** `ysimon-fixed.card` keeps the unnumbered trace cards, so most of its output is the derivation: 2,958 punched cards for twenty sentences. `ysimon-fast.card` is built by the same script (`adapt.py ../ysimon.card ../ysimon-fast.card --fast`) and differs in three ways:
+**The fast version.** `ysimon-fixed.card` keeps the unnumbered trace cards, so most of its output is the derivation: 2,958 punched cards for twenty sentences. `ysimon-fast.card` prints only the sentences, on the console typewriter. It differs from the fixed deck in four ways:
 
 - The four trace cards (`40H0 / J152` in C1 and C2) are removed.
-- C0 opens with two new cards, `10N1 / 20W20`. W20 is the manual's *print unit cell*: it names the integer that selects the output unit. Beyer's output routine punches when that is zero and types when it is not, so pointing W20 at N1 (whose value is 1) sends every J152 to the console typewriter. Nothing is punched at all.
-- After each sentence, C3 types the symbol `C3` as an end-of-sentence marker, since without the trace nothing else separates one sentence from the next.
+- C0 opens with two new cards, `10N1 / 20W20`. W20 is the manual's *print unit cell*: it names the integer that selects the output unit. Beyer's output routine punches when that is zero and types when it is not, so pointing W20 at N1 (whose value is 1) sends every J152 to the typewriter. Nothing is punched at all.
+- C3 types only the word fragments, not the word symbols.
+- After each sentence, C3 types a period. It is the symbol `.0`, in a new one-cell region named `.`, and J152 types it as a bare `.`.
 
-The sentences are the same twenty, and the run takes about half a minute on the emulator. The typewriter still gets one word symbol or fragment per line (`B14`, `STEA`, `M`, …), because each J152 starts a new line and the 1620 system has no print-line routines for building up a line. `retro1620/fast_typewriter_output.txt` is the raw typescript; `retro1620/fast_sentences.txt` is the decoded text. At the end of every run the interpreter itself types `THE END`.
+The word data is untouched, so the fragments are Simon's own. The typescript has one fragment per line. On Beyer's system an IPL program cannot type more than one item on a line: every J152 begins with a carriage return, and the print-line routines that would build up a line do not exist. Each fragment also carries the cell name and type code (`81` = alphanumeric) that J152 types in front of any data term:
+
+```
+             0235027    81        WHEN
+             0235639    81        THE
+             0233203    81        STEA
+             0233227    81        M
+             0232783    81        MAKE
+             0232807    81        S
+             ...
+             0232951    81        OILE
+             0232975    81        D
+               .
+   0 27047           THE END                 16922
+```
+
+Nothing marks where one word ends and the next begins, so the reader does the joining: `STEA` `M` is STEAM, `MAKE` `S` is MAKES. Simon's four-character chunks can mislead. SMOKESTACK is one word, stored as `SMOK` `ESTA` `CK`, and the split makes it look like two words run together.
+
+At the end of every run the interpreter itself types `THE END`. The typescript of one run is in `retro1620/fast_typewriter_output.txt`.
+
+**Two cards you can change.** Both decks end with two integer constants that control a run:
+
+```
+     SENTENCE COUNT, NEGATED BY C0        N20   01         20
+     RANDOM SEED, MOVED TO W10            N0    01         53
+```
+
+- **N20 is the number of sentences.** C0 negates it in place, tallies it once per sentence, and stops at zero. Despite its name it can hold any count. `ysimon-fixed.card` keeps the original 20; `ysimon-fast.card` is set to 5.
+- **N0 is the random seed.** C0 puts its name in W10, the cell J129 takes its seed from, and 53 is the 1962 value. The same seed always gives the same sentences: neither the 1620 nor Beyer's interpreter has a clock or any run-time input, so nothing inside IPL can vary from run to run. For a new set of sentences, change N0, as the manual intends ("starting W10 with different initial numbers").
+
+When editing either card, keep the value right-justified so its last digit is in column 61.
 
 > **★ DON'T MISS**
 >
