@@ -623,7 +623,8 @@ nature of the programming task."
 
 The source is the line-printer listing "HEURISTIC CODER 7/16/61" in the
 Herbert A. Simon Papers, Box 14, FF965, Carnegie Mellon University
-Archives. The scan, the per-page transcription, and the card deck are
+Archives, where it was located by Mia Golec and Emily Davis (both of
+CMU) with Jeff Shrager. The scan, the per-page transcription, and the card deck are
 in this directory. The listing copyright is held by CMU's Archives.
 
 **From the code, high confidence:**
