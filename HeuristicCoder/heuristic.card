@@ -1,0 +1,289 @@
+     HEURISTIC CODER 7/16/61            1
+                                        2 A               200            000 010
+                                        2 B               150            000 020
+                                        2 C               100            000 030
+                                        2 D               100            000 040
+                                        2 E0             0200            000 050
+                                        2 F               100            000 060
+                                        2 G               100            000 070
+                                        2 I               100            000 080
+                                        2 K               100            000 090
+                                        2 L               200            000 100
+                                        2 M               201            000 110
+                                        2 N0             0200            000 120
+                                        2 O                10            000 130
+                                        2 P                10            000 140
+                                        2 Q                10            000 150
+                                        2 R                10            000 160
+                                        2 S                10            000 170
+                                        2 T               301            000 180
+                                        2 U0             0300            000 190
+                                        2 V                10            000 200
+                                        2 X0             0300            000 210
+                                        2 Y                10            000 220
+                                        2 Z                10            000 230
+                                        2 -                 1            000 240
+                                        2 +                10            000 250
+                                        2 -                10            000 260
+                                        2 .                10            000 270
+                                        2 ,                10            000 280
+                                        2 (                10            000 290
+                                        2 )                10            000 300
+                                        2 *                10            000 310
+                                        2 $                10            000 320
+                                        2 /                10            000 330
+                                        2 =                10            000 340
+     RESERVE PRINT LINE L101            3        1L101      5            000 350
+                                        3        1T100     82            000 360
+                                        3         A       200            000 370
+                                        3         B       150            000 380
+                                        3         C       100            000 390
+                                        3         D       100            000 400
+                                        3         E0     0200            000 410
+                                        3         F       100            000 420
+                                        3         G       100            000 430
+                                        3         I       100            000 440
+                                        3         K       100            000 450
+                                        3         L       200            000 460
+                                        3         M       201            000 470
+                                        3         N0     0200            000 480
+                                        3         O        10            000 490
+                                        3         P        10            000 500
+                                        3         Q        10            000 510
+                                        3         R        10            000 520
+                                        3         S        10            000 530
+                                        3         T       301            000 540
+                                        3         U0     0300            000 550
+                                        3         V        10            000 560
+                                        3         X0     0300            000 570
+                                        3         Y        10            000 580
+                                        3         Z        10            000 590
+                                        3         +        10            000 600
+                                        3         -        10            000 610
+                                        3         .        10            000 620
+                                        3         ,        10            000 630
+                                        3         (        10            000 640
+                                        3         )        10            000 650
+                                        3         *        10            000 660
+                                        3         $        10            000 670
+                                        3         /        10            000 680
+                                        3         =        10            000 690
+     HEADER--MACHINE LANGUAGE           5       30                       000 695
+                                        5                               E004 000
+     E4. PRINT LIST (0) OF DATA TERMS     E4    40H0                    E004 010
+     WITHOUT NAMES. ENTER LIST NAME               J156                  E004 020
+                                                  E54      91           E004 030
+                                          91      J60                   E004 040
+                                                7092                    E004 050
+                                                12H0                    E004 060
+                                                  J157     91           E004 070
+                                          92      E53      J8           E004 080
+                                          E8    1090                    E008 010
+                                                  J101    E50           E008 020
+                                          90    70         91           E008 030
+                                                12H0                    E008 040
+                                                  J156                  E008 050
+                                                7092                    E008 060
+                                                30H0                    E008 070
+                                                  E54                   E008 080
+                                                7093        0           E008 090
+                                          91      E50                   E008 100
+                                                  J156    E53           E008 110
+                                          92      E50                   E008 120
+                                                10N10                   E008 130
+                                                  J161                  E008 140
+                                                52H0                    E008 150
+                                                  J156    E54           E008 160
+                                          93      E50                   E008 170
+                                                10N10                   E008 180
+                                                  J161     J4           E008 190
+     E40. MARK ROUTINES ON (0) TO TRACE   E40   1090                    E040 010
+                                                  J100      0           E040 020
+                                          90      J147     J4           E040 030
+     E41. MARK ROUTINES ON (0)            E41   1090                    E041 010
+     NOT TO TRACE                                 J100      0           E041 020
+                                          90      J149     J4           E041 030
+     PRINT, CLEAR                         E50     J155   J154           E050 010
+     SPACE BAR ONCE                       E51   10N1     J161           E051 010
+     SPACE BAR TWICE                      E52   10N2     J161           E052 010
+     PERIOD, SPACE TWICE                  E53   1091                    E053 010
+                                                  J157    E52           E053 020
+                                          91   +21.                     E053 030
+     COMMA, SPACE ONCE                    E54   1091                    E054 010
+                                                  J157    E51           E054 020
+                                          91   +21,                     E054 030
+     E55. PRINT LIST STRUCTURE,           E55     E50                   E055 010
+     SAVING FOR NEXT PROCESS                    40H0       E8           E055 020
+                                          R0    13R5                    R000 010
+     MARK TO TRACE                              109-90                  R000 020
+                                                  J100                  R000 030
+                                                  T79                   R000 040
+                                                  T300      0           R000 050
+     LOOKUP                                       R1                    R000 060
+                                                  T105                  R000 070
+                                                10L100                  R000 080
+                                                109-95                  R000 090
+     PRINT DICT-ENTRIES                           J100      0           R000 100
+                                          9-90    J147     J4           R000 110
+                                          9-95    J150     J4           R000 120
+                                          R1    609-90                  R001 010
+                                                109-80                  R001 020
+     GENERATE SENTENCES FOR LOOKUP                J100                  R001 030
+     PARCE                                      119-90                  R001 040
+                                                  U28                   R001 050
+                                                119-90      0           R001 060
+                                          9-80  609-91                  R001 070
+                                                10L100                  R001 080
+                                                  J6                    R001 090
+     LOOKUP SENT (0)                              T107                  R001 100
+                                                119-91                  R001 110
+                                                10T196                  R001 120
+                                                  J10                   R001 130
+                                                70J7                    R001 140
+                                                  J150     J4           R001 150
+                                          9-90    0         0           R001 160
+                                          9-91    0         0           R001 170
+                                          T1     3J0                    T001 010
+                                                10A99                   T001 020
+                                                  J154                  T001 030
+                                                13A0                    T001 040
+                                                10930                   T001 050
+                                                  J100                  T001 060
+                                                10X102                  T001 070
+                                                  U128                  T001 080
+                                                10X105                  T001 090
+                                                40H0                    T001 100
+                                                  U135                  T001 110
+                                                30H0                    T001 120
+                                                  U128                  T001 130
+                                                10X100                  T001 140
+                                                40H0                    T001 150
+                                                  U135                  T001 160
+                                                30H0                    T001 170
+                                                  U128                  T001 180
+                                                10X182                  T001 190
+                                                10X41                   T001 200
+                                                  J10                   T001 210
+                                                10X180                  T001 220
+                                                10X181                  T001 230
+                                                  U133                  T001 240
+                                                  J50                   T001 250
+                                                  J90                   T001 260
+                                                40H0                    T001 270
+                                                11W0                    T001 280
+                                                10X22                   T001 290
+                                                  J11                   T001 300
+                                                40H0                    T001 310
+                                                  U128                  T001 320
+                                                40H0                    T001 330
+                                                  U139                  T001 340
+                                                40H0                    T001 350
+                                                10X26                   T001 360
+                                                  J10                   T001 370
+                                                40H0                    T001 380
+                                                  U125      0           T001 390
+                                          930     J147      0           T001 400
+     SET W24=LINE FROM T10                T50   11T10                   T050 010
+                                                20W24                   T050 020
+                                                11T11                   T050 030
+                                                11W25                   T050 040
+     SET 1W25=CURRENT COL FROM T11                J121                  T050 050
+                                                  J8                    T050 060
+     IF T18+, TO 9-10 TO OUTPUT FIELD           11T18                   T050 070
+                                                20H5                    T050 080
+                                                70       9-10           T050 090
+                                                11W25                   T050 100
+                                                11T12                   T050 110
+                                                  J116                  T050 120
+     TERMINATE IF BEYOND LAST COL               70         J3           T050 130
+     CONTINUE TO SCAN                             T51     T50           T050 140
+     SET 1W25 TO FIELD ORIGIN             9-10    T55                   T050 150
+     SET 1W30 TO FIELD SIZE                       T56                   T050 160
+     SET H0=TYPE                                  T57                   T050 170
+     RESET T18-                                 10J3                    T050 180
+                                                20T18       0           T050 190
+     T51---SCAN CURRENT COL             1                               T051 000
+     INPUT SCAN TABLE                     T51   11T13                   T051 010
+     INPUT LINE CHAR                              J186                  T051 020
+     TO 9-9 IF BLANK                            709-9                   T051 030
+                                                  J10                   T051 040
+     TO 9-11 TO TAKE STD SUBTABL IF NONE        709-11                  T051 050
+     SAVE SUB TABLE IN T57                9-1   60T17                   T051 060
+                                                10T1                    T051 070
+                                                  J10                   T051 080
+                                                709-2                   T051 090
+     NEW TYPE TO T16, IF ANY                    20T16                   T051 100
+                                          9-2   11T17                   T051 110
+                                                10T2                    T051 120
+                                                  J10                   T051 130
+                                                709-4                   T051 140
+     NEXT TABLE TO T13, IF ANY                  20T13                   T051 150
+                                          9-4   11T17                   T051 160
+                                                10T0                    T051 170
+                                                  J10                   T051 180
+     TAKE STD ACTION IF NONE PROVIDED           709-12                  T051 190
+     EXECUTE ACTION                               J1        0           T051 200
+     SUB TABLE FOR BLANK ASSUMED          9-9   52H0                    T051 210
+     TO BE IN HEAD OF DSCR-LIST OF              52H0                    T051 220
+     TABLE.  IF NOT, TAKE STD ACTION            40H0                    T051 230
+                                                119-90                  T051 240
+                                                  J2                    T051 250
+     IF HEAD NOT ZERO, (0)=SUBTABLE             709-1                   T051 260
+                                                  J8                    T051 270
+     TAKE STD SUBTABLE IF PROVIDED        9-11  11T13                   T051 280
+                                                10T17                   T051 290
+                                                  J10                   T051 300
+     IF NOT, TAKE STD ACTION                    70        9-1           T051 310
+                                          9-12  11T19                   T051 320
+                                                  J1        0           T051 330
+                                          9-90    0         0           T051 340
+     T52---SET FIELD ORIGIN=CUR-COL       T52   11T11                   T052 010
+     T70 SETS ORIGIN TO (0)                       T70       0           T052 020
+     SET FIELD END TO CUR-COL MINUS 1.    T53   109-1                   T053 010
+                                                11T11                   T053 020
+                                                11T15                   T053 030
+                                                  J111     J8           T053 040
+                                          9-1  +01          1           T053 050
+     T54 ADVANCES CUR-COL BY 1            T54   109-1                   T054 010
+                                                11T11                   T054 020
+                                                11T11                   T054 030
+                                                  J110     J8           T054 040
+                                          9-1  +01          1           T054 050
+     T55 SETS 1W25 TO FIELD ORIGIN        T55   11T14                   T055 010
+                                                11W25                   T055 020
+                                                  J121     J8           T055 030
+     T56 SETS 1W30 TO FIELD SIZE          T56   109-1                   T056 010
+                                                11T15                   T056 020
+                                                109-0                   T056 030
+                                                  J110                  T056 040
+                                                11T14                   T056 050
+                                                  J6                    T056 060
+                                                40H0                    T056 070
+                                                  J111                  T056 080
+                                                11W30                   T056 090
+                                                  J121     J8           T056 100
+                                          9-0  +01          0           T056 110
+                                          9-1  +01          1           T056 120
+     T57 SETS H0=TYPE                     T57   11T16       0           T057 010
+     T58 SETS LINE (T0)=(0)               T58   20T10       0           T058 010
+     T59 SETS TYPE=(0)                    T59   20T16       0           T059 010
+     T60 SETS CUR-COL (1T11)=(0)          T60   11T11                   T060 010
+                                                  J121     J8           T060 020
+     T61 SETS TABLE (T13)=(0)             T61   20T13       0           T061 010
+     T62 SETS LAST COL OF LINE 1T12=(0)   T62   11T12                   T062 010
+                                                  J121     J8           T062 020
+     T63 SETS STANDARD ACTION (T19)=(0)   T63   20T19       0           T063 010
+     T64=MARK ORIGIN + ADVANCE CUR-COL    T64     T52                   T064 010
+     BY 1.                                        T54       0           T064 020
+     T65 SETS FIELD END (1T15)=CUR-COL    T65   11T11                   T065 010
+                                                11T15                   T065 020
+                                                  J121     J8           T065 030
+     T66 SETS SIGNAL TO OUTPUT FIELD      T66   10J4                    T066 010
+                                                20T18       0           T066 020
+     T67 SET FIELD END AT COL-1AND OUTPT  T67     T53     T66           T067 010
+     T68 MARKS ORIGIN AND END,ADVANCES +  T68     T52                   T068 010
+     OUTPUTS FIELD SIZE                           T65                   T068 020
+                                                  T66                   T068 030
+                                                  T54       0           T068 040
+     T69 ADVANCES CUR-COL 1T11 TO NEXT    T69   11T11                   T069 010
+     NON-BLANK                                  11W25                   T069 020

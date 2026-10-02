@@ -557,7 +557,9 @@
 	  ))))
 
 ;;; Card reading. Columns (1-based): 1-40 comment, 41 type, 43-47 name,
-;;; 48 sign, 49-50 PQ, 51-55 SYMB, 57-61 LINK, 62-72 comment, 73-80 id.
+;;; 48 sign, 49-50 PQ, 51-55 SYMB, 57-61 LINK, 62-70 comment, 71-80 id.
+;;; (The id is usually in 73-80; 71-72 hold the Heuristic Coder listing's
+;;; longer ids like "T041 220 C".)
 
 (defun liplv-file? (stream)
   ;; Peek at the first non-blank characters without consuming anything.
@@ -606,7 +608,7 @@
 				  (remove #\Space (card-cols line 51 61)))
 		     symb "")))
 	(list (card-field line 1 40) type (card-field line 43 47) sign pq symb link
-	      (card-field line 62 72) (card-field line 73 80))))))
+	      (card-field line 62 70) (card-field line 71 80))))))
 
 (defun next-card-row (stream)
   ;; Next non-skipped card from STREAM as a row, or NIL at end of file.
