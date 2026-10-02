@@ -2543,3 +2543,387 @@
      FIND ITS TYPE                              10X32                   U152 080
                                                   J10                   U152 090
      TEST IF VARIABLE                           10X39                   U152 100
+                                                  J2                    U152 110
+     IF YES, EXIT WITH H5+                      7090       J4           U152 120
+     SUBSTITUTE (0) FOR VARIABLE (1)      U153    J51                   U153 010
+     THROUGHOUT SDSC(2).                        10X71                   U153 020
+     FIND LIST OF AFFECTED CLESS,                 J10                   U153 030
+     AND PROCESS IT.                            1090                    U153 040
+                                                  J100    J31           U153 050
+     SAVE CELL                            90    40H0                    U153 060
+                                                10X41                   U153 070
+     FIND ITS NAME                                J10                   U153 080
+                                                11W1                    U153 090
+     COMPARE IT WITH VARIABLE (1).                U107                  U153 100
+     IF UNEQUAL, SKIP TO 91                     7091                    U153 110
+     IF EQUAL, SAVE CELL,                       40H0                    U153 120
+     ERASE ITS NAME,                            10X41                   U153 130
+                                                  J14                   U153 140
+     AND SUBSTITUTE (0).                        40H0                    U153 150
+                                                11W0                    U153 160
+                                                10X41                   U153 170
+                                                  J11      91           U153 180
+     FIND INPUT OF CELL,                  91    40H0                    U153 190
+                                                10X75                   U153 200
+                                                  J10                   U153 210
+     AND MAKE SUBSTITUTIONS.                      92                    U153 220
+                                                10X76                   U153 230
+     FIND OUTPUT OF CELL,                         J10                   U153 240
+     AND MAKE SUBSTITUTIONS.                      92       J4           U153 250
+     SUBSTITUTE FOR CONTENTS OF LIST      92     4J60                   U153 260
+     IF NO MORE CELLS, EXIT                     70J8                    U153 270
+     FIND FIRST SYMBOL                          12H0                    U153 280
+                                                10X45                   U153 290
+                                                  J10                   U153 300
+     AND COMPARE WITH 1W1                       11W1                    U153 310
+                                                  U107                  U153 320
+     IF UNEQUAL, FIND NEXT                      7092                    U153 330
+                                                12H0                    U153 340
+                                                11W0                    U153 350
+                                                  J74                   U153 360
+                                                  J136                  U153 370
+                                                10X45                   U153 380
+                                                  J11      92           U153 390
+     SUBSTITUTE NAMES OF SDSC (0) FOR     U154    J46                   U154 010
+     VARIABLES OF SDSC (1) IN CELL                J22                   U154 020
+     NAMED (2) OF (1).                          11W0                    U154 030
+     LOCATE CELL 1W2 IN SDSC 1W0                11W2                    U154 040
+                                                  U151                  U154 050
+     IF NONE, EXIT.                             70J36                   U154 060
+     PUT LOC. OF CELL OF W0 IN W3               20W3                    U154 070
+                                                11W1                    U154 080
+     LOCATE CELL W2 IN SDSC W1                  11W2                    U154 090
+                                                  U151                  U154 100
+     ERROR STOP                                 70J7                    U154 110
+     PUT LOC OF CELL OF W1 IN W4                20W4                    U154 120
+                                                12W3                    U154 130
+                                                10X76                   U154 140
+     FIND OUTPUT LIST OF W0 CELL                  J10                   U154 150
+                                                12W4                    U154 160
+                                                10X76                   U154 170
+     FIND OUTPUT LIST OF W1 CELL.,                J10                   U154 180
+     AND STORE IN W5                            20W5                    U154 190
+                                                  90                    U154 200
+                                                12W3                    U154 210
+                                                10X75                   U154 220
+                                                  J10                   U154 230
+                                                12W4                    U154 240
+                                                10X75                   U154 250
+                                                  J10                   U154 260
+                                                20W5                    U154 270
+                                                  90      J36           U154 280
+     LOCATE NEXT SYMBOL OF CELL 0         90     4J60                   U154 290
+     IF NONE, EXIT                              70J8                    U154 300
+                                                60W6                    U154 310
+                                                11W5                    U154 320
+     LOCATE NEXT SYMBOL OF CELL 1                 J60                   U154 330
+     IF NONE, EXIT VIA 91                       7091                    U154 340
+     STORE LOCATION IN W5                       60W5                    U154 350
+                                                12H0                    U154 360
+                                                10X45                   U154 370
+                                                  J10                   U154 380
+     FIND TYPE OF SYMBOL OF 1                   10X32                   U154 390
+                                                  J10                   U154 400
+     TEST IF A VARIABLE                         10X39                   U154 410
+                                                  J2                    U154 420
+     IF NOT, GO TO 90 VIA 93                    7092                    U154 430
+                                                52H0                    U154 440
+                                                10X45                   U154 450
+                                                  J10                   U154 460
+     BRING IN SDSC 1                            11W1                    U154 470
+                                                  J6                    U154 480
+                                                12W6                    U154 490
+                                                10X45                   U154 500
+                                                  J10                   U154 510
+     SUBSTITUTE THROUGH SDSC 1                    U153     90           U154 520
+                                          91    30H0       J8           U154 530
+                                          92    30H0       90           U154 540
+     MAKE JDEF OF (0). (0) IS ROUTINE     U155    J47                   U155 010
+                                                  J21                   U155 020
+     WITH SDSC MODIFIED FROM (1).               11W0                    U155 030
+                                                11W1                    U155 040
+     FIND JDEF OF (1)                           10X22                   U155 050
+                                                  J10                   U155 060
+                                                  J74                   U155 070
+                                                  J136                  U155 080
+     ASSIGN IT AS JDEF OF (0)                   10X22                   U155 090
+                                                  J11                   U155 100
+     BRING IN LISTS OF AFFECTED CELLS             93       91           U155 110
+                                          93    04J0                    U155 120
+                                                11W0                    U155 130
+                                                10X24                   U155 140
+     FIND SDSC OF (0)                             J10                   U155 150
+                                                10X71                   U155 160
+     FIND LIST OF AFFECTED CELLS                  J10                   U155 170
+     AND PUT IN W2                              20W2                    U155 180
+                                                11W1                    U155 190
+                                                10X24                   U155 200
+     FIND SDSC OF (1)                             J10                   U155 210
+                                                10X71                   U155 220
+     FIND LIST OF AFFECTED CELLS                  J10                   U155 230
+     AND PUT IN W3                              60W3                    U155 240
+                                                11W2        0           U155 250
+     FIND NEXT CELL OF (0)                91      J60                   U155 260
+                                                7090                    U155 270
+                                                11W3                    U155 280
+     FIND NEXT CELL OF (1)                        J60                   U155 290
+                                                60W3                    U155 300
+                                                70J7                    U155 310
+                                                52H0                    U155 320
+                                                40H0                    U155 330
+     FIND ITS NAME                              10X41                   U155 340
+                                                  J10                   U155 350
+     TEST IF IT IS A VARIABLE                   10X32                   U155 360
+                                                  J10                   U155 370
+                                                10X39                   U155 380
+                                                  J2                    U155 390
+                                                7092                    U155 400
+     IF SO, STORE IN W4                         20W4                    U155 410
+     STORE NAME OF SYMBOL OF (0) IN W5          12H0                    U155 420
+                                                20W5                    U155 430
+                                                  99       91           U155 440
+     SUBSTITUTE W5 FOR W4                 99    04J0                    U155 450
+                                                11W0                    U155 460
+                                                10X22                   U155 470
+                                                  J10                   U155 480
+     THROUGHOUT (0)                             11W4                    U155 490
+                                                10X41                   U155 500
+                                                  J10                   U155 510
+                                                11W5                    U155 520
+                                                10X41                   U155 530
+                                                  J10                   U155 540
+                                                  U156      0           U155 550
+                                          92    30H0       91           U155 560
+                                          90    30H0                    U155 570
+                                                30H0                    U155 580
+                                                  93                    U155 590
+     SUBSTITUTE FOR VARIABLES IN CELLS    94      J60                   U155 600
+                                                7095                    U155 610
+                                                60W2                    U155 620
+                                                52H0                    U155 630
+                                                10X75                   U155 640
+                                                  J10                   U155 650
+     PUT X75 OF W2 IN W6                        20W6                    U155 660
+                                                  J60                   U155 670
+                                                70J7                    U155 680
+                                                60W3                    U155 690
+                                                52H0                    U155 700
+                                                10X75                   U155 710
+                                                  J10                   U155 720
+     PUT X75 OF W3 IN W7                        20W7                    U155 730
+     SUBS. FOR VARIABLE IN X75                    96                    U155 740
+                                                12W2                    U155 750
+                                                10X76                   U155 760
+                                                  J10                   U155 770
+     PUT X76 OF W2 IN W6                        20W6                    U155 780
+                                                12W3                    U155 790
+                                                10X76                   U155 800
+                                                  J10                   U155 810
+     PUT X76 OF W3 IN W7                        20W7                    U155 820
+     SUBS. FOR VARIABLE IN X76                    96                    U155 830
+                                                11W3                    U155 840
+                                                11W2       94           U155 850
+     EXIT                                 95    30H0                    U155 860
+                                                30H0      J37           U155 870
+     FIND VARIABLES AND SUBSTITUTE        96    04J0                    U155 880
+                                                11W6                    U155 890
+     FIND NEXT IN W6                              J60                   U155 900
+     IF NONE, EXIT                              70J8                    U155 910
+                                                60W6                    U155 920
+                                                11W7                    U155 930
+                                                  J60                   U155 940
+                                                70J7                    U155 950
+                                                60W7                    U155 960
+     TEST IF NEXT IN W7 IS VARIABLE             12H0                    U155 970
+                                                10X45                   U155 980
+                                                  J10                   U155 990
+                                                10X32                   U1551000
+                                                  J10                   U1551010
+                                                10X39                   U1551020
+                                                  J2                    U1551030
+     IF NOT, FIND NEXT                          7098                    U1551040
+     IF SO,                                     52H0                    U1551050
+                                                10X45                   U1551060
+                                                  J10                   U1551070
+     SUBSTITUTE W5 FOR W4                       20W4                    U1551080
+     THROUGHOUT W0                              52H0                    U1551090
+                                                10X45                   U1551100
+                                                  J10                   U1551110
+                                                20W5                    U1551120
+                                                11W0                    U1551130
+                                                10X22                   U1551140
+                                                  J10                   U1551150
+                                                11W4                    U1551160
+                                                11W5                    U1551170
+                                                  U156     96           U1551180
+                                          98    30H0                    U1551190
+                                                30H0       96           U1551200
+     SUBSTITUTE SYMBOL (0) FOR            U156    J52                   U156 010
+     VARIABLE (1) IN JDEF OF (2)                11W2                    U156 020
+     FIND NEXT LINE OF JDEF               90      J60                   U156 030
+     IF NONE, EXIT                              7091                    U156 040
+                                                12H0                    U156 050
+     FIND ITS SYMB.                             10X45                   U156 060
+                                                  J10                   U156 070
+     COMPARE SYMB WITH 1W1                      11W1                    U156 080
+                                                  U107                  U156 090
+     IF UNEQUAL, FIND NEXT                      7090                    U156 100
+     IF EQUAL,                                  12H0                    U156 110
+     COPY 1W0 AS NEW SYMB                       11W0                    U156 120
+     FOR LINE OF JDEF                             J74                   U156 130
+                                                  J136                  U156 140
+                                                10X45                   U156 150
+                                                  J11      90           U156 160
+                                          91    30H0      J32           U156 170
+     CREATE A SDSC LIST WITH NAME=(0)     U160    J50                   U160 010
+     OUTPUT (0) IS SDSC LIST.                     J90                   U160 020
+     CREATE AND SAVE HEAD                       40H0                    U160 030
+                                                11W0                    U160 040
+     SET NAME OF HEAD=(0)                       10X41                   U160 050
+                                                  J11                   U160 060
+     CREATE SDSC LIST                             J91     J30           U160 070
+     INSERT (0) AS FIRST SYMB             U161    J50                   U161 010
+     ON SDSC LIST (1)                             J60                   U161 020
+     LOCATE HEAD OF SDSC LIST (1)               70J7                    U161 030
+                                                40H0                    U161 040
+                                                  J60                   U161 050
+     TEST IF ITS NEXT HAS                       52H0                    U161 060
+     SYMB = ....                                10X45                   U161 070
+                                                  J10                   U161 080
+                                                7090                    U161 090
+                                                10X176                  U161 100
+                                                  J2                    U161 110
+                                                7090       91           U161 120
+     IF NOT, INSERT CELL WITH             90    40H0                    U161 130
+     SYMB = ....                                  J90                   U161 140
+                                                40H0                    U161 150
+                                                10X176                  U161 160
+                                                10X45                   U161 170
+                                                  J11                   U161 180
+                                                  J64                   U161 190
+     INSERT (0) AFTER HEAD                91      J90                   U161 200
+                                                40H0                    U161 210
+                                                11W0                    U161 220
+                                                10X45                   U161 230
+                                                  J11                   U161 240
+                                                  J64     J30           U161 250
+     INSERT (0) AS LAST SYMB              U162    J50                   U162 010
+     ON SDSC LIST (1).                          40H0                    U162 020
+                                                  J61                   U162 030
+                                                52H0                    U162 040
+                                                10X45                   U162 050
+                                                  J10                   U162 060
+                                                7090                    U162 070
+                                                10X176                  U162 080
+                                                  J2                    U162 090
+                                                7090       91           U162 100
+                                          90    40H0                    U162 110
+                                                  J90                   U162 120
+                                                40H0                    U162 130
+                                                10X176                  U162 140
+                                                10X45                   U162 150
+                                                  J11                   U162 160
+                                                  J65                   U162 170
+                                          91      J90                   U162 180
+                                                40H0                    U162 190
+                                                11W0                    U162 200
+                                                10X45                   U162 210
+                                                  J11                   U162 220
+                                                  J65     J30           U162 230
+     LOCATE CELL WITH FIELD (0)           U163    J51                   U163 010
+     = (1) ON SDSC LIST (2)               91      J60                   U163 020
+     LOCATE NEXT CELL                           7090                    U163 030
+                                                12H0                    U163 040
+     FIND V(0)                                  11W0                    U163 050
+                                                  J10                   U163 060
+     IF NONE, LOCATE NEXT CELL                  7091                    U163 070
+                                                11W1                    U163 080
+                                                  U107                  U163 090
+     EXIT WITH LOCATION OR LOOP.                7091      J31           U163 100
+                                          90    30H0      J31           U163 110
+     INSERT SYMB (0) AFTER CELL           U164    J50                   U164 010
+     NAMED (1) ON SDSC LIST (2)                 10X41                   U164 020
+     LOCATE CELL NAMED (1).                       U163                  U164 030
+     CREATE CELL.                                 J90                   U164 040
+                                                40H0                    U164 050
+     SET SYMBOL OF CELL = (0).                  11W0                    U164 060
+                                                10X45                   U164 070
+                                                  J11                   U164 080
+     INSERT AFTER CELL NAMED (1).                 J64     J30           U164 090
+     INSERT SYMB (0) SOMEWHERE ON         U165    J51                   U165 010
+     SDSC LIST (1).                       91    11W1                    U165 020
+     LOCATE CELL                                10X176                  U165 030
+     WITH INDEFINITE SYMB                       10X45                   U165 040
+                                                  U163                  U165 050
+                                                70         90           U165 060
+     IF NONE, INSERT ONE.                       11W1                    U165 070
+                                                  J60                   U165 080
+                                                  910      91           U165 090
+                                          90    40H0                    U165 100
+     INSERT SYMB (0) AFTER CELL                   J90                   U165 110
+     WITH INDEFINITE SYMB                       40H0                    U165 120
+                                                11W0                    U165 130
+                                                10X45                   U165 140
+                                                  J11                   U165 150
+                                                  J64                   U165 160
+                                                  J60                   U165 170
+     FIND NEXT CELL.                              J60                   U165 180
+                                                70         92           U165 190
+     IF NONE,                                     910     J31           U165 200
+                                          92    12H0                    U165 210
+     OR IF IT HAS NO SYMB,                      10X45                   U165 220
+                                                  J10                   U165 230
+                                                70         93           U165 240
+                                                  910     J31           U165 250
+     OR IF ITS SYMB                       93    10X176                  U165 260
+     IS NOT INDEFINITE,                           J2                    U165 270
+                                                70         94           U165 280
+     ADD CELL WITH INDEFINITE SYMB,               910     J31           U165 290
+                                          94    30H0      J31           U165 300
+     ADD CELL WITH INDEFINITE SYMB        910     J90                   U165 310
+     AFTER LOCATION (0).                        40H0                    U165 320
+                                                10X176                  U165 330
+                                                10X45                   U165 340
+                                                  J11     J64           U165 350
+     MAKE (0) THE DESCRIPTION LIST        U166    J50                   U166 010
+     OF SDSC LIST (1)                             J60                   U166 020
+                                                52H0                    U166 030
+                                                11W0                    U166 040
+                                                10X45                   U166 050
+                                                  J11     J30           U166 060
+     DELETE CAREFULLY SYMBOL (0)          U169    J41                   U169 010
+     FROM LIST (1)                              20W0                    U169 020
+                                                40H0                    U169 030
+                                                11W0                    U169 040
+     LOCATE (0) ON (1)                            J62                   U169 050
+                                                70J30                   U169 060
+     DIVIDE LIST AFTER LOC(0)                     J75                   U169 070
+     PUT REMAINDER IN W1                        20W1                    U169 080
+     DELETE LAST SYMBOL FROM (1)                40H0                    U169 090
+                                                  J70                   U169 100
+     LOCATE LAST SYMBOL OF (1)                    J61                   U169 110
+                                                11W1                    U169 120
+     REATTACH REMAINDER                           J76                   U169 130
+                                                30H0      J31           U169 140
+     U199. CONVERT (0) TO DSCN.           U199    J90                   U199 010
+                                                  J136                  U199 020
+     1W0=DSCN. 1W1=(0)                            J51                   U199 030
+                                                11W1                    U199 040
+                                          91    10X30                   U199 050
+     FIND GOVERNOR                                J10                   U199 060
+                                                70J7                    U199 070
+     TEST IF IT IS APPOSITION                   40H0                    U199 080
+                                                10L138                  U199 090
+                                                  J2                    U199 100
+                                                70         90           U199 110
+                                                11W0                    U199 120
+                                                10X37                   U199 130
+     TYPE DSCN AS DETERMINER                    10X32                   U199 140
+                                                  J11                   U199 150
+     IF NOT APPOSITION,                         11W0                    U199 160
+     ASSIGN IT AS PROCESS                         J6                    U199 170
+     OF DSCN.                                   10X30                   U199 180
+                                                  J11                   U199 190
+     DO 910 TO ARGUMENT NAMES                   10U80                   U199 200
+                                                10910                   U199 210
+                                                  J100                  U199 220
