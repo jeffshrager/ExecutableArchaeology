@@ -542,12 +542,16 @@
 			  (save-cells (reverse cells) load-mode)
 			  (setf cells nil)
 			  (run (cell-symb cell) :adv-limit adv-limit))
-			(if (and (zerop (cell-p cell)) (= (cell-q cell) 1))
+			;; Header Q (manual 18.5): 0, 2, 4 = routines; 1, 3, 5 =
+			;; data list structures. P is the input mode (0 = IPL
+			;; standard; the Heuristic Coder's first header has P=3,
+			;; "machine language", but IPL cards follow), so ignore it.
+			(if (oddp (cell-q cell))
 			    (progn
 			      (save-cells (reverse cells) load-mode) (setf cells nil)
 			      (!! :load "Switching to DATA load mode.~%")
 			      (setf load-mode :data))
-			    (if (and (zerop (cell-p cell)) (zerop (cell-q cell)))
+			    (if (evenp (cell-q cell))
 				(progn
 				  (!! :load "Switching to CODE load mode.~%")
 				  (save-cells (reverse cells) load-mode) (setf cells nil)
@@ -607,8 +611,21 @@
 	       (setf link (format nil "~a~a" (if (string= sign "-") "-" "")
 				  (remove #\Space (card-cols line 51 61)))
 		     symb "")))
-	(list (card-field line 1 40) type (card-field line 43 47) sign pq symb link
+	(unless (string= pq "21") (setf symb (normalize-local symb)))
+	(unless (and (string= pq "01") (string= type "")) (setf link (normalize-local link)))
+	(list (card-field line 1 40) type (normalize-local (card-field line 43 47)) sign pq symb link
 	      (card-field line 62 70) (card-field line 71 80))))))
+
+(defun normalize-local (symbol)
+  ;; Older listings write local symbols without the dash: "90", "910"
+  ;; for "9-0", "9-10". The Heuristic Coder mixes both spellings for the
+  ;; same label (U199 has 9-10 and 910), so map the old form to the new.
+  ;; A lone "9" is the internal symbol 9, not a local.
+  (if (and (> (length symbol) 1)
+	   (char= #\9 (char symbol 0))
+	   (every #'digit-char-p (subseq symbol 1)))
+      (format nil "9-~a" (subseq symbol 1))
+      symbol))
 
 (defun next-card-row (stream)
   ;; Next non-skipped card from STREAM as a row, or NIL at end of file.
@@ -676,20 +693,19 @@
 	    as next-name = (when next-cell (cell-name next-cell))
 	    when next-cell ;; This usually isn't needed anyway bcs there should be a 0
 	    do
-	    (if (and (blank? this-link) (blank? this-symb))
-		(break "Both symb and link can't be blank: ~s!!" this-cell))
-	    (if (blank? this-link)
-		(if (blank? next-name)
-		    (let ((new-symbol (newsym top-name)))
-		      (setf (cell-name next-cell) new-symbol)
-		      (setf (cell-link this-cell) new-symbol))
-		    (setf (cell-link this-cell) next-name)))
-	    (if (blank? this-symb)
-		(if (blank? next-name)
-		    (let ((new-symbol (newsym top-name)))
-		      (setf (cell-name next-cell) new-symbol)
-		      (setf (cell-symb this-cell) new-symbol))
-		    (setf (cell-symb this-cell) next-name))))
+	    ;; A blank SYMB or LINK means the next card. Both may be blank
+	    ;; (e.g. "70 <blank> <blank>" in the Heuristic Coder, a branch
+	    ;; that goes to the next card either way).
+	    (when (and (or (blank? this-link) (blank? this-symb)) (blank? next-name))
+	      (setf (cell-name next-cell) (newsym top-name) next-name (cell-name next-cell)))
+	    (when (blank? this-link) (setf (cell-link this-cell) next-name))
+	    (when (blank? this-symb) (setf (cell-symb this-cell) next-name)))
+      ;; Blanks on the last card of a list (often a one-card list such as
+      ;; the Heuristic Coder's T10 or T191 working cells) have no next card
+      ;; to refer to, so they mean 0.
+      (let ((last-cell (car (last cells))))
+	(when (blank? (cell-symb last-cell)) (setf (cell-symb last-cell) "0"))
+	(when (and (stringp (cell-link last-cell)) (blank? (cell-link last-cell))) (setf (cell-link last-cell) "0")))
       (store-cells cells)
       )))
 
@@ -708,7 +724,9 @@
   (labels ((replace-symbols (cell accname.accessor)
 	     (let* ((accessor (cdr accname.accessor))
 		    (symbol (funcall accessor cell))
-		    (new-name (cdr (assoc symbol local-symbols.new-names :test #'string-equal))))
+		    ;; Integer data terms hold a number in LINK; skip those.
+		    (new-name (and (stringp symbol)
+				   (cdr (assoc symbol local-symbols.new-names :test #'string-equal)))))
 	       (when new-name
 		 (if (eq accessor #'cell-name)
 		     (pushnew symbol cell-names :test #'string-equal)
@@ -747,8 +765,9 @@
 ;;; https://chatgpt.com/share/6824cf31-9afc-8008-bd37-847e5b738ea1
 
 (defun local-symbol-by-name? (name)
+  ;; A lone "9" is the internal symbol 9, not a local.
   (if (numberp name) nil
-      (and (not (zerop (length name)))
+      (and (> (length name) 1)
 	   (char-equal #\9 (aref name 0)))))
 
 ;;; This looks like it should be just (not (local-symbol-by-name? ...)) but
