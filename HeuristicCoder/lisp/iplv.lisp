@@ -1301,8 +1301,16 @@
 	     (list-head (cell [1])))
 	(!! :jdeep "             .....J62 trying to locate target:~s in linear list starting with cell ~s" target list-head)
 	(!! :jdeep (pll [1]))
-	;; The H5 has to be set in the subfn bcs only it knows whether it succeeded.
-	(let ((r (j62-helper-search-list-for-symb target list-head (cell-link list-head))))
+	;; [Fixed for the Heuristic Coder: the old helper tested the symbol
+	;; in cell (1) itself and never tested the last cell. The search
+	;; starts with the cell AFTER cell (1) and runs through the last one.
+	;; U138 depends on this: it searches from a located cell onward.]
+	(let ((r (loop with c = list-head
+		       for next = (cell-link c)
+		       do (cond ((zero? next) (H5-) (return c))
+				(t (setf c (cell next))
+				   (when (ipl-string-equal (cell-symb c) target)
+				     (H5+) (return c)))))))
 	  (poph0 2) 
 	  (ipush "H0" (cell-name r)))))
 
@@ -1449,8 +1457,18 @@
 	(let* ((this-cell (<== [0]))
 	       (next-cell-name (cell-link this-cell)))
 	  (if (zero? next-cell-name)
-	      (progn (!! "J68 hit the end of the list.")
-		     (H5-))
+	      ;; (0) is the last cell. The real system makes it a private
+	      ;; termination cell, which J60 later unlinks from the previous
+	      ;; cell (manual 9.5). We unlink it now: find the cell that links
+	      ;; to (0) and give it LINK 0. [Added for the Heuristic Coder,
+	      ;; whose U119 deletes final symbols in a loop.]
+	      (let ((prev (loop for c being the hash-values of *symtab*
+				when (and (cell? c) (stringp (cell-link c))
+					  (string= (cell-link c) (cell-name this-cell)))
+				  return c)))
+		(!! "J68 deleting the final symbol; unlinking ~s from ~s." this-cell prev)
+		(when prev (setf (cell-link prev) "0" (cell-symb this-cell) "0"))
+		(H5-))
 	      ;; Here's the complex work. Ugh!
 	      (let* ((next-cell (cell next-cell-name)))
 		(!! "J68 Moving symbol in ~s to ~s and deleting ~s."
@@ -1739,7 +1757,15 @@
 	  (numset [0] r)))
 
   (defj J114 ([0] [1]) "TEST IF (0) = (1)" 
-	(if (= (numget [0]) (numget [1])) (h5+) (h5-))
+	;; [Extended for the Heuristic Coder: J114 compares data terms of any
+	;; type, and unlike the other arithmetic tests does not mix types
+	;; (manual 5.0). U107 uses it on alphanumeric region letters.]
+	(flet ((value (name)
+		 (let ((c (<== name)))
+		   (if (and (= 2 (cell-p c)) (= 1 (cell-q c)))
+		       (list :alpha (string-right-trim " " (cell-symb c)))
+		       (list :number (numget name))))))
+	  (if (equal (value [0]) (value [1])) (h5+) (h5-)))
 	(poph0 2))
 
   (defj J115 ([0] [1]) "TEST IF (0) > (1)" 
@@ -2125,6 +2151,104 @@
 		(ipush "H0" (format nil (if (numchar? c) "~c" "~c0") c))
 		(H5+)))))
 
+  ;; ---- J's added for the Heuristic Coder (definitions from the 1964 manual) ----
+
+  (defj J12 ([0] [1] [2]) "ADD (1) AT FRONT OF VALUE LIST OF ATTRIBUTE (0) OF (2)"
+	;; The value of (0) is assumed to name a list; (1) is inserted at its
+	;; front (behind the head, as in J64). If the attribute is missing it is
+	;; put on, with a new local list as its value; as in J11 the
+	;; description list is created if need be.
+	(let* ((head (<== (value-list-of-attribute [0] [2])))
+	       (new (make-cell! :name (newsym) :symb [1] :link (cell-link head))))
+	  (setf (cell-link head) (cell-name new)))
+	(poph0 3))
+
+  (defj J13 ([0] [1] [2]) "ADD (1) AT END OF VALUE LIST OF ATTRIBUTE (0) OF (2)"
+	(let ((last (last-cell-of-list (value-list-of-attribute [0] [2]))))
+	  (setf (cell-link last) (cell-name (make-cell! :name (newsym) :symb [1] :link "0"))))
+	(poph0 3))
+
+  (defj J61 ([0]) "LOCATE LAST SYMBOL ON LIST (0)"
+	;; Output (0) is the name of the last cell, H5+. If the list has no
+	;; list cells, the output is the input (0) and H5-.
+	(let ((last (last-cell-of-list [0])))
+	  (if (eq last (<== [0]))
+	      (H5-)
+	      (progn (poph0 1) (ipush "H0" (cell-name last)) (H5+)))))
+
+  (defj J69 ([0] [1]) "DELETE (0) FROM LIST (1)"
+	;; The first occurrence of (0) after the head is removed; H5- if not found.
+	(loop with prev = (<== [1])
+	      for name = (cell-link prev)
+	      do (cond ((zero? name) (H5-) (return))
+		       ((ipl-string-equal (cell-symb (<== name)) [0])
+			(setf (cell-link prev) (cell-link (<== name))) (H5+) (return))
+		       (t (setf prev (<== name)))))
+	(poph0 2))
+
+  (defj J70 ([0]) "DELETE LAST SYMBOL FROM LIST (0)"
+	;; H5+ if a last symbol was deleted, H5- if the list was empty.
+	(loop with prev = (<== [0])
+	      for name = (cell-link prev)
+	      do (cond ((zero? name) (H5-) (return))
+		       ((zero? (cell-link (<== name)))
+			(setf (cell-link prev) "0") (H5+) (return))
+		       (t (setf prev (<== name)))))
+	(poph0 1))
+
+  (defj J83 ([0]) "FIND THE 3rd (non-head) SYMBOL OF (0)"
+	(poph0 1)
+	(j8n-helper (cell-link (<== [0])) 3))
+
+  (defj J101 ([0] [1]) "GENERATE CELLS OF LIST STRUCTURE (1) FOR SUBPROCESS (0)"
+	;; Print order: list (1) first, all cells of a list contiguously from
+	;; the head, then its sublists (local symbols, including a local
+	;; description list) in order, breadth first, each once. The cell name
+	;; is the subprocess's (0); H5+ for a head cell, H5- otherwise. The
+	;; real J101 marks a head processed (J137), leaving an empty head with
+	;; the original head contents "one-down" as the next cell generated; we
+	;; emulate that by generating the head and then a temporary copy of
+	;; it (H5-). Stops if the subprocess leaves H5- (generator convention).
+	(poph0 2)
+	(block J101-body
+	 (loop with queue = (list [1])
+	      with seen = (list [1])
+	      while queue
+	      do (let ((list-name (pop queue)))
+		   (loop for name = list-name then (cell-link cell)
+			 for cell = (<== name)
+			 for head? = (eq name list-name)
+			 until (or (zero? name) (null cell))
+			 do (let ((sub (cell-symb cell)))
+			      (when (and (stringp sub) (find #\- sub) (<== sub)
+					 (not (member sub seen :test #'string-equal)))
+				(push sub seen)
+				(setf queue (append queue (list sub)))))
+			    (dolist (out (if head?
+					     (list name (cell-name (make-cell! :name (newsym) :symb (cell-symb cell) :link "0")))
+					     (list name)))
+			      (ipush "H0" out)
+			      (if (and head? (string= out name)) (H5+) (H5-))
+			      (ipl-eval [0])
+			      (when (string-equal "-" (H5)) (return-from J101-body))))))
+	 (H5+)))
+
+  (defj J118 ([0]) "TEST IF (0) > 0."
+	(if (> (cell-link (<== [0])) 0) (H5+) (H5-))
+	(poph0 1))
+
+  (defj J149 ([0]) "MARK ROUTINE (0) NOT TO TRACE"
+	(declare (ignore [0]))
+	(poph0 1))
+
+  (defj J150 ([0]) "PRINT LIST STRUCTURE (0)"
+	(poph0 1)
+	(pl [0]))
+
+  (defj J165 () "LOAD ROUTINES AND DATA"
+	;; Used only by T99 (save for restart, then load more). No-op here.
+	(!! :jdeep "             .....J165 (load more routines and data) is a no-op."))
+
   (defj J991 () "EMERGENCY HIDE"
 	(setf *J991/2-emergency-hidey-hole*
 	      (list (cell-symb (cell "H0"))
@@ -2265,6 +2389,32 @@
 	      
 ;;; See notes at defj: Assumes a linear list.
 
+;;; Helpers for the J's added for the Heuristic Coder.
+
+(defun last-cell-of-list (list-name)
+  (loop with cell = (<== list-name)
+	until (zero? (cell-link cell))
+	do (setf cell (<== (cell-link cell)))
+	finally (return cell)))
+
+(defun value-list-of-attribute (att list-name)
+  ;; The name of the value (a list) of attribute ATT of LIST-NAME, creating
+  ;; the description list and a new local value list if they are missing.
+  (let* ((head (<== list-name))
+	 (dl (cell-symb head)))
+    (when (zero? dl)
+      (setf dl (cell-name (make-cell! :name (newsym) :symb "0" :link "0"))
+	    (cell-symb head) dl))
+    (loop for att-name = (cell-link (<== dl)) then (cell-link val-cell)
+	  for att-cell = (unless (zero? att-name) (<== att-name))
+	  for val-cell = (when att-cell (<== (cell-link att-cell)))
+	  while val-cell
+	  when (ipl-string-equal att (cell-symb att-cell))
+	    do (return-from value-list-of-attribute (cell-symb val-cell)))
+    (let ((new (cell-name (make-cell! :name (newsym) :symb "0" :link "0"))))
+      (J11-helper-add-to-dlist (<== dl) att new)
+      new)))
+
 (defun j8n-helper (next-entry n)
   (cond ((zero? next-entry) (h5-))
 	((= n 1) (ipush "H0" (cell-symb (<== next-entry))) (h5+))
@@ -2317,7 +2467,9 @@
     (unless (numberp (cell-link data-cell))
       (!! :jdeep "NUMSET asked to set ~s (via ~s) which doesn't already have a number in the link."
 	  data-cell sym))
-    (setf (cell-link data-cell) n (cell-p data-cell) 0) (cell-q data-cell) 1))
+    ;; [Fixed: Q=1 used to sit outside the setf, so results were never
+    ;; marked as integer data terms and J157 printed them as "0".]
+    (setf (cell-link data-cell) n (cell-p data-cell) 0 (cell-q data-cell) 1)))
 
 ;;; !!! WWW OBIWAN UNIVERSE WITH LISP ZERO ORIGIN INDEXING WWW !!!
 ;;; (NNN H0p might be deprecated FFF Remove?)
