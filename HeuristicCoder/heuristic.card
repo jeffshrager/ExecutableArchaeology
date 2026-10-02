@@ -1967,3 +1967,579 @@
                                                 40H0                    U1331090
                                                 10N7                    U1331100
                                                 10X43                   U1331110
+                                                  J11     J65           U1331120
+     COMPILE (0) FROM ITS DSCN            U134    J50                   U134 010
+     FIND LIST OF COMPILED ROUTINES             10X196                  U134 020
+     AND SEEK SOURCE ROUTINE                    1090                    U134 030
+                                                  J100                  U134 040
+                                                70        J30           U134 050
+     IF FOUND, COMPILE (0)                      11W0                    U134 060
+     FROM DSCN OF XOURCE                          U130    J30           U134 070
+     FIND SOURCE ROUTINE FOR (0)          90    40H0                    U134 080
+                                                10X20                   U134 090
+     FIND PROCESS OF DSCN                         J10                   U134 100
+                                                7091                    U134 110
+     OF SOURCE                                  10X30                   U134 120
+                                                  J10                   U134 130
+                                                7091                    U134 140
+                                                11W0                    U134 150
+                                                10X20                   U134 160
+                                                  J10                   U134 170
+                                                10X30                   U134 180
+                                                  J10                   U134 190
+     COMPARE WITH PROCESS OF (0)                  J2                    U134 200
+     EXIT WITH SIGNAL                           70         J3           U134 210
+     TO GENERATOR                         91    30H0       J4           U134 220
+     COMPILE JDEF OF ROUTINE (0).         U135    J41                   U135 010
+     OUT.(0) IS JDEF, IF EXISTS. SET H5.        60W0                    U135 020
+     TEST IF IT EXISTS                    90    10X22                   U135 030
+                                                  J10                   U135 040
+     IF SO, EXIT WITH H5+                       70        J31           U135 050
+                                                11W0                    U135 060
+     FIND CLOSEST DEFCINITION                     U136                  U135 070
+     IF NONE, EXIT WITH H5-                     70J31                   U135 080
+                                                40H0                    U135 090
+     FIND AND APPLY                             11W0                    U135 100
+     RELEVANT PROCESS                             U137                  U135 110
+                                                11W0                    U135 120
+     FIND CLOSEST DEFINITION                      U136                  U135 130
+     TEST PROGRESS                                U138                  U135 140
+     EXIT OR REPEAT.                            70J31                   U135 150
+                                                11W0       90           U135 160
+     FIND CLOSEST DEF. OF ROUTINE (0)     U136    J50                   U136 010
+                                                11W0                    U136 020
+                                                10X20                   U136 030
+                                                  J10                   U136 040
+                                                70         90           U136 050
+                                                11W0                    U136 060
+                                                10X24                   U136 070
+                                                  J10                   U136 080
+                                                70J30      91           U136 090
+                                          90    30H0                    U136 100
+                                                10X20     J30           U136 110
+                                          91    30H0                    U136 120
+                                                10X24     J30           U136 130
+     FIND AND APPLY RELEVANT PROCESS      U137    J6                    U137 010
+     TO ROUTINE (0) WITH DEF. (1)               10X198                  U137 020
+     NO OUTPUT                                    J6                    U137 030
+                                                  J10                   U137 040
+                                                  J1        0           U137 050
+     TEST IF DEF (0) IS CLOSER TO         U138  10X197                  U138 010
+     JDEF THAN DEF (1)                            J6                    U138 020
+                                                  J62                   U138 030
+                                                  J6                    U138 040
+                                                  J62       0           U138 050
+     COMPOSE FLOW CHART OF ROUTINE (0)    U139    J42                   U139 010
+     FROM ITS JDEF                              60W0                    U139 020
+                                                  J90                   U139 030
+                                                  J136                  U139 040
+     STORE NAME OF CHART IN W1                  60W1                    U139 050
+                                                10X26                   U139 060
+     ASSIGN IT TO ROUTINE 1W0                     J11                   U139 070
+                                                11W0                    U139 080
+                                                10X22                   U139 090
+     FIND JDEF OF ROUTINE                         J10                   U139 100
+     COPY JDEF, MARK IT LOCAL                     J74                   U139 110
+                                                  J136                  U139 120
+     STORE IT IN W2                       91    60W2                    U139 130
+                                                  J90                   U139 140
+     CREATE SEGMENT                               J136                  U139 150
+     AND STORE IT                               40H0                    U139 160
+                                                11W1                    U139 170
+     INSERT SEGMENT                               J6                    U139 180
+     AT END OF FLOW CHART                         J65                   U139 190
+                                                  J6                    U139 200
+     MAKE JDEF THE                              10X22                   U139 210
+     X22 OF SEGM.                                 J11                   U139 220
+                                                11W2                    U139 230
+     FIND NEXT INSTRUCTION                92      J60                   U139 240
+                                                7094                    U139 250
+                                                12H0                    U139 260
+     FIND ITS P                                 10X43                   U139 270
+                                                  J10                   U139 280
+                                                7090                    U139 290
+     TEST IF P=7                                10N7                    U139 300
+                                                  J2                    U139 310
+     IF SO, DIVIDE SEGMENT                      7090       93           U139 320
+     AND REPEAT.                          93      J75      91           U139 330
+     IF NOT,                              90    12H0                    U139 340
+                                                10X46                   U139 350
+                                                  J10                   U139 360
+     TEST IF LINK IS LOCAL                      7092                    U139 370
+     IF SO,                                     10X33                   U139 380
+     DIVIDE SEGMENT AND REPEAT.                   J10                   U139 390
+                                                10N9                    U139 400
+                                                  J2                    U139 410
+     IF NOT, FIND NEXT INSTRUCTION              7092       93           U139 420
+                                          94    30H0                    U139 430
+                                                11W1                    U139 440
+     LOCATE NEXT SEGMENT                  98      J60                   U139 450
+     IF NONE, EXIT                              7099                    U139 460
+                                                12H0                    U139 470
+     PUT ITS NAME IN W0                         60W0                    U139 480
+                                                10X22                   U139 490
+     FIND ITS JDEF                                J10                   U139 500
+     AND PUT IT IN W2                           60W2                    U139 510
+     FIND FIRST INSTRUCTION                       J81                   U139 520
+                                                10X41                   U139 530
+     FIND ITS NAME                                J10                   U139 540
+     IF NONE, SKIP TO 95                        7095                    U139 550
+                                                11W0                    U139 560
+                                                  J6                    U139 570
+     ASSIGN IT AS SEGMENT NAME                  10X41                   U139 580
+                                                  J11                   U139 590
+                                          95    11W2                    U139 600
+     FIND LAST INSTRUCTION                        J61                   U139 610
+                                                52H0                    U139 620
+     STORE IT IN W2                             60W2                    U139 630
+                                                10X43                   U139 640
+     TEST IF ITS P=7                              J10                   U139 650
+                                                7096                    U139 660
+                                                10N7                    U139 670
+                                                  J2                    U139 680
+     IF NOT, SKIP TO 96                         7096                    U139 690
+     IF SO, SET P=7 IN SEGMENT                  11W0                    U139 700
+                                                10N7                    U139 710
+                                                10X43                   U139 720
+                                                  J11                   U139 730
+     ASSIGN SYMB. OF INSTRUCTION                11W0                    U139 740
+     TO SEGMENT                                 11W2                    U139 750
+                                                10X45                   U139 760
+                                                  J10                   U139 770
+                                                10X45                   U139 780
+                                                  J11      97           U139 790
+     SET P=0 IN SEGMENT                   96    11W0                    U139 800
+                                                10N0                    U139 810
+                                                10X43                   U139 820
+                                                  J11      97           U139 830
+     ASSIGN LINK OF INSTRUCTION           97    11W0                    U139 840
+     TO SEGMENT                                 11W2                    U139 850
+                                                10X46                   U139 860
+                                                  J10                   U139 870
+                                                10X46                   U139 880
+                                                  J11      98           U139 890
+     EXIT                                 99    30H0      J32           U139 900
+     COMPILE JDEF OF ROUTINE (0)          U140    J50                   U140 010
+     FROM ITS SDSC. NO OUTPUT                   11W0                    U140 020
+     COMPILE IT                                   930                   U140 030
+     ASSIGN A NAME TO IT                          910                   U140 040
+     ASSIGN A TERMINATION TO IT                   920     J30           U140 050
+                                          930     J42                   U140 060
+     FROM ITS SDSC. NO OUTPUT.                  60W0                    U140 070
+                                                10X24                   U140 080
+     FIND SDSC.                                   J10                   U140 090
+     FIND INPUT-OUTPUT DIFFERENCE.                X7                    U140 100
+                                                40H0                    U140 110
+                                                10X50                   U140 120
+                                                  J10                   U140 130
+     TEST FOR NO DIFFERENCE.                    10X80                   U140 140
+                                                  J2                    U140 150
+                                                7090                    U140 160
+     IF NO DIFFERENCE                             J32                   U140 170
+     EXIT WITH H5=-                               J8       J3           U140 180
+     IF DIFFERENCE EXISTS,                90    11W0                    U140 190
+     PRODUCE NEW ROUTINE WITHOUT DIFF.,           U141                  U140 200
+     STORE IT IN W1.                            60W1                    U140 210
+     CONSTRUCT SDSC FOR A NEW ROUTINE,          11W0                    U140 220
+     I(1W0) I(1W1).                               U144                  U140 230
+     SAVE NEW ROUTINE                           60W2                    U140 240
+     COMPILE ITS JDEF                             930                   U140 250
+     IF NULL, SKIP TO 91                        7091                    U140 260
+     BRING IN NEW ROUTINE                       11W2                    U140 270
+     PREFIX JDEF OF NEW ROUTINE TO JDEF         11W1                    U140 280
+     OF 1W1, AND MODIFY SDSC OF 1W1.              U145                  U140 290
+                                          91    11W2                    U140 300
+     ERASE PREFIXED ROUTINE                       J72                   U140 310
+                                                11W0                    U140 320
+     CONSTRUCT SDSC FOR A NEW ROUTINE,          11W1                    U140 330
+     O(1W1) O(1W0).                               U146                  U140 340
+     SAVE NEW ROUTINE                           60W2                    U140 350
+     COMPILE ITS JDEF.                            930                   U140 360
+     IF NULL, SKIP TO 92                        7092                    U140 370
+     BRING IN NEW ROUTINE                       11W2                    U140 380
+     SUFFIX JDEF OF NEW ROUTINE TO JDEF         11W1                    U140 390
+     OF 1W1, AND MODIFY SDSC OF 1W1.              U147                  U140 400
+     ERASE SUFFIXED ROUTINE               92    11W2                    U140 410
+                                                  J72                   U140 420
+     BRING IN 1W0.                              11W0                    U140 430
+     FIND JDEF OF 1W1,                          11W1                    U140 440
+                                                10X22                   U140 450
+                                                  J10                   U140 460
+     COPY IT.                                     J74                   U140 470
+                                                  J136                  U140 480
+     ASSIGN COPY AS JDEF OF 1W0.                10X22                   U140 490
+                                                  J11                   U140 500
+                                                11W1                    U140 510
+     ERASE 1W1                                    J72                   U140 520
+     AND EXIT WITH H5=+                           J32      J4           U140 530
+                                          910   11W0                    U140 540
+     FIND JDEF.                                 10X22                   U140 550
+                                                  J10                   U140 560
+     FIND FIRST INSTRUCTION.                      J81                   U140 570
+                                                40H0                    U140 580
+                                                10X41                   U140 590
+                                                  J10                   U140 600
+     IF IT HAS NO NAME,                         70        911           U140 610
+                                                11W0                    U140 620
+     ASSIGN IT V(X25) OF ROUTINE.               10X25                   U140 630
+                                                  J10                   U140 640
+                                                10X41     J11           U140 650
+     IF IT HAS NAME, EXIT.                911   30H0       J8           U140 660
+                                          920   11W0                    U140 670
+                                                10X22                   U140 680
+                                                  J10                   U140 690
+                                                40H0                    U140 700
+     TEST IF LAST INSTRUCTION                     J61                   U140 710
+     HAS A LINK.                                52H0                    U140 720
+                                                10X46                   U140 730
+                                                  J10                   U140 740
+     IF NOT, ASSIGN LINK 0                      70U122                  U140 750
+     IF SO, EXIT.                               30H0       J8           U140 760
+     PRODUCE ROUTINE FROM (0)             U141    J44                   U141 010
+     WITHOUT DIFFERENCE (1).                      J21                   U141 020
+     OUTPUT (0) IS NEW ROUTINE.                 11W1                    U141 030
+     FIND ROUTINE RELEVANT TO DIFF.               U150                  U141 040
+                                                  J74                   U141 050
+     COPY IT AND MARK COPY LOCAL.                 J136                  U141 060
+     PUT RELEVANT ROUT. IN W2                   60W2                    U141 070
+                                                10X24                   U141 080
+                                                  J10                   U141 090
+     PUT ITS SDSC IN W3                         60W3                    U141 100
+     SAVE IT                                    40H0                    U141 110
+     LOCATE ITS VARIABLE CELL.                    U152                  U141 120
+     IF NONE, GO TO 90, AFTER J8                7093                    U141 130
+     FIND ITS NAME                              52H0                    U141 140
+     FIND ITS VARIABLES                         10X41                   U141 150
+                                                  J10                   U141 160
+                                                11W1                    U141 170
+                                                10X41                   U141 180
+     FIND VARIABLE OF DIFFERENCE,                 J10                   U141 190
+     SUBSTITUTE IT FOR VAR. CELL NAME.            U153                  U141 200
+     BRING IN SDSC OF REL. ROUT.          90    11W3                    U141 210
+     FIND VARIABLE OF DIFF.                     11W1                    U141 220
+                                                10X41                   U141 230
+                                                  J10                   U141 240
+     LOCATE CELL OF SDSC WITH THIS NAME           U151                  U141 250
+     IF NONE, GO TO 91.                         7091                    U141 260
+                                                52H0                    U141 270
+                                                10X41                   U141 280
+                                                  J10                   U141 290
+     BRING IN SDSC OF REL. ROUT.                11W3                    U141 300
+                                                11W0                    U141 310
+     FIND SDSC OF 1W0                           10X24                   U141 320
+                                                  J10                   U141 330
+     SUB. NAMES OF (0) FOR VAR. OF W3             U154                  U141 340
+                                          91    11W0                    U141 350
+                                                10X24                   U141 360
+                                                  J10                   U141 370
+     FIND LIST OF AFFECTED CELLS OF 1W0         10X71                   U141 380
+                                                  J10                   U141 390
+     LOCATE NEXT CELL                     92      J60                   U141 400
+                                                7094                    U141 410
+     FIND CELL                                  12H0                    U141 420
+     FIND ITS NAME                              10X41                   U141 430
+                                                  J10                   U141 440
+     STORE IT IN W4                             60W4                    U141 450
+     FIND W3                                    11W3                    U141 460
+                                                  J6                    U141 470
+     LOCATE CELL OF W3 WITH SAME NAME             U151                  U141 480
+     IF NONE, FIND NEXT.                        7092                    U141 490
+                                                30H0                    U141 500
+                                                11W4                    U141 510
+                                                11W3                    U141 520
+     SUBSTITUTE NAMES OF SDSC (W0) FOR          11W0                    U141 530
+     VARIABLES OF (W3) IN CELL (W4)             10X24                   U141 540
+                                                  J10                   U141 550
+                                                  U154     92           U141 560
+                                          95    11W1                    U141 570
+     FIND ROUTINE RELEVANT TO W1,                 U150                  U141 580
+     FIND MODIFIED COPY.                        11W2                    U141 590
+     MAKE JDEF OF (0) FROM (1).                   U155                  U141 600
+     LEAVE NEW ROUTINE                          11W2      J34           U141 610
+                                          93    30H0                    U141 620
+                                                30H0       90           U141 630
+                                          94    30H0       95           U141 640
+     CONSTRUCT SDSC FOR A NEW ROUTINE     U142    J53                   U142 010
+     (0) OF (1) TO (2) OF (3).  (0)=NAME        11W1                    U142 020
+                                                10X24                   U142 030
+                                                  J10                   U142 040
+     OF NEW ROUTINE.                            10X71                   U142 050
+                                                  J10                   U142 060
+     COPY X71 OF 1W1                              J74                   U142 070
+                                                  J136                  U142 080
+     REPLACE 1W1 WITH ITS X71                   20W1                    U142 090
+                                                11W3                    U142 100
+                                                10X24                   U142 110
+                                                  J10                   U142 120
+                                                10X71                   U142 130
+                                                  J10                   U142 140
+                                                  J74                   U142 150
+                                                  J136                  U142 160
+     REPLACE 1W3 WITH ITS X71                   60W3                    U142 170
+                                                11W2                    U142 180
+     ERASE HALF OF 1W2                            U143                  U142 190
+                                                11W1                    U142 200
+                                                11W0                    U142 210
+     ERASE HALF OF 1W0                            U143                  U142 220
+                                                11W0                    U142 230
+                                                10X75                   U142 240
+     TEST IF 1W1 NEEDS REVERSAL                   J2                    U142 250
+                                                70         90           U142 260
+                                                11W1                    U142 270
+     IF SO, REVERSE                             11W0                    U142 280
+                                                  U148     90           U142 290
+                                          90    11W2                    U142 300
+                                                10X76                   U142 310
+     TEST IF 1W3 NEEDS REVERSAL                   J2                    U142 320
+                                                70         91           U142 330
+                                                11W3                    U142 340
+     IF SO, REVERSE                             11W2                    U142 350
+                                                  U148     91           U142 360
+     COMBINE LISTS OF AFFECTED CELLS      91    11W3                    U142 370
+     INTO NEW LIST.                             11W1                    U142 380
+                                                  U149                  U142 390
+     ASSIGN COMBINED LIST                         J90                   U142 400
+     AS X71 OF NEW ROUTINE.                     60W0                    U142 410
+                                                  J6                    U142 420
+                                                  J90                   U142 430
+                                                  J136                  U142 440
+                                                60W2                    U142 450
+                                                  J6                    U142 460
+                                                10X71                   U142 470
+                                                  J11                   U142 480
+                                                11W2                    U142 490
+                                                10X24                   U142 500
+                                                  J11                   U142 510
+                                                11W0      J33           U142 520
+     ERASE ATTRIBUTE NOT-(0) OF           U143  10X75                   U143 010
+     ITEMS OF (1).  NO OUTPUT                     J2                    U143 020
+                                                7090                    U143 030
+     FIND ATTRIBUTE NOT-(0).                    10X76      91           U143 040
+                                          90    10X75      91           U143 050
+     ERASE IT.                            91      J50                   U143 060
+                                                1092                    U143 070
+                                                  J100    J30           U143 080
+                                          92    11W0                    U143 090
+                                                  J14      J4           U143 100
+     CONSTRUCT SDSC FOR A NEW ROUTINE     U144    J50                   U144 010
+     X75(0) TO X75(1)=OUTPUT ROUTINE            10X75                   U144 020
+                                                11W0                    U144 030
+                                                10X75                   U144 040
+                                                  U142    J30           U144 050
+     PREFIX JDEF OF (1) TO JDEF OF (0)    U145    J51                   U145 010
+     IN (0), AND MODIFY SDSC.                   11W0                    U145 020
+                                                10X22                   U145 030
+     FIND JDEF OF (1),                            J10                   U145 040
+     SAVE IT.                                   40H0                    U145 050
+     DIVIDE IT AFTER HEAD,                        J75                   U145 060
+                                                40W2                    U145 070
+     SAVE TAIL IN W2.                           20W2                    U145 080
+                                                11W1                    U145 090
+     FIND JDEF OF (0),                          10X22                   U145 100
+                                                  J10                   U145 110
+                                                  J74                   U145 120
+                                                  J136                  U145 130
+     INSERT IT AFTER HEAD OF JDEF (1).            J76                   U145 140
+                                                11W2                    U145 150
+     ADD TAIL.                                    J76                   U145 160
+                                                30H0      J32           U145 170
+     CONSTRUCT SDSC FOR A NEW ROUTINE     U146    J50                   U146 010
+     X76(0) TO X76(1)=OUTPUT ROUTINE            10X76                   U146 020
+                                                11W0                    U146 030
+                                                10X76                   U146 040
+                                                  U142    J30           U146 050
+     SUFFIX JDEF OF (1) TO JDEF OF        U147    J51                   U147 010
+     (0) IN (0), AND MODIFY SDSC                11W0                    U147 020
+                                                10X22                   U147 030
+     FIND JDEF OF (0)                             J10                   U147 040
+     LOCATE ITS LAST SYMBOL                       J61                   U147 050
+                                                11W1                    U147 060
+                                                10X22                   U147 070
+     FIND JDEF OF (1)                             J10                   U147 080
+                                                  J74                   U147 090
+                                                  J136                  U147 100
+     INSERT AFTER JDEF OF (0).                    J76                   U147 110
+                                                30H0      J31           U147 120
+     REVERSE ATTRIBUTES (0) OF ITEMS      U148  40H0                    U148 010
+     ON (1).                                    10X75                   U148 020
+                                                  J2                    U148 030
+                                                70         90           U148 040
+     FIND ATTRIBUTE OPPOSITE TO (0).            10X75      91           U148 050
+                                          90    10X76      91           U148 060
+     STORE (0) IN W1, OPPOSITE IN W0.     91      J51                   U148 070
+     GENERATE ITEMS AND REVERSE.                1092                    U148 080
+                                                  J100    J31           U148 090
+                                          92    40H0                    U148 100
+                                                40H0                    U148 110
+                                                11W1                    U148 120
+     FIND VALUE OF ATTRIBUTE,                     J10                   U148 130
+     COPY IT,                                     J74                   U148 140
+     AND ASSIGN AS VALUE OF OPPOSITE              J136                  U148 150
+                                                11W0                    U148 160
+                                                  J11                   U148 170
+     ERASE ATTRIBUTE.                           11W1      J14           U148 180
+     COMBINE LISTS OF AFFECTED CELLS,     U149    J90                   U149 010
+     (0)=LX75,(1)=LX76,OUTPUT=NEW LIST.           J136                  U149 020
+     1W0=NEW LIST, 1W1=LX75,                      J46                   U149 030
+     1W2=LX76.                                    J22                   U149 040
+                                                11W1                    U149 050
+     COMBINE PAIRS                              1090                    U149 060
+                                                  J100                  U149 070
+                                                11W1                    U149 080
+     ADD REMAINDER OF LX75                      1091                    U149 090
+                                                  J100                  U149 100
+                                                11W2                    U149 110
+     ADD REMAINDER OF LX76                      1092                    U149 120
+                                                  J100                  U149 130
+                                                11W0      J36           U149 140
+     COMBINE PAIRS                        90    24W3                    U149 150
+                                                11W2                    U149 160
+     GENERATE MEMBERS OF LX76                   1093                    U149 170
+                                                  J100     J4           U149 180
+                                          93    24W4                    U149 190
+                                                11W3                    U149 200
+                                                10X41                   U149 210
+     FIND SYMBOL OF LX75                          J10                   U149 220
+                                                11W4                    U149 230
+                                                10X41                   U149 240
+     FIND SYMBOL OF LX76                          J10                   U149 250
+     COMPARE FOR EQUALITY.                        U107                  U149 260
+     IF UNEQUAL TRY NEXT OF LX76.               70J4                    U149 270
+     IF EQUAL,                                  11W1                    U149 280
+     DELETE FROM LX75,                          11W3                    U149 290
+                                                  U169                  U149 300
+                                                11W2                    U149 310
+     DELETE FROM LX76.                          11W4                    U149 320
+                                                  U169                  U149 330
+                                                11W4                    U149 340
+                                                40H0                    U149 350
+     ADD LX75 TO LX76,                          11W3                    U149 360
+                                                10X75                   U149 370
+                                                  J10                   U149 380
+                                                10X75                   U149 390
+                                                  J11                   U149 400
+     IF PAIR IDENTICAL, DELETE                    910                   U149 410
+                                                70        915           U149 420
+     AND INSERT PAIR IN NEW LIST.               11W0                    U149 430
+                                                  J6                    U149 440
+     STOP LX76 GENERATOR.                         J64      J3           U149 450
+     ADD REMAINDER OF LX75                91    11W1                    U149 460
+                                                14X76                   U149 470
+                                                10X75                   U149 480
+                                                  94        0           U149 490
+     ADD REMAINDER OF LX76                92    11W2                    U149 500
+                                                14X75                   U149 510
+                                                10X76                   U149 520
+                                                  94        0           U149 530
+     ADD REMAINDER OF 1W3 TO 1W2          94    24W4                    U149 540
+                                                20W5                    U149 550
+                                                20W6                    U149 560
+                                                60W3                    U149 570
+                                                11W4                    U149 580
+                                                  J10                   U149 590
+     TEST FOR NORMAL FORM                         96                    U149 600
+                                                7095                    U149 610
+     IF NORMAL, DELETE                    99    11W6                    U149 620
+                                                11W3                    U149 630
+                                                  U169      0           U149 640
+     IF NOT NORMAL,                       95    11W3                    U149 650
+     CONSTRUCT PAIR ATTRIBUTE,                    J90                   U149 660
+                                                  J136                  U149 670
+                                                40H0                    U149 680
+                                                  J90                   U149 690
+                                                  J136                  U149 700
+     MAKE X1 ITS SYMB                           40H0                    U149 710
+                                                10X1                    U149 720
+                                                10X45                   U149 730
+                                                  J11                   U149 740
+     INSERT IT,                                   J64                   U149 750
+                                                11W5                    U149 760
+                                                  J11                   U149 770
+     ADD TO 1W0                                 11W0                    U149 780
+     AND DELETE FROM 1W3.                       11W3                    U149 790
+                                                  J64      98           U149 800
+     TEST IF NORMAL                       96    44H0                    U149 810
+                                                  J81                   U149 820
+                                                40H0                    U149 830
+                                                10X45                   U149 840
+                                                  J10                   U149 850
+     TEST IF FIRST SYMBOL IS X1                 10X1                    U149 860
+                                                  J2                    U149 870
+     IF SO, EXIT WITH H5+.                      70         97           U149 880
+                                                10X45                   U149 890
+                                                  J10                   U149 900
+     TEST IF FIRST SYMBOL IS X2.                10X2                    U149 910
+                                                  J2                    U149 920
+     IF NOT, EXIT WITH H5-.                     70J8                    U149 930
+     IF SO, TEST IF SECOND IS X1                  J82                   U149 940
+                                                10X45                   U149 950
+                                                  J10                   U149 960
+                                                10X1                    U149 970
+     EXIT WITH H5 SET                             J2        0           U149 980
+                                          97    30H0       J8           U149 990
+                                          98      J4       99           U1491000
+                                          910   44H0                    U1491010
+                                                10X75                   U1491020
+                                                  J10                   U1491030
+                                                40W0                    U1491040
+                                                20W0                    U1491050
+                                                40H0                    U1491060
+                                                10X76                   U1491070
+                                                  J10                   U1491080
+                                          914     J60                   U1491090
+                                                70911                   U1491100
+                                                12H0                    U1491110
+                                                10X45                   U1491120
+                                                  J10                   U1491130
+                                                11W0                    U1491140
+                                                  J60                   U1491150
+                                                70912                   U1491160
+                                                60W0                    U1491170
+                                                52W0                    U1491180
+                                                10X45                   U1491190
+                                                  J10                   U1491200
+                                                  U107                  U1491210
+                                                70913     914           U1491220
+                                          913   30H0      J30           U1491230
+                                          912   30H0                    U1491240
+                                                30H0      913           U1491250
+                                          911   30H0                    U1491260
+                                                11W0                    U1491270
+                                                  J60                   U1491280
+                                                  J5      913           U1491290
+                                          915   30H0       J3           U1491300
+     FIND ROUTINE RELEVANT                U150  40H0                    U150 010
+     TO DIFFERENCE (0)                          10X50                   U150 020
+     FIND TYPE OF DIFFERENCE                      J10                   U150 030
+                                                10X90                   U150 040
+                                                  J6                    U150 050
+     FIND LIST OF RELEVANT ROUTINES               J10                   U150 060
+                                                  J50                   U150 070
+                                                10X41                   U150 080
+                                                  J10                   U150 090
+                                                10X32                   U150 100
+     FIND TYPE OF AFFECTED CELL                   J10                   U150 110
+                                                11W0                    U150 120
+                                                  J6                    U150 130
+     FIND RELEVANT ROUTINE                        J10     J30           U150 140
+     LOCATE AFFECTED CELL (0) OF          U151    J50                   U151 010
+     SDSC (1).                                  10X71                   U151 020
+     FIND LIST OF AFFECTED CELLS                  J10                   U151 030
+     LOCATE NEXT CELL                     90      J60                   U151 040
+     IF NONE, EXIT WITH H5-                     70J30                   U151 050
+                                                12H0                    U151 060
+     FIND ITS NAME                              10X41                   U151 070
+                                                  J10                   U151 080
+                                                11W0                    U151 090
+     COMPARE WITH (0).                            U107                  U151 100
+     EXIT OR CONTINUE                           7090      J30           U151 110
+     LOCATE VARIABLE AFFECTED CELL        U152  10X71                   U152 010
+     IN SDSC (0)                                  J10                   U152 020
+     LOCATE NEXT CELL                     90      J60                   U152 030
+     IF NONE, EXIT WITH H5-                     700                     U152 040
+                                                12H0                    U152 050
+     FIND ITS NAME                              10X41                   U152 060
+                                                  J10                   U152 070
+     FIND ITS TYPE                              10X32                   U152 080
+                                                  J10                   U152 090
+     TEST IF VARIABLE                           10X39                   U152 100
