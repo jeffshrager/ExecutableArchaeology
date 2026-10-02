@@ -287,3 +287,483 @@
                                                   T54       0           T068 040
      T69 ADVANCES CUR-COL 1T11 TO NEXT    T69   11T11                   T069 010
      NON-BLANK                                  11W25                   T069 020
+     SET 1W25=CUR-COL                             J121                  T069 030
+     SCAN TO NEXT NON-BLANK                       J184                  T069 040
+     SET CUR-COL = 1W25                         11T11                   T069 050
+                                                  J121     J8           T069 060
+     T70 SETS ORIGIN OF FIELD TO (0)      T70   11T14                   T070 010
+                                                  J121     J8           T070 020
+                                          T71     T65                   T071 010
+                                                  T54                   T071 020
+                                                  T66       0           T071 030
+                                          T72   11T16                   T072 010
+                                                10T26                   T072 020
+                                                  J2                    T072 030
+                                                70T54                   T072 040
+                                                10T40                   T072 050
+                                                  T61     T67           T072 060
+     T73 CHECKS FOR (---) OR (-) AND    1                               T073 000
+     SETS END, OUTPUTS, ADV.            1                               T073 005
+     SET ORG TO CUR-COL                   T73     T52                   T073 010
+                                                109-90                  T073 020
+                                                11W25                   T073 030
+                                                11W25                   T073 040
+                                                  J110                  T073 050
+                                                  J8                    T073 060
+                                                119-91                  T073 070
+                                                  J186                  T073 080
+                                                  J2                    T073 090
+     IF NOT (---), TREAT AS (-).                70T68                   T073 100
+     ADVANCE CUR-COL                              T54                   T073 110
+     BY                                           T54                   T073 120
+     3,                                           T54                   T073 130
+     SET END AT CC-1 AND OUTPUT                   T67       0           T073 140
+                                          9-90 +01          2           T073 150
+                                          9-91    -                     T073 160
+                                          T79   10E0                    T079 010
+                                                  T80       0           T079 020
+                                                  T80                   T079 030
+                                                10E0                    T079 040
+                                                109-1                   T079 050
+                                                  J100      0           T079 060
+                                          9-1     J150     J4           T079 070
+     CREATE LIST OF SENTENCES (0)         T80     J41                   T080 010
+                                                20W0                    T080 020
+                                                  J90                   T080 030
+                                                20W1                    T080 040
+                                                40W24                   T080 050
+                                                40W25                   T080 060
+                                                40W30                   T080 070
+                                                109-90                  T080 080
+                                                20W25                   T080 090
+                                                109-91                  T080 100
+                                                20W30                   T080 110
+     PRODUCE NEXT LINE TO SCAN            9-3     T82                   T080 120
+     INITIALIZE FOR SCAN                          T81                   T080 130
+     NO MORE LINES, CLEANUP                     709-12                  T080 140
+     INITIATE SCAN                        9-6     T50                   T080 150
+     TO 9-3 TO GET NEW LINE                     709-3                   T080 160
+     SAVE WORD TYPE                             209-92                  T080 170
+     CREATE LOCAL LIST FOR                        J90                   T080 180
+     D-TERMS OF WORD                              J136                  T080 190
+     BREAK WORD INTO LIST OF D-TERMS              T83                   T080 200
+                                                40H0                    T080 210
+                                                119-92                  T080 220
+                                                10T100                  T080 230
+     ASSIGN TYPE TO LIST OF D-TERMS               J11                   T080 240
+                                                11W1                    T080 250
+                                                  J6                    T080 260
+                                                  J65                   T080 270
+                                                119-92                  T080 280
+                                                10T22                   T080 290
+                                                  J2                    T080 300
+     IF NOT END OF SENT, RESUME SCAN            709-6                   T080 310
+     IF TYPE=TERMINAL PUNCT                     11W0                    T080 320
+     ADD SENTENCE TO LIST OF SENTENCES          11W1                    T080 330
+     AND CREATE NEXT SENTENCE,                    J65                   T080 340
+     THEN                                         J90                   T080 350
+     RESUME SCAN.                               20W1      9-6           T080 360
+     CLEAN UP                             9-12  30W24                   T080 370
+                                                30W25                   T080 380
+                                                30W30                   T080 390
+     OUTPUT=LIST OF SENTENCES                   11W0      J31           T080 400
+                                          9-90 +01          1           T080 410
+                                          9-91 +01          1           T080 420
+                                          9-92    0         0           T080 430
+     INITIALIZE FOR SCAN                  T81   11W24                   T081 010
+     SET LINE = 1W24                            20T10                   T081 020
+                                                109-10                  T081 030
+                                                11T11                   T081 040
+                                                  J121                  T081 050
+                                                  J8                    T081 060
+                                                109-11                  T081 070
+                                                11T12                   T081 080
+                                                  J121                  T081 090
+                                                  J8                    T081 100
+                                                10T40                   T081 110
+                                                20T13       0           T081 120
+                                          9-10 + 1          1           T081 130
+                                          9-11 + 1         80           T081 140
+     SET W24 TO NEXT SENT TO SCAN         T82   10T100                  T082 010
+     H5 - IF NO. MORE                           20W24                   T082 020
+                                                  J180      0           T082 030
+                                          T83   40W30                   T083 010
+     BREAK WORD INTO LIST OF BCD                  J42                   T083 020
+     INPUT NAMES LIST FOR D-TERMS               20W1                    T083 030
+                                                10J3                    T083 040
+     SET SIGNAL TO LOOP                         20W2                    T083 050
+     D-TERMS AND OUTPUT LIST (0)                11W30                   T083 060
+                                                  J90                   T083 070
+                                                  J121                  T083 080
+     SET 1W0=1W30                               20W0                    T083 090
+                                          9-3   109-50                  T083 100
+                                                11W0                    T083 110
+                                                  J116                  T083 120
+     IF FIELD SMALLER THAN 5, TO 9-10           70       9-10           T083 130
+                                                109-50                  T083 140
+                                                11W0                    T083 150
+                                                11W0                    T083 160
+                                                  J111                  T083 170
+                                                  J8                    T083 180
+                                                109-50                  T083 190
+                                          9-5   20W30                   T083 200
+                                                109-51                  T083 210
+     CREATE NEW BCD D-TERM                        J90                   T083 220
+     MAKE D-TERM LOCAL                            J136                  T083 230
+                                                  J121                  T083 240
+                                                  J182                  T083 250
+                                                11W1                    T083 260
+                                                  J6                    T083 270
+     INSERT D-TERM AT END OF LIST                 J65                   T083 280
+                                                11W2                    T083 290
+                                                20H5                    T083 300
+     LOOP TILL FIELD COMPLETED, THEN            709-3                   T083 310
+     CLEANUP                              9-8   30W30                   T083 320
+                                                11W1      J32           T083 330
+                                          9-10  11W0                    T083 340
+                                                  J118                  T083 350
+     DONE IF FIELD SIZE=0                       709-8                   T083 360
+     OTHERWISE SET W30 FOR LAST D-TERM          11W0                    T083 370
+                                                11H5                    T083 380
+                                                20W2      9-5           T083 390
+                                          9-50 +01          5           T083 400
+                                          9-51 +21ABCDE                 T083 410
+                                          T99   1091                    T099 010
+                                                70J166   J165           T099 020
+                                          91   +01          0           T099 030
+     T102---CREATE DICTIONARY ENTRY     1                               T102 000
+     FROM STRUCTURED DICTIONARY EQUIV-  1                               T102 005
+     ALENT (1T95) OF CURRENT SENT (1T98)  T102  11T195                  T102 010
+                                                10X30                   T102 020
+                                                  J10                   T102 030
+                                                70J7                    T102 040
+     SAVE MAIN VERB                             60T193                  T102 050
+                                                11T195                  T102 060
+                                                10U1                    T102 070
+                                                  J10                   T102 080
+                                                70                      T102 090
+     SAVE DEFINIENDUM                           60T192                  T102 100
+                                                11T195                  T102 110
+                                                10U2                    T102 120
+                                                  J10                   T102 130
+                                                70                      T102 140
+     SAVE DEFINIENS                             60T191   T186           T102 150
+                                          T105  109-1                   T105 010
+                                                  J100      0           T105 020
+                                          9-1   60T198                  T105 030
+                                                10U99                   T105 040
+                                                  J10                   T105 050
+                                                70J4                    T105 060
+                                                20T195                  T105 070
+                                                  T102                  T105 080
+                                                11T192                  T105 090
+                                                  J150     J4           T105 100
+     T106---SEARCH DICTIONARY (0) FOR   5                               T106 000
+     WD(1). IF H5+,(0)=EQUIV,H5-,NO OTPT1                               T106 005
+                                          T106    J51                   T106 010
+                                                40W2                    T106 020
+                                          9-10  40W1                    T106 030
+     NEXT D-TERM OF WD TO W1                      9-91                  T106 040
+     NEXT ENTRY OF DICT TO W0                     9-90                  T106 050
+                                                709-85                  T106 060
+                                                12W0                    T106 070
+     W-=CURRENT DICT ENTRY                      20W2                    T106 080
+     NEXT D-TERM OF ENTRY TO W2                   9-92                  T106 090
+                                                12W2                    T106 100
+                                                20W2                    T106 110
+                                                  9-92                  T106 120
+                                          9-30  12W1                    T106 130
+                                                12W2                    T106 140
+                                                  J114                  T106 150
+     TO 9-70 IF NO MATCH                        709-70                  T106 160
+                                                  9-91                  T106 170
+     TO 9-80 IF MATCH BUT NO MORE D-T IN        709-80                  T106 180
+     WD                                           9-92                  T106 190
+     TO 9-70 IF MATCH, MORE WD D-T BUT          709-70   9-30           T106 200
+     RESET W1 TO 1ST D-TERM OF WD         9-70  30W1     9-10           T106 210
+                                          9-80    9-92                  T106 220
+     OUTPUT DICT-ENTRY IF NEITHER               70       9-70           T106 230
+     HAS MORE D-TERMS.                            J4                    T106 240
+                                                12W0                    T106 250
+                                          9-85  30W1      J32           T106 260
+     SET 1W0 TO NEXT OF DICT-LIST         9-90  11W0                    T106 270
+                                                  J60                   T106 280
+                                                20W0        0           T106 290
+     SET 1W1 TO NEXT D-TERM OF WORD       9-91  11W1                    T106 300
+                                                  J60                   T106 310
+                                                20W1        0           T106 320
+     SET 1W2 = NEXT D-T OF DICT-ENT       9-92  11W2                    T106 330
+                                                  J60                   T106 340
+                                                20W2        0           T106 350
+     T107---GENERATE WORDS OF SENTENCE  5                               T107 000
+     (0) AND FIND EQUIV IN DICTIONARY(1)1                               T107 001
+     ASSIGN LIST OF EQUIV AS VALUE OF   1                               T107 002
+     ATTRIBUTE T196 ON D-LIST OF SENT.  1                               T107 003
+     IF NO EQUIV FOUND, CREATE ENTRY AND1                               T107 004
+     CONTINUE SENTENCE.                 1                               T107 005
+     OUTPUT (0) NAMES LIST OF EQUIV     1                               T107 006
+                                          T107    J51                   T107 010
+     CREATE EQUIV-LIST, SAVE IN W2                J90                   T107 020
+                                                  J136                  T107 030
+                                                40W2                    T107 040
+                                                20W2                    T107 050
+                                                11W0                    T107 060
+                                                109-50                  T107 070
+                                                  J100                  T107 080
+                                                11W0                    T107 090
+                                                11W2                    T107 100
+                                                10T196                  T107 110
+                                                  J11                   T107 120
+     OUTPUT EQUIV LIST                          11W2      J32           T107 130
+                                          9-50  609-99                  T107 140
+                                                11W1                    T107 150
+                                                  T106                  T107 160
+                                                709-90                  T107 170
+                                                11W2                    T107 180
+                                                  J6                    T107 190
+                                                  J65       0           T107 200
+                                          9-99    0         0           T107 210
+                                          9-90  119-99                  T107 220
+                                                  J90    T108           T107 230
+     T108---ADDS WORD (1) TO NEW DICT   5                               T108 000
+     ENTRY (0), ADDS ENTRY TO DICT LIST,1                               T108 001
+     ADDS ENTRY TO EQUIV LIST, MAKES    1                               T108 002
+     P-S OF ENTRY=NOUN.                 1                               T108 003
+                                          T108    J50                   T108 010
+                                                  J74                   T108 020
+     MAKE LOCAL COPY OF WORD                      J136                  T108 030
+                                                11W0                    T108 040
+                                                  J6                    T108 050
+     ADD LOCAL COPY OF WD TO NEW ENTRY            J65                   T108 060
+                                                11W1                    T108 070
+                                                11W0                    T108 080
+     ADD NEW ENTRY TO DICT-LIST                   J65                   T108 090
+                                                11W2                    T108 100
+                                                11W0                    T108 110
+     ADD ENTRY TO EQUIV LIST                      J65                   T108 120
+                                                11W0                    T108 130
+                                                10A102                  T108 140
+                                                10A120                  T108 150
+     MAKE PS=NOUN                                 J11                   T108 160
+                                                  J30      J4           T108 170
+     T184---CONVERTS BCD DATA TERM (0), 1                               T184 000
+     ASSUMED TO BE AN IPL SYMBOL, TO    1                               T184 001
+     ITS LOADED EQUIVALENT.OUTPUT IN H0.1                               T184 002
+     H5- IF INVALID                       T184  10L101                  T184 010
+                                                40W24                   T184 020
+                                                20W24                   T184 030
+     CLEAR LINE L101                              J154                  T184 040
+                                                109-95                  T184 050
+                                                40W25                   T184 060
+                                                20W25                   T184 070
+                                                109-91                  T184 080
+                                                11W25                   T184 090
+     SET COL = 1                                  J121                  T184 100
+                                                  J8                    T184 110
+     ENTER DATA TERM (0)                          J157                  T184 120
+                                                109-91                  T184 130
+                                                11W25                   T184 140
+     RESET COL = 1                                J121                  T184 150
+                                                  J8                    T184 160
+                                                40W30                   T184 170
+                                                109-93                  T184 180
+     SET FIELD SIZE FOR LINE READ               20W30                   T184 190
+                                                  J181                  T184 200
+                                                30W24                   T184 210
+                                                30W25                   T184 220
+                                                30W30       0           T184 230
+                                          9-91 +01          1           T184 240
+                                          9-93 +01          5           T184 250
+                                          9-95 +01          1           T184 260
+     T185---INTERPRETS (I*NAME) IN      5                               T185 000
+     CONTEXT OF DEFINE PROCESS.         1                               T185 001
+     W0=I*NAME (L141), W1=DICT-ENTRY      T185    J51                   T185 010
+     OF IPL REGIONAL.                           11W1                    T185 020
+                                                11W0                    T185 030
+                                                  J10                   T185 040
+     TO9-90 IF I*NAME(L141) NOT AVAILBLE        709-90                  T185 050
+                                          9-20  11W0                    T185 060
+     ASSIGN I*NAME TO DEFINIENDUM                 J11     J31           T185 070
+                                          9-90  11W1                    T185 080
+                                                  J60                   T185 090
+                                                52H0                    T185 100
+                                                  J60                   T185 110
+                                                52H0                    T185 120
+     LOAD DATA TERM (0) AS SYMBOL                 T184                  T185 130
+                                                70J7                    T185 140
+                                                209-91                  T185 150
+                                                11W1                    T185 160
+     ASSIGN I*NAME+LOADED VALUE IN              119-91                  T185 170
+     DICT-ENTRY OF IPL SYMBOL X-SUB-N.          11W0                    T185 180
+                                                  J11                   T185 190
+                                                119-91   9-20           T185 200
+                                          9-91 +  0         0           T185 210
+                                          T186  10X30                   T186 010
+     FIND MAIN VERB OF DEFINIENS                  J10                   T186 020
+                                                70                      T186 030
+                                                10T189                  T186 040
+                                                  J6                    T186 050
+                                                  J10                   T186 060
+                                                70                      T186 070
+     INTERPRET MAIN VERB OF DEFINIENS             J1        0           T186 080
+     T187---SIMPLE X=Y DEFINITIONS      1                               T187 000
+                                          T187  11T192                  T187 010
+     DEFINIENS                                  11T191                  T187 020
+                                                10U1                    T187 030
+                                                  J10                   T187 040
+                                                70J7                    T187 050
+                                                11T191                  T187 060
+                                                10U2                    T187 070
+                                                  J10                   T187 080
+                                                70J7                    T187 090
+                                                40H0                    T187 100
+     CK IF ATTR IS TO BE INTERPRETED            10T189                  T187 110
+                                                  J6                    T187 120
+                                                  J10                   T187 130
+                                                70         J1           T187 140
+                                                  J11       0           T187 150
+     GENERATE SUCCESSIVE ARGS OF VERB     T188  10U80                   T188 010
+     WHEN NO. OF SAME IS VARIABLE.              109-1                   T188 020
+                                                  J100      0           T188 030
+                                          91    04J0                    T188 040
+                                                11T191                  T188 050
+                                                  J6                    T188 060
+                                                  J10                   T188 070
+     DONE WHEN NTH ARG NON-EXISTENT             700                     T188 080
+                                                40T191                  T188 090
+                                                60T191                  T188 100
+                                                  T186                  T188 110
+                                                30T191     J4           T188 120
+     1T200=LIST OF SENTENCES              T300  20T200                  T300 010
+                                                  J90                   T300 020
+     CREATE LIST FOR DEF-STATEMENTS             20T201                  T300 030
+                                                11T200                  T300 040
+                                                109-80                  T300 050
+     GENERATE SENT. NAMES.                        J100                  T300 060
+                                                11T201                  T300 070
+                                                109-85                  T300 080
+     DELETE NAMES OF DEF-SENT ON 1T200            J100                  T300 090
+                                                10L143                  T300 100
+     CURRENT ACTION=LOOKUP                      20T199                  T300 110
+                                                11T201                  T300 120
+                                                109-70                  T300 130
+     LKUP,PARSE DEF-SENT,BUILD DICT-ENTY          J100                  T300 140
+                                                11T200                  T300 150
+                                                109-60                  T300 160
+                                                  J100                  T300 170
+                                                10L100                  T300 180
+                                                109-50                  T300 190
+                                                  J100                  T300 200
+                                                11T200                  T300 210
+                                                109-50                  T300 220
+                                                  J100                  T300 230
+                                                11T201                  T300 240
+                                                109-50                  T300 250
+                                                  J100      0           T300 260
+                                          9-50    J150     J4           T300 270
+                                                  J0        0           T300 280
+     9-80 TESTS IF SENT IS DEFINER        9-80  60T198                  T300 290
+                                                  J81                   T300 300
+                                                70J7                    T300 310
+                                                  J81                   T300 320
+                                                70J7                    T300 330
+     SAVE NAME 1ST D-TERM OF SENT               609-91                  T300 340
+                                                109-92                  T300 350
+     IS 1ST D-T = - (QUOTE)                       J114                  T300 360
+                                                70       9-82           T300 370
+                                                119-91                  T300 380
+                                                109-93                  T300 390
+     IS 1ST D-T = DEFINE                          J114                  T300 400
+                                                70J4     9-82           T300 410
+                                          9-91 +  0         0           T300 420
+                                          9-92 +21-                     T300 430
+                                          9-93 +21DEFIN                 T300 440
+     NAME OF CURR-SENT ADDED TO           9-82  11T201                  T300 450
+     LIST OF DEF-SENT, 1T201                    11T198                  T300 460
+                                                  J65                   T300 470
+                                                11T198                  T300 480
+     SET TYPE = DEFINE ON                       10L130                  T300 490
+     D-LIST OF CUR-DEF-STATEMENT                10T100                  T300 500
+                                                  J11      J4           T300 510
+     9-85 DELETES NAMES OF DEF-SENT       9-85  11T200                  T300 520
+     FROM LIST OF ALL SENTENCES.                  J6                    T300 530
+                                                  J69      J4           T300 540
+                                          9-70  60T198                  T300 550
+     9-70 LOOKS UP, PARSES AND BUILDS           10L100                  T300 560
+     DICT-ENTRY FROM EACH DEF-SENT.               J6                    T300 570
+     T107 IS LOOKUP                               T107                  T300 580
+     T196 NAMES EQUIV LIST OF CUR-SENT          20T196                  T300 590
+                                                10L144                  T300 600
+     SET CUR-ACTION = PARSE                     20T199                  T300 610
+                                                11T198                  T300 620
+     PARSE THE CUR-DEF-STATEMENT                  U26                   T300 630
+     T195 NAMES STRUCTURED EQUIV                20T195                  T300 640
+                                                10L130                  T300 650
+     ACTION = DEFINE                            20T199                  T300 660
+     BUILD DICT-ENTRY FROM SENT.                  T102     J4           T300 670
+                                          9-60  60T198                  T300 680
+                                                10L100                  T300 690
+                                                  J6                    T300 700
+     LOOKUP                                       T107                  T300 710
+     SAVE EQUIV-LIST OF CUR-SENT                20T196                  T300 720
+                                                10L144                  T300 730
+     CUR-ACTION = PARSE                         20T199                  T300 740
+                                                11T198                  T300 750
+                                                  U26                   T300 760
+                                                60T195                  T300 770
+                                                  U199                  T300 780
+                                                  J150     J4           T300 790
+     U23 MAKES (APPOS) GOV OF CP          U23   11U81                   U023 010
+                                                10L138                  U023 020
+                                                10X30                   U023 030
+                                                  J11       0           U023 040
+     U24 SETS NOUN+N-PHR IN APPOS.        U24   10U82                   U024 010
+     DOES U82 HOLD N-PHR                          U32                   U024 020
+                                                70U67                   U024 030
+     ASSIGN N-PHR AS A-1 OF CP                    U53                   U024 040
+     ASSIGN NOUN AS A-2 OF CP                     U52                   U024 050
+     MAKE (APPOS) GOV OF CP                       U23                   U024 060
+                                                  U57     U61           U024 070
+     APPOSITION OF 2 NOUNS.               U25     U52                   U025 010
+                                                  U61                   U025 020
+                                                  U52                   U025 030
+     MAKE (APPOS) = GOV OF CP                     U23                   U025 040
+                                                  U57     U61           U025 050
+                                          U26   609-7                   U026 010
+                                                10U38                   U026 020
+     ERASE WORKING STORAGE.                     109-6                   U026 030
+                                                  J100                  U026 040
+     INVERT SENTENCE (0) INTO U83                 U30                   U026 050
+                                                  U75                   U026 060
+                                                  U51                   U026 070
+                                                  U50                   U026 080
+                                                  U35                   U026 090
+                                                119-7                   U026 100
+                                                11U90                   U026 110
+                                                10U99                   U026 120
+     ASSIGN PARCED STR TO SENT.                   J11                   U026 130
+     OUTPUT STRUCTURE                           11U90       0           U026 140
+                                          9-6   609-66                  U026 150
+                                                  J75                   U026 160
+     ERASE REMAINDER OF W.C. AND POP              J71                   U026 170
+                                                119-65                  U026 180
+                                                119-66                  U026 190
+                                                  J121     J8           U026 200
+                                          9-65    0         0           U026 210
+                                          9-66    0         0           U026 220
+                                          U27     U53                   U027 010
+                                                  U61                   U027 020
+                                                  U54                   U027 030
+                                                  U61                   U027 040
+                                                  U57       0           U027 050
+     U28 FEEDS SENTENCES TO PARCER        U28   10E0                    U028 010
+                                                  U26       0           U028 020
+                                          U30   10T196                  U030 010
+                                                  J10                   U030 020
+                                                70J4                    U030 030
+                                                109-5                   U030 040
+                                                  J100      0           U030 050
+                                          9-5   40U83                   U030 060
+                                                20U83      J4           U030 070
+                                          U31   10U82                   U031 010
+     DOES U82 HOLD NOUN PHRASE                    U32                   U031 020
