@@ -2927,3 +2927,243 @@
      DO 910 TO ARGUMENT NAMES                   10U80                   U199 200
                                                 10910                   U199 210
                                                   J100                  U199 220
+     BRING IN DSCN AND QUIT.                    11W0      J31           U199 230
+                                          9-10  04J0                    U199 240
+                                                11W1                    U199 250
+     FIND NEXT ARGUMENT                           J6                    U199 260
+                                                  J10                   U199 270
+     IF DOESNT EXIST, STOL GENERATOR.           700                     U199 280
+     IF IT EXISTS,                              40H0                    U199 290
+     TEST IF LOCAL                                J132                  U199 300
+     IF SO, DO 911 BEFORE 912.                  70        911           U199 310
+                                          913     J4                    U199 320
+                                                11W0                    U199 330
+     ADD ARG. TO END OF ARG. LIST                 J6                    U199 340
+                                                10X31     J13           U199 350
+                                          911     U199    913           U199 360
+                                          90    30H0                    U199 370
+     IF APPOSITION, FIND V(U1)                  11W1                    U199 380
+     AND SUBSTITUTE IT FOR (0).                 10U1                    U199 390
+                                                  J10                   U199 400
+                                                40H0                    U199 410
+                                                  J132                  U199 420
+                                                709-12                  U199 430
+                                                60W1       91           U199 440
+     SUBSTITUTE ARG. FOR LOCAL            912   11W0                    U199 450
+                                                  J9                    U199 460
+                                                60W0      J31           U199 470
+     FIND BIGGEST DIFFERENCE              X5      J43                   X005 010
+     BETWEEN DSNS (0) AND (1)                   20W0                    X005 020
+                                                60W1                    X005 030
+                                                10X30                   X005 040
+     FIND PROCESS OF (1)                          J10                   X005 050
+                                                11W0                    X005 060
+                                                10X30                   X005 070
+     FIND PROCESS OF (0)                          J10                   X005 080
+     COMPARE PROCESSES                            J2                    X005 090
+     IF EQUAL, COMPARE ARGUMENTS                70         90           X005 100
+     IF UNEQUAL, SIGNAL X62                     10X62     J33           X005 110
+     FIND ARG. LISTS OF (0) AND (1)       90      910                   X005 120
+     FIND NEXT ARGS. OF (0) AND (1)       92      911                   X005 130
+     NONE, GO TO 91                             7091                    X005 140
+     TEST ARGUMENT TYPES                          X6                    X005 150
+     IF UNEQUAL, EXIT WITH SIGNAL               70J33      92           X005 160
+     ALL TYPES EQUAL, TEST ARGS.          91      910                   X005 170
+     FIND NEXT ARGS, OF (0) AND (1)       93      911                   X005 180
+     NONE, GO TO 94                             7094                    X005 190
+                                                40H0                    X005 200
+                                                10X32                   X005 210
+     FIND ARGUMENT TYPE                           J10                   X005 220
+                                                70J7                    X005 230
+                                                10X37                   X005 240
+     TEST IF DETERMINER                           J2                    X005 250
+     IF NOT, FIND NEXT ARG.                     7093                    X005 260
+     IF SO, FIND BIGGEST DIFFERENCE               X5                    X005 270
+     SAVE DIFFERENCE SIGNAL                     40H0                    X005 280
+     TEST IF NO DIFFERENCE                      10X55                   X005 290
+                                                  J2                    X005 300
+     IF DIFFERENCE, EXIT WITH SIGNAL            7097                    X005 310
+     NO DIFFERENCE, FIND NEXT ARG.              30H0       93           X005 320
+     NO DETERMINER DIFFERENCES            94      910                   X005 330
+     FIND NEXT ARGS. OF (0) AND (1)               911                   X005 340
+     NONE, EXIT WITH X55                        7095                    X005 350
+                                                40H0                    X005 360
+     TEST IF NAMES                              10X36                   X005 370
+                                                  J2                    X005 380
+                                                7096                    X005 390
+     SIGNAL DIFFERENT NAMES                     10X66     J33           X005 400
+     SIGNAL DIFFERENT LOCATIONS           96    10X67     J33           X005 410
+     EXIT, NO DIFFERENCE                  95    10X55     J33           X005 420
+     FIND ARGUMENT LISTS                  910   11W0                    X005 430
+                                                10X31                   X005 440
+     FIND LIST OF (0)                             J10                   X005 450
+     AND PUT IN W2.                             20W2                    X005 460
+                                                11W1                    X005 470
+                                                10X31                   X005 480
+     FIND LIST OF (1),                            J10                   X005 490
+     AND PUT IN W3.                             20W3        0           X005 500
+     FIND NEXT ARGS. OF (0) AND (1)       911   11W2                    X005 510
+     FIND NEXT OF (0)                             J60                   X005 520
+     IF NONE, SET H5 -                          700                     X005 530
+                                                60W2                    X005 540
+                                                52H0                    X005 550
+                                                11W3                    X005 560
+     FIND NEXT OF (1)                             J60                   X005 570
+                                                70J7                    X005 580
+                                                60W3                    X005 590
+                                                52H0        0           X005 600
+     TEST TYPES OF ARGUMENTS (0), (1)     X6      J43                   X006 010
+     OUTPUT (0) IS DIFFERENCE, SET H5.          20W0                    X006 020
+                                                60W1                    X006 030
+                                                10X32                   X006 040
+     FIND ARGUMENT TYPE OF (1)                    J10                   X006 050
+     STORE IN W3                                60W3                    X006 060
+                                                11W0                    X006 070
+                                                10X32                   X006 080
+     FIND ARGUMENT TYPE OF (0)                    J10                   X006 090
+     STORE IN W2                                60W2                    X006 100
+     COMPARE ARGUMENT TYPES                       J2                    X006 110
+                                                70        J33           X006 120
+     UNEQUAL, TEST IF (0) DETERMINER            11W2                    X006 130
+                                                10X37                   X006 140
+                                                  J2                    X006 150
+                                                7091                    X006 160
+     SIGNAL (0) IS DETERMINER                   10X65      90           X006 170
+     TEST IF (0) IS A NAME                91    11W2                    X006 180
+                                                10X36                   X006 190
+                                                  J2                    X006 200
+                                                7092                    X006 210
+     SIGNAL (0) A NAME                          10X68      90           X006 220
+     IF (0) A LOCATION, SIGNAL X69        92    10X69     J33           X006 230
+                                          90      J5      J33           X006 240
+     FIND LARGEST DIFFERENCE              X7      J44                   X007 010
+     BETWEEN INPUT AND OUTPUT                   10X71                   X007 020
+     OF SDSC (0).  PUT DIFF. IN (0).              J10                   X007 030
+     PUT LIST OF AFFECTED CELLS IN W0.          60W0                    X007 040
+     FIND DIFFERENCE, NOT IN H0.                1090                    X007 050
+                                                  J100                  X007 060
+     EXIT IF FOUND                              70J34                   X007 070
+                                                11W0                    X007 080
+     FIND DIFFERENCE IN H0                      1091                    X007 090
+                                                  J100                  X007 100
+     EXIT IF FOUND                              70J34                   X007 110
+                                                  J90                   X007 120
+     IF NOT FOUND,                                J136                  X007 130
+                                                40H0                    X007 140
+     LEAVE NULL DIFFERENCE,                     10X80                   X007 150
+     V(X50)=X80, IN H0                          10X50                   X007 160
+                                                  J11     J34           X007 170
+     PUT AFFECTED CELL IN W1              90    64W1                    X007 180
+                                                10X41                   X007 190
+     FIND TYPE OF AFFECTED CELL                   J10                   X007 200
+     COPY AND SAVE ITS NAME                       J74                   X007 210
+                                                  J136                  X007 220
+                                                40H0                    X007 230
+                                                10X32                   X007 240
+                                                  J10                   X007 250
+     TEST IF H0                                 10X35                   X007 260
+                                                  J2                    X007 270
+     IF SO, EXIT.                               7092       J8           X007 280
+     IF NOT, CREATE DIFFERENCE,           92      J90                   X007 290
+                                                  J136                  X007 300
+     SAVE ITS NAME IN W2,                       60W2                    X007 310
+                                                  J6                    X007 320
+     ASSIGN TYPE OF CELL                        10X41                   X007 330
+                                                  J11                   X007 340
+                                                11W1                    X007 350
+     FIND TYPE OF DIFFERENCE                      93                    X007 360
+                                                11W2                    X007 370
+                                                  J6                    X007 380
+                                                10X50                   X007 390
+     ASSIGN TYPE TO 1W2                           J11                   X007 400
+     BRING DIFFERENCE IN, AND QUIT              11W2       J3           X007 410
+     FIND TYPE OF AFFECTED CELL           91    64W1                    X007 420
+                                                10X41                   X007 430
+                                                  J10                   X007 440
+     COPY ITS NAME                                J74                   X007 450
+                                                  J136                  X007 460
+                                                  J3       92           X007 470
+     SAVE AFFECTED CELL                   93    44H0                    X007 480
+                                                10X75                   X007 490
+                                                  J10                   X007 500
+     FIND ITS FIRST INPUT SYMBOL,                 J81                   X007 510
+                                                10X45                   X007 520
+                                                  J10                   X007 530
+     AND SAVE IN W3.                            20W3                    X007 540
+     SAVE AFFECTED CELL                         40H0                    X007 550
+                                                10X76                   X007 560
+                                                  J10                   X007 570
+     FIND ITS FIRST OUTPUT SYMBOL                 J81                   X007 580
+                                                10X45                   X007 590
+                                                  J10                   X007 600
+                                                11W3                    X007 610
+     COMPARE SYMBOLS                              U107                  X007 620
+                                                7094                    X007 630
+     IF IDENTICAL,                              30H0                    X007 640
+     CALL DIFFERENCE (COPY)                     10X84       0           X007 650
+     NOT IDENTICAL,                       94    40H0                    X007 660
+     COUNT LIST X75                             10X75                   X007 670
+                                                  J10                   X007 680
+                                                  J126                  X007 690
+                                                20W3                    X007 700
+     COUNT LIST X76                             10X76                   X007 710
+                                                  J10                   X007 720
+                                                  J126                  X007 730
+                                                60W4                    X007 740
+                                                11W3                    X007 750
+                                                  J114                  X007 760
+     IF LISTS EQUAL                             7095                    X007 770
+     CALL DIFFERENCE (REPLACE)                  10X83       0           X007 780
+                                          95    11W3                    X007 790
+                                                11W4                    X007 800
+                                                  J115                  X007 810
+     IF 1W4 LARGER,                             7096                    X007 820
+     CALL DIFFERENCE (ADD)                      10X82       0           X007 830
+     IF SMALLER, (DELETE)                 96    10X81       0           X007 840
+                                        5        5                     000 000 C
+                                          T10                         T010 010 C
+                                          T11     9-0       0         T011 010 C
+                                          9-0  + 1          0         T011 020 C
+                                          T12     9-0       0         T012 010 C
+                                          9-0  + 1          0         T012 020 C
+                                          T13                         T013 010 C
+                                          T14     9-0       0         T014 010 C
+                                          9-0  + 1          0         T014 020 C
+                                          T15     9-0       0         T015 010 C
+                                          9-0  + 1          0         T015 020 C
+                                          T16                         T016 010 C
+                                          T17                         T017 010 C
+                                          T18     J3                  T018 010 C
+                                          T19               0         T019 010 C
+     ALPHABETIC 1ST CHARACTERS            T30               0         T030 010 C
+                                                  0                   T030 020 C
+     ACTION=SET ORIGIN + ADV COL BY 1             T0                  T030 030 C
+                                                  T64                 T030 040 C
+     TYPE=REGIONAL                                T1                  T030 050 C
+                                                  T24                 T030 060 C
+     NEXT TABLE = T41                             T2                  T030 070 C
+                                                  T41       0         T030 080 C
+     ALPHABETIC 2ND CHARACTERS            T31               0         T031 010 C
+                                                  0                   T031 020 C
+     ACTION = ADVANCE COL BY 1                    T0                  T031 030 C
+                                                  T54                 T031 040 C
+     TYPE = ALPHABETIC                            T1                  T031 050 C
+                                                  T20       0         T031 060 C
+     NUMERIC 1ST CHARACTERS               T32               0         T032 010 C
+                                                  0                   T032 020 C
+     ACTION = SET ORIGIN + ADV COL                T0                  T032 030 C
+                                                  T64                 T032 040 C
+     TYPE = INTEGER                               T1                  T032 050 C
+                                                  T26                 T032 060 C
+     NEXT TABLE = T41                             T2                  T032 070 C
+                                                  T41       0         T032 080 C
+     WORD BOUNDARY PUNCT. (),=+-.BLANKS   T33               0         T033 010 C
+     AS 2ND CHAR                                  0                   T033 020 C
+     ACTION=SET FIELD END AT COL-1                T0                  T033 030 C
+     AND OUTPUT FIELD                             T67                 T033 040 C
+     SET NEXT TABLE=T40                           T2                  T033 050 C
+                                                  T40       0         T033 060 C
+     SENTENCE TERMINATING PUNCT .$        T34               0         T034 010 C
+     AS 1ST CHAR.                                 0                   T034 020 C
+     ACTION=MARK ORIGIN, MARK END                 T0                  T034 030 C
+     OUTPUT FIELD, ADVANCE                        T68                 T034 040 C
