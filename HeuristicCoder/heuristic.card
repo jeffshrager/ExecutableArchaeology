@@ -3647,3 +3647,243 @@
                                                   L19                 X002 060 D
                                                   X34                 X002 070 D
                                                   N1        0         X002 080 D
+     VARIABLE S0                          X3      90        0         X003 010 D
+                                          90      0                   X003 020 D
+                                                  X32                 X003 030 D
+                                                  X39                 X003 040 D
+                                                  X33                 X003 050 D
+                                                  L19                 X003 060 D
+                                                  X34                 X003 070 D
+                                                  N0        0         X003 080 D
+     VARIABLE S2                          X4      90        0         X004 010 D
+                                          90      0                   X004 020 D
+                                                  X32                 X004 030 D
+                                                  X39                 X004 040 D
+                                                  X33                 X004 050 D
+                                                  L19                 X004 060 D
+                                                  X34                 X004 070 D
+                                                  N2        0         X004 080 D
+     DSCN (DESCRIPTIVE NAME)              X20     0         0         X020 010 D
+     LDEF (L-DEFINITION)                  X21     0         0         X021 010 D
+     JDEF (J-DEFINITION)                  X22     0         0         X022 010 D
+     ASOJ (ASSOCIATED J)                  X23     0         0         X023 010 D
+     SDSC OF ROUTINE                      X24     0         0         X024 010 D
+     IPLN OF ROUTINE                      X25     0         0         X025 010 D
+     PROCESS                              X30     0         0         X030 010 D
+     LIST OF ARGUMENTS                    X31     0         0         X031 010 D
+     TYPE (OF ARGUMENT)                   X32     0         0         X032 010 D
+     REGION                               X33     0         0         X033 010 D
+     LOCATION                             X34     0         0         X034 010 D
+     MEMBER OF H0 LIST                    X35     0         0         X035 010 D
+     NAMED SYMBOL                         X36     0         0         X036 010 D
+     DETERMINER                           X37     0         0         X037 010 D
+     UNKNOWN CONSTANT                     X38     0         0         X038 010 D
+     VARIABLE                             X39     0         0         X039 010 D
+     TYPE (OF IPL WORD)                   X40     0         0         X040 010 D
+     NAME                                 X41     0         0         X041 010 D
+     SIGN                                 X42     0         0         X042 010 D
+     P-PREFIX                             X43     0         0         X043 010 D
+     Q-PREFIX                             X44     0         0         X044 010 D
+     SYMB                                 X45     0         0         X045 010 D
+     LINK                                 X46     0         0         X046 010 D
+     TYPE OF DIFFERENCE                   X50     0         0         X050 010 D
+     TEST FOR DIFFERENCE                  X51     0         0         X051 010 D
+     NO DIFFERENCE                        X55     0         0         X055 010 D
+     JDEF ABSENT                          X60     0         0         X060 010 D
+     LDEF ABSENT                          X61     0         0         X061 010 D
+     DSCN-WRONG FUNCTION NAME             X62     0         0         X062 010 D
+     DSCN-WRONG ARGUMENT TYPE             X63     0         0         X063 010 D
+     LDEF HAS CONNECTIVE                  X64     0         0         X064 010 D
+     DSCN-DETERM. FOR OTHER               X65     0         0         X065 010 D
+     DSCN-ONE NAME FOR OTHER              X66     0         0         X066 010 D
+     DSCN-ONE LOC FOR OTHER               X67     0         0         X067 010 D
+     DSCN-NAME FOR LOCATION               X68     0         0         X068 010 D
+     DSCN-LOCATION FOR NAME               X69     0         0         X069 010 D
+     OPERATOR ROUTINE                     X70     0         0         X070 010 D
+     LIST OF AFFECTED CELLS OF SDSC       X71     0         0         X071 010 D
+     INPUT STATE OF CELL                  X75     0         0         X075 010 D
+     OUTPUT STATE OF CELL                 X76     0         0         X076 010 D
+     SDSC - NO DIFFERENCE                 X80     0         0         X080 010 D
+     SDSC - DELETION                      X81     0         0         X081 010 D
+     SDSC - ADDITION                      X82     0         0         X082 010 D
+     SDSC - REPLACEMENT                   X83     0         0         X083 010 D
+     SDSC - COPY                          X84     0         0         X084 010 D
+     INDEX TO RELEVANT ROUTINES           X90     90        0         X090 010 D
+                                          90      0                   X090 020 D
+     LIST OF ADD ROUTINES                         X82                 X090 030 D
+                                                  91                  X090 040 D
+     LIST OF REPLACE ROUTINES                     X83                 X090 050 D
+                                                  92        0         X090 060 D
+                                          91      93        0         X090 070 D
+     ADD.                                 93      0                   X090 080 D
+     H0 IS AFFECTED CELL                          X35                 X090 090 D
+                                                  X107      0         X090 100 D
+                                          92      94        0         X090 110 D
+     REPLACE.                             94      0                   X090 120 D
+     NAMED CELL IS AFFECTED CELL                  X36                 X090 130 D
+                                                  X106      0         X090 140 D
+     ROUT. INSERT (1) AT END OF           X100    90        0         X100 010 D
+     VALUE LIST OF ATTRIBUTE              90      0                   X100 020 D
+                                                  X25                 X100 030 D
+                                                  97                  X100 040 D
+     (0) OF (2).                                  X20                 X100 050 D
+     DSCN IS 91.                                  91        0         X100 060 D
+                                          91      92        0         X100 070 D
+                                          92      0                   X100 080 D
+     PROCESS IS X110                              X30                 X100 090 D
+                                                  X110                X100 100 D
+                                                  X31                 X100 110 D
+                                                  93        0         X100 120 D
+     ARGS. ARE                            93      0                   X100 130 D
+     X120                                         X120                X100 140 D
+     X121                                         X121      0         X100 150 D
+                                          97      99        0         X100 160 D
+                                          99      0                   X100 170 D
+     SYMB. = J13                                  X33                 X100 180 D
+                                                  L10                 X100 190 D
+                                                  X34                 X100 200 D
+                                                  N13       0         X100 210 D
+     ROUT. INSERT (0) AT END OF (1)       X101    90        0         X101 010 D
+                                          90      0                   X101 020 D
+                                                  X20                 X101 030 D
+                                                  91                  X101 040 D
+     JDEF IS 94                                   X22                 X101 050 D
+                                                  94        0         X101 060 D
+                                          91      92        0         X101 070 D
+                                          92      0                   X101 080 D
+     PROCESS IS X110                              X30                 X101 090 D
+                                                  X110                X101 100 D
+                                                  X31                 X101 110 D
+                                                  93        0         X101 120 D
+                                          93      0                   X101 130 D
+                                                  X122                X101 140 D
+                                                  X120      0         X101 150 D
+                                          94      0                   X101 160 D
+                                                  95        0         X101 170 D
+                                          95      96        0         X101 180 D
+                                          96      0                   X101 190 D
+     J65                                          X45                 X101 200 D
+                                                  97                  X101 210 D
+                                                  X46                 X101 220 D
+                                                  98        0         X101 230 D
+                                          97      99        0         X101 240 D
+     PROCESS J65                          99      0                   X101 250 D
+                                                  X33                 X101 260 D
+                                                  L10                 X101 270 D
+                                                  X34                 X101 280 D
+                                                  N65       0         X101 290 D
+                                          98      910       0         X101 300 D
+     LINK 0                               910     0                   X101 310 D
+                                                  X33                 X101 320 D
+                                                  N0        0         X101 330 D
+     ROUT. FIND V((0),(1))                X102    90        0         X102 010 D
+                                          90      0                   X102 020 D
+                                                  X32                 X102 030 D
+     TYPE--DETERMINER                             X37                 X102 040 D
+                                                  X20                 X102 050 D
+                                                  91                  X102 060 D
+     JDEF IS 94                                   X22                 X102 070 D
+                                                  94        0         X102 080 D
+                                          91      92                  X102 090 D
+     VERB                                         920       0         X102 100 D
+                                          92      0                   X102 110 D
+     PROCESS IS X111. FIND VALUE                  X30                 X102 120 D
+                                                  X111                X102 130 D
+                                                  X31                 X102 140 D
+                                                  93        0         X102 150 D
+     ARGS. ARE                            93      0                   X102 160 D
+     X122.   (0)                                  X122                X102 170 D
+     X120.   (1)                                  X120      0         X102 180 D
+                                          94      0                   X102 190 D
+                                                  95        0         X102 200 D
+                                          95      96        0         X102 210 D
+                                          96      0                   X102 220 D
+                                                  X45                 X102 230 D
+                                                  97                  X102 240 D
+                                                  X46                 X102 250 D
+                                                  98        0         X102 260 D
+                                          97      99        0         X102 270 D
+     PROCESS J10                          99      0                   X102 280 D
+                                                  X33                 X102 290 D
+                                                  L10                 X102 300 D
+                                                  X34                 X102 310 D
+                                                  N10       0         X102 320 D
+                                          98      910       0         X102 330 D
+     LINK 0                               910     0                   X102 340 D
+                                                  X33                 X102 350 D
+                                                  N0        0         X102 360 D
+     VERB (FIND)                          920   21FIND                X102 370 D
+     ROUT. TESTN IF (0) LESS THAN N0      X103    90        0         X103 010 D
+                                          90      0                   X103 020 D
+                                                  X20                 X103 030 D
+                                                  91                  X103 040 D
+                                                  X22                 X103 050 D
+                                                  94        0         X103 060 D
+                                          91      92        0         X103 070 D
+                                          92      0                   X103 080 D
+                                                  X30                 X103 090 D
+     PROCESS IS X112 TESTN, LESS                  X112                X103 100 D
+                                                  X31                 X103 110 D
+                                                  93        0         X103 120 D
+     ARGUMENTS                            93      0                   X103 130 D
+     (0)                                          X122                X103 140 D
+     N0                                           X124      0         X103 150 D
+                                          94      0         0         X103 160 D
+     ROUT. TESTN IF (0) LESS THAN (1)     X104    90        0         X104 010 D
+                                          90      0                   X104 020 D
+                                                  X20                 X104 030 D
+                                                  91                  X104 040 D
+                                                  X22                 X104 050 D
+                                                  94        0         X104 060 D
+                                          91      92        0         X104 070 D
+                                          92      0                   X104 080 D
+                                                  X30                 X104 090 D
+     PROCESS IS X112  TESTN, LESS                 X112                X104 100 D
+                                                  X31                 X104 110 D
+                                                  93        0         X104 120 D
+                                          93      0                   X104 130 D
+                                                  X122                X104 140 D
+                                                  X120      0         X104 150 D
+                                          94      0                   X104 160 D
+                                                  95        0         X104 170 D
+                                          95      96        0         X104 180 D
+                                          96      0                   X104 190 D
+                                                  X45                 X104 200 D
+                                                  97                  X104 210 D
+                                                  X46                 X104 220 D
+                                                  98        0         X104 230 D
+                                          97      99        0         X104 240 D
+                                          99      0                   X104 250 D
+                                                  X33                 X104 260 D
+                                                  L10                 X104 270 D
+                                                  X34                 X104 280 D
+                                                  N116      0         X104 290 D
+                                          98      910       0         X104 300 D
+                                          910     0                   X104 310 D
+                                                  X33                 X104 320 D
+                                                  N0        0         X104 330 D
+     J3. REPLACE TOP OF H5 WITH J3.       X105    90        0         X105 010 D
+                                          90      0                   X105 020 D
+                                                  X20                 X105 030 D
+                                                  920                 X105 040 D
+                                                  X25                 X105 050 D
+                                                  91                  X105 060 D
+                                                  X24                 X105 070 D
+                                                  92        0         X105 080 D
+     IPLN OF J3                           91      93        0         X105 090 D
+                                          93      0                   X105 100 D
+                                                  X33                 X105 110 D
+                                                  L10                 X105 120 D
+                                                  X34                 X105 130 D
+                                                  N3        0         X105 140 D
+     SDSC OF J3                           92      94        0         X105 150 D
+                                          94      0                   X105 160 D
+                                                  X71                 X105 170 D
+                                                  95        0         X105 180 D
+                                          95      0                   X105 190 D
+     AFFECTED CELL IS 97                          97        0         X105 200 D
+                                          97      98        0         X105 210 D
+                                          98      0                   X105 220 D
+                                                  X41                 X105 230 D
+                                                  X175                X105 240 D
+                                                  X75                 X105 250 D
