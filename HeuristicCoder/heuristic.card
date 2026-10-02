@@ -767,3 +767,531 @@
                                                 20U83      J4           U030 070
                                           U31   10U82                   U031 010
      DOES U82 HOLD NOUN PHRASE                    U32                   U031 020
+     YES, TO 9-5.                         9-1   70        9-5           U031 030
+                                                10U99                   U031 040
+                                                40U86                   U031 050
+                                                20U86       0           U031 060
+                                          9-5   10U86                   U031 070
+                                                10U82                   U031 080
+     ASSIGN C(U82) AS A-SUB-I OF C(U86)           U33     9-1           U031 090
+                                          U32     J50                   U032 010
+                                                12W0                    U032 020
+                                                119-9                   U032 030
+                                                  J2                    U032 040
+                                                70        9-1           U032 050
+                                                12W0                    U032 060
+                                                119-8                   U032 070
+                                                  J2                    U032 080
+                                          9-1     J5      J30           U032 090
+                                          9-8     U99       0           U032 100
+                                          9-9     0         0           U032 110
+     U33---ASSIGN C(0) AS A-SUB-I ON      U33     J51                   U033 010
+     C(1).                                      12W1                    U033 020
+                                                10U0                    U033 030
+     GET A-SUB-I OF C(1).                         J10                   U033 040
+                                                70J7                    U033 050
+                                                40H0                    U033 060
+     LEAVE                                      10U80                   U033 070
+     NEXT                                         J6                    U033 080
+     A-SUB-I                                      J62                   U033 090
+     AS                                           J60                   U033 100
+     VALUE                                      70J7                    U033 110
+     OF                                         52H0                    U033 120
+     U0                                         12W1                    U033 130
+     ON                                           J6                    U033 140
+                                                10U0                    U033 150
+                                                  J11                   U033 160
+                                                12W1                    U033 170
+                                                  J6                    U033 180
+                                                12W0                    U033 190
+                                                  J6                    U033 200
+                                                  J11                   U033 210
+                                                31W0      J31           U033 220
+                                          U34   10U39                   U034 010
+                                                109-5                   U034 020
+                                                  J100      0           U034 030
+                                          9-5     J147     J4           U034 040
+                                          U35     J0                    U035 010
+                                          9-1   10U90                   U035 020
+                                                  U32                   U035 030
+                                                70          0           U035 040
+                                                10U83                   U035 050
+                                                  J80                   U035 060
+                                                700                     U035 070
+                                                  J8                    U035 080
+                                                  U70     9-1           U035 090
+     MONITOR POINT PRINT-OUT              U36   10U38                   U036 010
+                                                109-1                   U036 020
+                                                  J100      0           U036 030
+                                          9-1     J150     J4           U036 040
+                                          U37     U54                   U037 010
+                                                  U53                   U037 020
+                                                  U61                   U037 030
+                                                  U59       0           U037 040
+     U40---ASSIGN ALL PREP-PHR AS         U40   10U85                   U040 010
+     A-SUB-I OF CP.                               U78       0           U040 020
+     ASSIGN(0)AS VALUE OF A-SUB-I (2U80)  U44   11U81                   U044 010
+     ON C-PH (1U81).                              J6                    U044 020
+                                                12U80                   U044 030
+                                                  J11     U50           U044 040
+     U45---PUT CP ON PREDICATE LIST       U45   11U81                   U045 010
+                                                40U86                   U045 020
+                                                20U86                   U045 030
+     AS VALUE OF U0 ON CP FOR                   11U86                   U045 040
+     LATER USE BY SUBJECT, IF ANY.              12U80                   U045 050
+                                                10U0                    U045 060
+                                                  J11       0           U045 070
+     SET CW=CW+1 BUT GOTO 9-50 IF DONE.   U46     U61                   U046 010
+                                                11U83                   U046 020
+                                                40H0                    U046 030
+                                                  U32                   U046 040
+                                                709-50                  U046 050
+     GET PART-OF-SP OF CW.                      10A120                  U046 060
+                                                  J10                   U046 070
+                                                70J7                    U046 080
+                                                40H0                    U046 090
+     IS C-W A RELATIVE PRONOUN                  10A115                  U046 100
+                                                  J2                    U046 110
+                                                709-80   9-70           U046 120
+                                          9-50  30H0      U47           U046 130
+     CREATE NEW CP.                       9-70    J8                    U046 140
+                                                  U75                   U046 150
+     MAKE REL-PRONOUN GOV OF NEW CP,              U54                   U046 160
+     AND MAKE PREDICATE=A1.                       U51                   U046 170
+                                                  U50                   U046 180
+                                                11U86                   U046 190
+                                                  U44                   U046 200
+     RST PREDICATE LIST                         30U86                   U046 210
+                                                40U89                   U046 220
+                                                11U81                   U046 230
+     SIGNAL REL-CLAUSE AVAILABLE.               20U89                   U046 240
+     SET CW=CW+1 BUT CLEANUP IF DONE              U61                   U046 250
+                                                70U47                   U046 260
+     IF CW=COMMA, DO U31                  9-80  10A117                  U046 270
+                                                  J2                    U046 280
+                                                709-85                  U046 290
+     ISOLATE CONTEXT                              U31                   U046 300
+                                                  U61                   U046 310
+                                          9-85    U51                   U046 320
+                                                  U50                   U046 330
+                                                  U75       0           U046 340
+                                          U47   10U82                   U047 010
+     DOES U82 HOLD NOUN PHRASE                    U32                   U047 020
+     YES, TO 9-50                               70       9-50           U047 030
+                                          9-1   10U86                   U047 040
+     DOES U86 HOLD PREDICATE                      U32                   U047 050
+     NO, HALT                                   70J7                    U047 060
+                                                11U86                   U047 070
+                                                20U90                   U047 080
+                                                30U81                   U047 090
+                                                30U82                   U047 100
+                                                30U86       0           U047 110
+                                          9-50  10U86                   U047 120
+                                                10U82                   U047 130
+                                                  U33     9-1           U047 140
+     ASSIGN NOUN AS A-SUB-I ON            U48   10U86                   U048 010
+     TOP PREDICATE.                             10U82                   U048 020
+                                                  U33                   U048 030
+                                                11U86                   U048 040
+     ASSIGN TOP 2 PREDICATES                      U44                   U048 050
+     AS A-SUB-I OF IF CLAUSE.                   30U86                   U048 060
+                                                30U86                   U048 070
+                                                11U86                   U048 080
+                                                  U44                   U048 090
+     ASSIGN IF AS GOV OF SENT.                    U54                   U048 100
+                                                  U61                   U048 110
+                                                  U51                   U048 120
+                                                  U50                   U048 130
+                                                11U81                   U048 140
+                                                30U81                   U048 150
+                                                30U82                   U048 160
+                                                30U86                   U048 170
+                                                20U90       0           U048 180
+                                          U49   11U83                   U049 010
+                                                20U82                   U049 020
+                                                  U61                   U049 030
+                                                  U48       0           U049 040
+     U50---LOCATE NEXT OF 1U80 AND        U50   11U80                   U050 010
+     STORE IN U80.                                J60                   U050 020
+                                                700                     U050 030
+                                                20U80       0           U050 040
+     U51---RESET A-SUB-I TO A-1           U51   10U80                   U051 010
+                                                20U80       0           U051 020
+     U52---ASSIGN CURRENT WORD (1U83)     U52   11U81                   U052 010
+     AS VALUE OF ARG (2U80) ON                  11U83                   U052 020
+     CURRENT PHRASE (1U81).                     12U80                   U052 030
+                                                  J11     U50           U052 040
+     U53---ASSIGN 1ST UNATTACHED        1                               U053 000
+     PHRASE (1U82) AS VALUE OF            U53   11U81                   U053 010
+     ARG (2U80) ON CURRENT                      11U82                   U053 020
+     PHRASE (1U81).                             12U80                   U053 030
+                                                30U82                   U053 040
+                                                  J11     U50           U053 050
+     U54---ASSIGN CURRENT WORD (1U83)     U54   11U81                   U054 010
+     AS VALUE OF (GOV) ON                       11U83                   U054 020
+     CURRENT PHRASE (1U81)                      10X30                   U054 030
+                                                  J11       0           U054 040
+     SWITCH ON P-SPCH OF CW+1.            U55   00U71                   U055 010
+                                                709-2                   U055 020
+                                                10A120                  U055 030
+                                                  J10                   U055 040
+                                                109-0                   U055 050
+                                                  J6                    U055 060
+                                                  J10                   U055 070
+                                                70J7                    U055 080
+                                                  J1        0           U055 090
+                                          9-0     9-1       0           U055 100
+                                          9-1     0                     U055 110
+     IF NOUN, DO APPOSITION                       A102                  U055 120
+                                                  U25                   U055 130
+     IF=OF, DO U56.                               A112                  U055 140
+                                                  U56                   U055 150
+     IF=PREPOSITION, DO U66.                      A113                  U055 160
+                                                  U66                   U055 170
+     TRANS-VERB                                   A106                  U055 180
+                                                  U24                   U055 190
+     IF COMMA, DO U97                             A117                  U055 200
+                                                  U97                   U055 210
+                                                  A125                  U055 220
+     IF---DO U98                                  U98                   U055 230
+     INTRANS-VERB                                 A107                  U055 240
+                                                  U24                   U055 250
+     IF=ADJ, DO U76.                              A103                  U055 260
+                                                  U76                   U055 270
+     IF=IF, DO U49.                               A116                  U055 280
+                                                  U49       0           U055 290
+                                          9-2   40U82                   U055 300
+                                                11U83                   U055 310
+                                                20U82                   U055 320
+                                                  U61                   U055 330
+                                                  U47       0           U055 340
+     ASSIGN CW AS VALUE OF A-SUB-I        U56     U52                   U056 010
+     ON CURRENT PHRASE.  SET CW=CW+2,             U62                   U056 020
+     ASSIGN CW AS GOV OF CP, AND SET              U54                   U056 030
+     CW=CW+1.                                     U61                   U056 040
+     PUT CP ON AVAILABLE LIST.                    U57       0           U056 050
+     U57---PUT CURRENT PHRASE (1U81)      U57   40U82                   U057 010
+     ON AVAILABLE LIST (1U82)                   11U81                   U057 020
+     AND CREATE NEW C-PHRASE.                     J136                  U057 030
+                                                20U82                   U057 040
+                                                  U75                   U057 050
+     RESET A-SUB-I TO A-1.                        U51                   U057 060
+                                                  U50       0           U057 070
+     U58---IGNORE C-WD, SET CW=           U58     U61                   U058 010
+     CW+1, PUT C-PHRASE A-LIST.                   U57       0           U058 020
+     U59---PUT CUR-PHRASE (1U81) ON       U59   40U85                   U059 010
+     PREP-PHRASE LIST(U85), CREATE              11U81                   U059 020
+     NEW CP, RESET A-SUB-I.                     20U85                   U059 030
+                                                  U75                   U059 040
+                                                  U51                   U059 050
+                                                  U50       0           U059 060
+                                          U61     U71                   U061 010
+                                                51U83                   U061 020
+                                                40U84                   U061 030
+                                                20U84                   U061 040
+                                                30U83       0           U061 050
+     U62---ADVANCE CW TO CW+2             U62     U61                   U062 010
+                                                700                     U062 020
+                                                  U61       0           U062 030
+     U63---ADVANCE CW TO CW+3             U63     U62                   U063 010
+                                                700                     U063 020
+                                                  U61       0           U063 030
+     U66---ASSIGN C-W AS A-SUB-I, SET     U66     U52                   U066 010
+     CW=CW+1, ASSIGN CW AS GOV, SET               U61                   U066 020
+     CW=CW+1, PUT CP ON PREP-PHRASE.              U54                   U066 030
+                                                  U61                   U066 040
+                                                  U59       0           U066 050
+     U67---ASSIGN C-W AS A-SUB-I,         U67     U52                   U067 010
+     SET CW=CW+1, ASSIGN CW AS GOV,               U61                   U067 020
+     ASSIGN PREP-PHR IF ANY.                      U54                   U067 030
+                                                  U40                   U067 040
+     PUT C-P ON PREDICATE LIST                    U45                   U067 050
+                                                  U46       0           U067 060
+                                          U70   11U83                   U070 010
+     SWITCH ON PART-SP OF CURRENT-WORD          10A120                  U070 020
+                                                  J10                   U070 030
+                                                109-0                   U070 040
+                                                  J6                    U070 050
+                                                  J10                   U070 060
+                                                70J7                    U070 070
+                                                  J1        0           U070 080
+                                          9-0  +  9-1       0           U070 090
+                                          9-1  +  0                     U070 100
+     IF=NOUN, DO U55.                             A102                  U070 110
+                                                  U55                   U070 120
+     IF=ADJ, DO U55.                              A103                  U070 130
+                                                  U55                   U070 140
+     IF=ARTICLE, DO U58.                          A114                  U070 150
+                                                  U58                   U070 160
+     IF=VERB-TRANSITIVE, DO U77.                  A106                  U070 170
+                                                  U77                   U070 180
+                                                  A107                  U070 190
+                                                  U77                   U070 200
+                                                  A112                  U070 210
+                                                  U27                   U070 220
+     IF=PREPOSITION, DO U66.                      A113                  U070 230
+                                                  U37                   U070 240
+     IF = PERIOD, ADVANCE TO NEXT.                A118                  U070 250
+                                                  U61                   U070 260
+     IF = QUOTE, DO U94                           A126                  U070 270
+                                                  U94                   U070 280
+     IF=IF, DO U48.                               A116                  U070 290
+                                                  U48       0           U070 300
+     U71---GET CW+1                       U71   10U83                   U071 010
+                                                  J81       0           U071 020
+     U72---GET CW+2                       U72   10U83                   U072 010
+                                                  J82       0           U072 020
+     U73---GET CW+3                       U73   10U83                   U073 010
+                                                  J83       0           U073 020
+     U75---CREATE NEW CUR-PHRASE.         U75     J90                   U075 010
+                                                  J136                  U075 020
+                                                20U81       0           U075 030
+     CW=GOV OF CP.                        U76     U54                   U076 010
+     SET CW=CW+1.                                 U61                   U076 020
+                                                  U71                   U076 030
+                                                10A120                  U076 040
+                                                  J10                   U076 050
+                                                109-0                   U076 060
+                                                  J6                    U076 070
+                                                  J10                   U076 080
+                                                709-2                   U076 090
+                                                  J1        0           U076 100
+                                          9-2     U52                   U076 110
+                                                  U57       0           U076 120
+                                          9-0     9-1       0           U076 130
+                                          9-1     0                     U076 140
+     ASSIGN CW=GOV                        U77     U54                   U077 010
+     ASSIGN CONTENTS OF U82 AS A-SUB-I          10U82                   U077 020
+     TILL U82 EMPTY.                              U78                   U077 030
+     ASSIGN ALL PREP-PHR, IF ANY                  U40                   U077 040
+     PUT C-P ON PREDICATE LIST                    U45                   U077 050
+     CK FOR REL-PRONOUN.                          U46       0           U077 060
+     U78 ASSIGNS MEMBERS OF LIST (0)      U78     J50                   U078 010
+     AS A-SUB-I OF CP TILL LIST           9-1   12W0                    U078 020
+     EMPTY.                                     119-8                   U078 030
+                                                  J2                    U078 040
+                                                70        J30           U078 050
+                                                12W0                    U078 060
+                                                119-9                   U078 070
+                                                  J2                    U078 080
+                                                70        J30           U078 090
+                                                12W0                    U078 100
+                                                  U44                   U078 110
+                                                31W0      9-1           U078 120
+                                          9-8     0         0           U078 130
+                                          9-9     U99       0           U078 140
+                                          U94     U72                   U094 010
+                                                11U83                   U094 020
+                                                  J2                    U094 030
+     STOP IF CW+2 NOT ALSO QUOTE                70J7                    U094 040
+                                                  U73                   U094 050
+     ASSUME VERB = DEFINE IF MISSING            70       9-90           U094 060
+                                                10L130                  U094 070
+                                                20U83                   U094 080
+     (DEFINE) = GOV OF CP                         U54                   U094 090
+                                                  U61                   U094 100
+     DEFINIENDUM = A1 OF CP                       U52                   U094 110
+     DEFINIENS = A2 OF CP                         U40                   U094 120
+                                                11U81                   U094 130
+                                                20U90                   U094 140
+                                                  U62       0           U094 150
+     ASSUME EXPLICIT VERB HERE            9-90    U73                   U094 160
+                                                20U83                   U094 170
+                                                  U54                   U094 180
+                                                  U61                   U094 190
+                                                  U52                   U094 200
+                                                  U40                   U094 210
+                                                  U63       0           U094 220
+     U95 --- ASSIGNS CLAUSE (1U86) OR     U95   10U86                   U095 010
+     PHRASE (1U82) AS A-SUB-I OF                  U32                   U095 020
+     (AND) PHR (1U91)                           70       9-90           U095 030
+                                                10U82                   U095 040
+                                                  U32                   U095 050
+                                                70J7                    U095 060
+                                                10U91                   U095 070
+                                                10U82                   U095 080
+                                                  U33       0           U095 090
+                                          9-90  10U91                   U095 100
+                                                10U86                   U095 110
+                                                  U33       0           U095 120
+                                          U96   03J0                    U096 010
+                                                11U81                   U096 020
+                                                40U91                   U096 030
+     CUR-PHR BECOMES (AND) PHR                  20U91                   U096 040
+                                                10L131                  U096 050
+                                                20U83                   U096 060
+     MAKE (AND) GOV OF CP                         U54                   U096 070
+                                                11U91                   U096 080
+                                                12U80                   U096 090
+                                                10U0                    U096 100
+     NEXT A-SUB-I KEPT ON (AND) PHR               J11                   U096 110
+                                                  U51                   U096 120
+                                                  U50                   U096 130
+                                                  U75                   U096 140
+     ASSIGN CLAUSE OR PHR AS A-I.                 U95       0           U096 150
+     U97--- (AND) PHR AT U55            1                               U097 000
+     ASSIGN CW AS A-SUB-I ON PRED         U97   10U86                   U097 010
+                                                10U83                   U097 020
+                                                  U33                   U097 030
+                                                10U91                   U097 040
+                                                  U32                   U097 050
+                                                70       9-90           U097 060
+                                                  U96                   U097 070
+     SET CW=CW+1                                  U61       0           U097 080
+     ASSIGN CLAUSE OR PHR TO (AND) PHR    9-90    U95                   U097 090
+                                                  U61       0           U097 100
+     ASSIGN CW AS A-SUB-I OF PRED.(SUBJ)  U98   10U86                   U098 010
+                                                10U83                   U098 020
+                                                  U33                   U098 030
+                                                10U91                   U098 040
+                                                  U32                   U098 050
+     TO 9-90 IF (AND) FUNCTION WAITING          70       9-90           U098 060
+                                                40U85                   U098 070
+     TREAT (---X=Y) AS PREP PH                  11U86                   U098 080
+                                                20U85                   U098 090
+                                                30U86                   U098 100
+                                                  U61       0           U098 110
+     ASSIGN LAST CLAUSE TO (AND) PHR      9-90    U95                   U098 120
+                                                40U85                   U098 130
+                                                11U91                   U098 140
+     TREAT (AND) PHR AS PREP                    20U85                   U098 150
+                                                30U91                   U098 160
+                                                  U61       0           U098 170
+     CONSTRUCT IPLV WORD (3), WITH        U100    J52                   U100 010
+                                                  J90                   U100 020
+                                                  J136                  U100 030
+     P=(0),Q=(1),SYMB=(2). NO OUTPUT            40H0                    U100 040
+                                                11W0                    U100 050
+     ASSIGN P                                   10X43                   U100 060
+                                                  J11                   U100 070
+                                                40H0                    U100 080
+                                                11W1                    U100 090
+     ASSIGN Q                                   10X44                   U100 100
+                                                  J11                   U100 110
+                                                40H0                    U100 120
+                                                11W2                    U100 130
+     ASSIGN SYMB                                10X45                   U100 140
+                                                  J11     J32           U100 150
+     CONSTRUCT IPLV SYMBOL, WITH          U101    J51                   U101 010
+                                                  J90                   U101 020
+     REGION=(0),LOCATION=(1). OUTPUT              J136                  U101 030
+     (0) IS LOCAL NAME OF SYMBOL                40H0                    U101 040
+                                                11W0                    U101 050
+     ASSIGN REGION                              10X33                   U101 060
+                                                  J11                   U101 070
+     SAVE LOCAL NAME                            40H0                    U101 080
+     ASSIGN LOCATION                            11W1                    U101 090
+                                                10X34                   U101 100
+                                                  J11     J31           U101 110
+     CONSTRUCT DESIGNATED SYMBOL,         U102    J51                   U102 010
+     (0)=Q, (1)=SYMB. OUTPUT (0) IS               J90                   U102 020
+     LOCAL NAME OF D.SYMB                         J136                  U102 030
+                                                40H0                    U102 040
+                                                11W0                    U102 050
+     ASSIGN Q VALUE                             10X44                   U102 060
+                                                  J11                   U102 070
+                                                40H0                    U102 080
+                                                11W1                    U102 090
+     ASSIGN SYMB VALUE                          10X45                   U102 100
+                                                  J11     J31           U102 110
+     CONSTRUCT - INPUT D.S.,(0) IS D.S.   U103  10N1                    U103 010
+     NO OUTPUT                                  10X43     J11           U103 020
+     CONSTRUCT - PROCESS,P=(0),           U104    J50                   U104 010
+     DES.SYMB.=(1). OUTPUT (0) IS LOCAL         40H0                    U104 020
+     NAME OF PROCESS                            11W0                    U104 030
+                                                10X43                   U104 040
+                                                  J11     J30           U104 050
+     CONSTR. J-DEF.,NAME (0),OF (1).      U105  10X41     J11           U105 010
+     CONSTRUCT PROCESS, P=0, Q=0,         U106    J50                   U106 010
+     (0)=SYMB. OUTPUT (0) IS LOCAL                J90                   U106 020
+     NAME OF PROCESS                              J136                  U106 030
+     CREATE WORD                                40H0                    U106 040
+     AND MAKE (0) ITS SYMB                      11W0                    U106 050
+                                                10X45                   U106 060
+                                                  J11     J30           U106 070
+     COMPARE IPL SYMBOLS (0) AND (1)      U107    J51                   U107 010
+     FOR IDENTITY. SET H5                       11W1                    U107 020
+                                                10X33                   U107 030
+                                                  J10                   U107 040
+                                                11W0                    U107 050
+                                                10X33                   U107 060
+                                                  J10                   U107 070
+     TEST IF REGIONS EQUAL.                       J114                  U107 080
+                                                70J31                   U107 090
+     IF SO,                                     11W1                    U107 100
+                                                10X34                   U107 110
+                                                  J10                   U107 120
+                                                11W0                    U107 130
+                                                10X34                   U107 140
+                                                  J10                   U107 150
+     TEST IF LOCATIONS EQUAL.                     J114    J31           U107 160
+     REPLACE ARGS. IN ROUTINE (0)         U108    J40                   U108 010
+     WITH COPIES.                                 U114                  U108 020
+     FIND NEXT ARG.                       90      J60                   U108 030
+     IF NONE, EXIT                              7091                    U108 040
+                                                60W0                    U108 050
+     COPY ARGUMENT, AND                         52H0                    U108 060
+                                                  J74                   U108 070
+     INSERT COPY IH LIST                        61W0                    U108 080
+                                                40H0                    U108 090
+                                                10X32                   U108 100
+                                                  J10                   U108 110
+     TEST IF ARG. IS DETERMINER                 10X37                   U108 120
+                                                  J2                    U108 130
+                                                70         92           U108 140
+     IF NOT, CONTINUE                           30H0                    U108 150
+     WITH NEXT ARGUMENT.                  93    11W0       90           U108 160
+     IF A DETERMINER  RECURSE.            92      U108     93           U108 170
+     NO MORE ARGS., EXIT                  91    30H0      J30           U108 180
+     FIND ON LIST (0) ROUTINE WITH        U110    J42                   U110 010
+     SAME PROCESS(DSCN) AS (1). SET H5          20W0                    U110 020
+                                                  U111                  U110 030
+     PUT PROC(DSCN) IN W1                       20W1                    U110 040
+     COMPARE WITH LIST ITEMS                    11W0                    U110 050
+                                                1090                    U110 060
+                                                  J100                  U110 070
+     SET H5 + IF FOUND( - IF NOT                  J5      J32           U110 080
+     STORE ITEM IN W2                     90    60W2                    U110 090
+     AND FIND PROC(DSCN)                          U111                  U110 100
+     COMPARE IT WITH 1W1                        11W1                    U110 110
+     SET H5 - IF FOUND                            J2       J5           U110 120
+     FIND PROCESS OF DSCN                 U111  10X20                   U111 010
+     OF ROUTINE (0).                              J10                   U111 020
+     (ASSUME IT EXISTS)                         10X30     J10           U111 030
+     TRANSFER H0-LIST ARGUMENT OF         U112    J42                   U112 010
+     ROUTINE (0) TO WS.                         60W0                    U112 020
+     BRING IN N-LIST                            10X199                  U112 030
+     COPY IT                                      J73                   U112 040
+     AND STORE IN W1                            20W1                    U112 050
+     FIND LIST OF ARGUMENTS                     10X20                   U112 060
+     OF DSCN OF (0)                               J10                   U112 070
+                                                10X31                   U112 080
+                                                  J10                   U112 090
+                                                  90                    U112 100
+                                                30H0      J32           U112 110
+                                          92    04J0                    U112 120
+     BRING IN TALLY                             12W1                    U112 130
+                                                10L23                   U112 140
+                                                  U101                  U112 150
+                                                10N1                    U112 160
+                                                10N1                    U112 170
+     CONSTRUCT TRANSFER PROCESS                   U100                  U112 180
+     INSERT IN J-DEF OF (0)                     11W0                    U112 190
+                                                  J6                    U112 200
+                                                10X22     J12           U112 210
+     LOCATE NEXT ARGUMENT                 90    04J60                   U112 220
+     IF NONE, GO TO 92                          700                     U112 230
+                                                60W2                    U112 240
+                                                52H0                    U112 250
+                                                10X32                   U112 260
+     FIND TYPE OF ARGUMENT                        J10                   U112 270
+                                                10X35                   U112 280
+     TEST IF IN H-REGION                          J2                    U112 290
+     IF NOT, LOCATE NEXT ARGUMENT               7091                    U112 300
+     IF SO,                                     12W2                    U112 310
+     COPY OLD ARGUMENT                            J74                   U112 320
+     AND MAKE IT LOCAL                            J136                  U112 330
+                                                11W2                    U112 340
+                                                40H0                    U112 350
+     DELETE OLD ARGUMENT                          J68                   U112 360
+                                                  J6                    U112 370
