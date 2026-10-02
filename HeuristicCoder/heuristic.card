@@ -1295,3 +1295,675 @@
                                                 40H0                    U112 350
      DELETE OLD ARGUMENT                          J68                   U112 360
                                                   J6                    U112 370
+     INSERT COPY AS NEW ARGUMENT                  J63                   U112 380
+     BRING IN ARGUMENT                          12W2                    U112 390
+                                                40H0                    U112 400
+     ASSIGN X36 AS NEW TYPE                     10X36                   U112 410
+                                                10X32                   U112 420
+                                                  J11                   U112 430
+     CHANGE ARG TO WN                             U119                  U112 440
+                                                11W1                    U112 450
+                                                  J60                   U112 460
+                                                70J7                    U112 470
+                                                20W1                    U112 480
+                                                  92       91           U112 490
+                                          91    11W2       90           U112 500
+     LOC. ARGS. IN ROUTINES (2), (1)      U113    J42                   U113 010
+     CORRESPONDING TO HN, N=(0)                 20W0                    U113 020
+     IN ROUTINE (1)                               U114                  U113 030
+     PUT ARG. LIST OF (1) IN W1                 20W1                    U113 040
+                                                40H0                    U113 050
+                                                  U125                  U113 060
+                                                  U114                  U113 070
+     PUT ARG. LIST OF (2) IN W2                 20W2                    U113 080
+                                          90    11W1                    U113 090
+     LOCATE NEXT ARG. OF (1)                      J60                   U113 100
+     IF NONE , TERMINATE                        7091                    U113 110
+     AND SAVE IT.                               60W1                    U113 120
+                                                11W2                    U113 130
+     LOCATE NEXT ARG. OF (2)                      J60                   U113 140
+                                                20W2                    U113 150
+                                                52H0                    U113 160
+                                                10X32                   U113 170
+                                                  J10                   U113 180
+     TEST IF ARG (1) IN H0                      10X35                   U113 190
+                                                  J2                    U113 200
+     IF NOT, TRY NEXT ARG.                      7090                    U113 210
+     TEST IF  LOC (ARG)= (0)                    12W1                    U113 220
+                                                10X37                   U113 230
+     FIND ITS DETERMINER                          J10                   U113 240
+                                                70J7                    U113 250
+     SET UP TALLY IN W3                           J90                   U113 260
+                                                  J124                  U113 270
+                                                40W3                    U113 280
+                                                20W3                    U113 290
+     COUNT NUMBER OF X150S                93      J60                   U113 300
+                                                7092                    U113 310
+                                                12H0                    U113 320
+                                                10X150                  U113 330
+                                                  J2                    U113 340
+                                                7093                    U113 350
+                                                11W3                    U113 360
+                                                  J125                  U113 370
+                                                30H0       93           U113 380
+     COMPARE NUMBER WITH (0)              92    30H0                    U113 390
+                                                11W3                    U113 400
+                                                11W0                    U113 410
+                                                  J114                  U113 420
+                                                30W3                    U113 430
+     IF NOT, TRY NEXT ARG.                      7090                    U113 440
+     IF SO, INPUT LOCATION (2)                  11W2                    U113 450
+     AND (1), AND EXIT.                         11W1      J32           U113 460
+     TERMINATE                            91    30H0      J32           U113 470
+     FIND ARG. LIST OF DSCN               U114  10X20                   U114 010
+     OF ROUTINE (0)                               J10                   U114 020
+     (ASSUMES IT EXISTS)                        10X31     J10           U114 030
+     COMPILE ROUTINE (1) FROM             U115    J43                   U115 010
+     ROUTINE (0). DSCN PROCESSES SAME             J74                   U115 020
+     COPY R(0) AND BRING IN TALLY                 J136                  U115 030
+     (1) HAS NAMED ARGS.,                       10X199                  U115 040
+     (0) HAS H-REGION ARGS.                       J60                   U115 050
+                                                  J22                   U115 060
+                                          91    11W2                    U115 070
+                                                11W1                    U115 080
+                                                12W0                    U115 090
+     LOCATE ARGS. FOR  HN                         U113                  U115 100
+     IF NONE, TERMINATE                         7090                    U115 110
+     DISCARD ARG. LIST OF R(0)                  30H0                    U115 120
+                                                52H0                    U115 130
+     COPY SUBSTITUTE ARGUMENT                     J74                   U115 140
+     AND MAKE COPY LOCAL                          J136                  U115 150
+                                                10N1                    U115 160
+                                                10N1                    U115 170
+     MAKE IPL WORD = UUWN                         U100                  U115 180
+                                                11W1                    U115 190
+                                                  J6                    U115 200
+     INSERT WORD IN JDEF OF R(0)                10X22                   U115 210
+                                                  J12                   U115 220
+                                                11W0                    U115 230
+     ADVANCE TALLY AND EXIT                       J60                   U115 240
+                                                20W0       91           U115 250
+     TERMINATE                            90    11W2                    U115 260
+                                                11W1                    U115 270
+     TRANSFER JDEF OF R(0) TO R(1).             10X22                   U115 280
+                                                  J10                   U115 290
+     COPY JDEF                                    J74                   U115 300
+     AND MARK COPY LOCAL                          J136                  U115 310
+                                                10X22                   U115 320
+                                                  J11                   U115 330
+                                                11W1                    U115 340
+     ERASE COPY OF R(0) AND EXIT                  J72     J33           U115 350
+     COMPILE JDEF OF (0)FROM ROUTINE(1).  U116  40H0                    U116 010
+     BOTH HAVE SAME PROCESS IN DSCN             10X20                   U116 020
+     (0) HAS H-REGION ARGS.                       J10                   U116 030
+     (1) HAS W-REGION ARGS.                     10X31                   U116 040
+     FIND ARGS. OF DSCN OF (0)                    J10                   U116 050
+                                                10N0                    U116 060
+                                                  J120                  U116 070
+     CREATE TALLY IN W0                           J50                   U116 080
+     TALLY NO. OF H-ARGS.                       1090                    U116 090
+                                                  J100                  U116 100
+                                                  J6                    U116 110
+                                                10X22                   U116 120
+                                                  J10                   U116 130
+     COPY J-DEF OF (1)                            J74                   U116 140
+                                                40H0                    U116 150
+                                                  J61                   U116 160
+     FIND LAST SYMBOL OF J-DEF                  52H0                    U116 170
+                                                10X46                   U116 180
+     ERASE ITS LINK                               J14                   U116 190
+     SAVE J-DEF                                 40H0                    U116 200
+     MAKE INSTR. J5N                            10N49                   U116 210
+                                                  91                    U116 220
+     INSERT AT FRONT OF JDEF                      J64                   U116 230
+                                                40H0                    U116 240
+                                                10N29                   U116 250
+     MAKE INSTR. J3N                              91                    U116 260
+                                                40H0                    U116 270
+     ASSIGN NO AS LINK OF INSTRUCTION             92                    U116 280
+     INSERT INSTR. AT END OF JDEF                 J65                   U116 290
+                                                10X22                   U116 300
+     INSERT JDEF IN ROUT. (0).                    J11     J30           U116 310
+                                          90    14X32                   U116 320
+     TEST IF ARGUMENT IS                          J10                   U116 330
+     IN H-REGION                                10X35                   U116 340
+                                                  J2                    U116 350
+     IF NOT, CONTINUE                           70J4                    U116 360
+     IF SO, TALLY AND CONTINUE                  11W0                    U116 370
+                                                  J125     J8           U116 380
+                                          91     4J0                    U116 390
+                                                11W0                    U116 400
+     CONSTRUCT NEW INSTRUCTION                    J120                  U116 410
+                                                40H0                    U116 420
+                                                  J110                  U116 430
+                                                10L10                   U116 440
+                                                  U101   U106           U116 450
+     ASSIGN NO AS LINK OF INSTR.          92     4J90                   U116 460
+     CREATE LOCAL SYMBOL                          J136                  U116 470
+                                                40H0                    U116 480
+     SAVE IT                                      J50                   U116 490
+     BRING IN NO                                10N0                    U116 500
+                                                10X33                   U116 510
+     MAKE IT REGION OF SYMBOL                     J11                   U116 520
+                                                11W0                    U116 530
+     MAKE 1W0 LINK OF INSTR.                    10X46                   U116 540
+                                                  J11     J30           U116 550
+     REPLACE HS BY WS IN DSCN             U117    J90                   U117 010
+     OF (0).  OUTPUT (0)=N, NUMBER                J124                  U117 020
+     OF REPLACEMENTS.                             J50                   U117 030
+                                                10X20                   U117 040
+                                                  J10                   U117 050
+     FIND LIST OF ARGS OF DSCN OF (0)           10X31                   U117 060
+                                                  J10                   U117 070
+     DO 90 TO ARGS ON LIST                      1090                    U117 080
+                                                  J100                  U117 090
+     BRING IN TALLY AND EXIT                    11W0      J30           U117 100
+     SAVE ARG.                            90    44H0                    U117 110
+                                                10X32                   U117 120
+     FIND ITS TYPE                                J10                   U117 130
+                                                10X37                   U117 140
+     TEST IF DETERMINER                           J2                    U117 150
+                                                70         91           U117 160
+                                                40H0                    U117 170
+     DESIG. SYMB. FIND REGION                   10X45                   U117 180
+                                                  J10                   U117 190
+                                                10X33                   U117 200
+                                                  J10                   U117 210
+     TEST IF H-REGION                           10L8                    U117 220
+                                                  J2                    U117 230
+     IF NOT, EXIT                               7092                    U117 240
+     CHANGE ARG TO WN                             U119                  U117 250
+     AND ADD ONE TO TALLY                       11W0                    U117 260
+                                                  J125                  U117 270
+                                          92    30H0       J4           U117 280
+     DETERMINER.                          91    10X20                   U117 290
+     FIND ITS LIST OF ARGUMENTS                   J10                   U117 300
+                                                10X31                   U117 310
+                                                  J10                   U117 320
+                                                1090                    U117 330
+                                                  J100      0           U117 340
+     MODIFY JDEF OF (0) TO TAKE N=(1)     U118    J51                   U118 010
+     INPUTS FROM WS. NO OUTPUT.                 11W0                    U118 020
+                                                10X22                   U118 030
+                                                  J10                   U118 040
+     FIND AND SAVE JDEF OF (0)                  40H0                    U118 050
+     FIND ITS LAST SYMBOL                         J61                   U118 060
+                                                52H0                    U118 070
+                                                10X46                   U118 080
+     ERASE ITS LINK                               J14                   U118 090
+     SAVE JDEF                                  40H0                    U118 100
+     MAKE INSTR. J5N                            10N49                   U118 110
+                                                  91                    U118 120
+     INSERT AT FRONT OF JDEF                      J64                   U118 130
+     MAKE INSTR. J3N                            10N29                   U118 140
+                                                  91                    U118 150
+                                                40H0                    U118 160
+     ASSIGN NO AS LINK OF INSTR.                  92                    U118 170
+     INSERT INSTR. AT END OF JDEF                 J65     J31           U118 180
+     CONSTRUCT NEW INSTRUCTION            91     4J0                    U118 190
+     BRING IN N                                 11W1                    U118 200
+     COMPUTE XN                                   J120                  U118 210
+                                                40H0                    U118 220
+                                                  J110                  U118 230
+     MAKE JXN                                   10L10                   U118 240
+                                                  U101   U106           U118 250
+     ASSIGN NO AS LINK OF INSTR.          92     4J90                   U118 260
+     CREATE LOCAL SYMBOL                          J136                  U118 270
+                                                40H0                    U118 280
+     SAVE IT                                      J50                   U118 290
+     BRING IN NO                                10N0                    U118 300
+                                                10X33                   U118 310
+     MAKE IT REGION OF SYMBOL                     J11                   U118 320
+     MAKE SYMBOL LINK OF INSTR.                 11W0                    U118 330
+                                                10X46                   U118 340
+                                                  J11     J30           U118 350
+     CHANGE ARG (0)=HN TO WN,             U119  40H0                    U119 010
+     NO OUTPUT                                  10X37                   U119 020
+     FIND ITS DETERMINER                          J10                   U119 030
+     SET UP TALLY IN W0                           J90                   U119 040
+                                                  J124                  U119 050
+                                                  J50                   U119 060
+     TALLY AND ERASE X150S                93    40H0                    U119 070
+     FROM DETERMINER                            10X150                  U119 080
+                                                  J62                   U119 090
+                                                7094                    U119 100
+                                                11W0                    U119 110
+                                                  J125                  U119 120
+                                                30H0                    U119 130
+                                                  J68      93           U119 140
+                                          94    30H0                    U119 150
+     CONSTRUCT SYMBOL WN                        30H0                    U119 160
+                                                11W0                    U119 170
+                                                30W0                    U119 180
+                                                10L23                   U119 190
+                                                  U101                  U119 200
+     ASSIGN IT AS X45 OF ARGUMENT               10X45                   U119 210
+                                                  J11       0           U119 220
+     MODIFY JDEF TO DO PROCESS (2)        U120  10N9                    U120 010
+     AFTER (3) WITH FIELD (1)=(0). SET            U101                  U120 020
+     H5+ IF (2) WAS NAMELESS, H5- IF              J53                   U120 030
+     (2) HAS NAME. NO OUTPUT.                   11W2                    U120 040
+                                                  J81                   U120 050
+     FIND FIRST INSTR. OF (1)                   40H0                    U120 060
+                                                10X41                   U120 070
+     IF IT HAS NAME, REPLACE (0)                  J10                   U120 080
+     WITH NAME, IF NOT, SKIP TO 90.             7090                    U120 090
+                                                20W0                    U120 100
+                                                30H0       91           U120 110
+     PUT (0) AS NAME OF FIRST OF (1).     90    11W0                    U120 120
+                                                10X41                   U120 130
+                                                  J11                   U120 140
+     FIND LAST INSTR. OF (3)              91    11W3                    U120 150
+                                                  J61                   U120 160
+                                                52H0                    U120 170
+     MAKE 1W0 ITS LINK.                         11W0                    U120 180
+     OR SYMB                                    11W1                    U120 190
+                                                  J11                   U120 200
+     SET H5 AND EXIT                              J5      J33           U120 210
+     MODIFY JDEF TO EXIT AFTER            U122    J61                   U122 010
+     PROCESS (0). NO OUTPUT                     52H0                    U122 020
+                                                40H0                    U122 030
+                                                10X46                   U122 040
+                                                  J10                   U122 050
+                                                70         90           U122 060
+     MAKE SYMB. 0.                              10N0                    U122 070
+                                                40H0                    U122 080
+                                                  U101                  U122 090
+     ASSIGN IT AS LINK OF LAST OF (0).          10X46     J11           U122 100
+                                          90    30H0       J8           U122 110
+     PRINT THE JDEF OF (0)                U125  10X22                   U125 010
+     FIND JDEF                                    J10                   U125 020
+     CLEAR PRINT LINE                             J154                  U125 030
+     PRINT LIST OF INSTRUCTIONS                 1090                    U125 040
+                                                  J100    E50           U125 050
+     PROCESS INSTRUCTION                  90    04J0                    U125 060
+                                                10X40                   U125 070
+                                                10N28                   U125 080
+     ENTER TYPE IN COL. 28                        920                   U125 090
+                                                10X41                   U125 100
+                                                10N30                   U125 110
+     ENTER NAME IN COLS. 30-34                    910                   U125 120
+                                                10X42                   U125 130
+                                                10N35                   U125 140
+     ENTER SIGN IN COL. 35                        920                   U125 150
+                                                10X43                   U125 160
+                                                10N36                   U125 170
+     ENTER P IN COL. 36                           920                   U125 180
+                                                10X44                   U125 190
+                                                10N37                   U125 200
+     ENTER Q IN COL. 37                           920                   U125 210
+                                                10X45                   U125 220
+                                                10N38                   U125 230
+     ENTER SYMB IN COLS. 38-42                    910                   U125 240
+                                                10X46                   U125 250
+                                                10N44                   U125 260
+     ENTER LINK IN COLS. 44-48.                   910                   U125 270
+     PRINT.                                       E50                   U125 280
+                                                30H0       J4           U125 290
+     FIND VALUE OF ATTRIBUTE (1)          910   04930                   U125 300
+     AND ENTER ITS REGION AND                   70J31                   U125 310
+     LOCATION IN COLS. BEGINNING                  J160                  U125 320
+                                                40H0                    U125 330
+     AT (0).                                    10X33                   U125 340
+     ENTER REGION                                 J10                   U125 350
+                                                70912                   U125 360
+                                                  J157                  U125 370
+                                          911   10X34                   U125 380
+     ENTER LOCATION                               J10                   U125 390
+                                                70J31                   U125 400
+                                                  J157    J31           U125 410
+                                          912   10N1                    U125 420
+                                                  J161    911           U125 430
+     FIND VALUE OF ATTRIBUTE (1)          920   04930                   U125 440
+     AND ENTER IN COL. (0)                      70J31                   U125 450
+                                                  J160                  U125 460
+                                                  J157    J31           U125 470
+     PROCESS FOR 910 AND 920              930   04J51                   U125 480
+                                                40H0                    U125 490
+                                                11W1                    U125 500
+                                                  J10                   U125 510
+                                                700                     U125 520
+                                                11W0        0           U125 530
+     PRINT THE SDSC OF ROUTINE (0)        U127    J40                   U127 010
+     CLEAR PRINT LINE                             J154                  U127 020
+                                                10X24                   U127 030
+     FIND SDSC                                    J10                   U127 040
+                                                70J30                   U127 050
+     FIND LIST OF AFFECTED CELLS                10X71                   U127 060
+                                                  J10                   U127 070
+                                                70J30                   U127 080
+     DO 90 TO AFFECTED CELLS                    1090                    U127 090
+     AND EXIT                                     J100    J30           U127 100
+                                          90    60W0                    U127 110
+     FIND NAME OF CELL                          10X41                   U127 120
+                                                  J10                   U127 130
+     ENTER IT IN PRINT LINE                       91                    U127 140
+                                                  E53                   U127 150
+                                                11W0                    U127 160
+     FIND INPUT LIST                            10X75                   U127 170
+                                                  J10                   U127 180
+     AND ENTER ITS SYMBOLS                      1092                    U127 190
+                                                  J100                  U127 200
+     ENTER PERIOD                                 E53                   U127 210
+                                                11W0                    U127 220
+     FIND OUTPUT LIST                           10X76                   U127 230
+                                                  J10                   U127 240
+     ENTER ITS SYMBOLS                          1092                    U127 250
+                                                  J100                  U127 260
+     ENTER PERIOD AND PRINT LINE                  E53     E50           U127 270
+     ENTER A SYMBOL IN THE PRINT LINE     91    40H0                    U127 280
+                                                10X33                   U127 290
+                                                  J10                   U127 300
+                                                  J157                  U127 310
+                                                10X34                   U127 320
+                                                  J10    J157           U127 330
+     ENTER THE SYMBOLS, THEN COMMAS       92      93      E54           U127 340
+                                          93    10X45                   U127 350
+                                                  J10      91           U127 360
+     PRINT NAME, DSCN, JDEF, AND          U128    J50                   U128 010
+     SDSC OF ROUTINE (0)                          90                    U128 020
+                                                  E50                   U128 030
+                                                11W0                    U128 040
+                                                40H0                    U128 050
+                                                10X20                   U128 060
+     TEST OF IT HAS A DSCN                        J10                   U128 070
+     IF NOT, SKIP TO 92                         7092                    U128 080
+                                                30H0                    U128 090
+     ENTER DSCN IN PRINT LINE                     U126                  U128 100
+     PRINT                                        E50                   U128 110
+     AND SPACE                                    E50                   U128 120
+                                                11W0                    U128 130
+                                          92    40H0                    U128 140
+                                                10X22                   U128 150
+     TEST IF IT HAS A JDEF                        J10                   U128 160
+     IF NOT, SKIP TO 92                         7093                    U128 170
+                                                30H0                    U128 180
+     PRINT JDEF                                   U125                  U128 190
+     AND SPACE                                    E50                   U128 200
+                                                11W0                    U128 210
+                                          93    40H0                    U128 220
+                                                10X24                   U128 230
+     TEST IF IT HAS A SDSC                        J10                   U128 240
+     IF NOT, EXIT BY 95                         7095                    U128 250
+                                                30H0                    U128 260
+     PRINT SDSC AND EXIT                          U127    J30           U128 270
+                                          95    30H0      J30           U128 280
+                                          90    04J0                    U128 290
+                                                11W0                    U128 300
+     TEST IF IT HAS AN IPLN                     10X25                   U128 310
+                                                  J10                   U128 320
+     IF NOT, EXIT                               700                     U128 330
+                                                40H0                    U128 340
+     IF SO, ENTER IN PRINT LINE                 10X33                   U128 350
+                                                  J10                   U128 360
+                                                  J157                  U128 370
+                                                10X34                   U128 380
+                                                  J10    J157           U128 390
+     COMPILE JDEF OF ROUT.(0) FROM        U130    J43                   U130 010
+     JDEF OF ROUT.(1). ROUT(1) IS A J.            J21                   U130 020
+                                                11W0                    U130 030
+     COPY R1W0 AND                                J74                   U130 040
+     COPY ARGS OF DSCN                          40H0                    U130 050
+                                                  U108                  U130 060
+                                                60W2                    U130 070
+     REPLACE HS BY WS IN DSCN OF COPY.            U117                  U130 080
+     SAVE(0)=NUMBER OF REPLACEMENTS.            20W3                    U130 090
+                                                11W1                    U130 100
+     COMPILE JDEF OF 1W2                        11W2                    U130 110
+     FROM JDEF OF 1W1.                            U131                  U130 120
+     MODIFY JDEF OF 1W2 TO TAKE                 11W3                    U130 130
+     N=1W3 INPUTS FROM WS.                      11W2                    U130 140
+                                                  U118                  U130 150
+     BRING IN 1W0.                              11W0                    U130 160
+                                                11W2                    U130 170
+     FIND JDEF OF 1W2                           10X22                   U130 180
+     AND ASSIGN IT AS JDEF OF 1W0                 J10                   U130 190
+                                                  J74                   U130 200
+                                                  J136                  U130 210
+                                                10X22                   U130 220
+                                                  J11                   U130 230
+     ASSIGN NAME TO JDEF.                         910                   U130 240
+                                                11W2                    U130 250
+     ERASE 1W2,                                   J72                   U130 260
+     AND TALLY CELL,                            11W3                    U130 270
+     AND EXIT                                     J9      J33           U130 280
+                                          910   11W0                    U130 290
+     FIND JDEF                                  10X22                   U130 300
+                                                  J10                   U130 310
+     FIND FIRST INSTRUCTION.                      J81                   U130 320
+                                                40H0                    U130 330
+                                                10X41                   U130 340
+                                                  J10                   U130 350
+     IF IT HAS NO NAME,                         70        911           U130 360
+                                                11W0                    U130 370
+                                                10X25                   U130 380
+     ASSIGN IT V(X25) OF ROUTINE.                 J10                   U130 390
+                                                10X41     J11           U130 400
+     IF IT HAS NAME, EXIT.                911   30H0       J8           U130 410
+     COMPILE JDEF OF ROUT.(0)             U131    J45                   U131 010
+     FROM JDEF OF ROUT.(1), (0) IS                J21                   U131 020
+     A J, (1) HAS W-REGION INPUTS                 J90                   U131 030
+                                                  J124                  U131 040
+     SET UP TALLY IN W2                         20W2                    U131 050
+                                                11W0                    U131 060
+                                                11W1                    U131 070
+     COPY JDEF OF (1) AND                       10X22                   U131 080
+     ASSIGN COPY AS JDEF OF (0).                  J10                   U131 090
+                                                  J74                   U131 100
+                                                  J136                  U131 110
+                                                10X22                   U131 120
+                                                  J11                   U131 130
+     LOCATE ARGS IN 1W0 AND 1W1           90    11W0                    U131 140
+     FOR HN, N=TALLY, IN 1W1,                   11W1                    U131 150
+                                                11W2                    U131 160
+                                                  U113                  U131 170
+     IF NONE, EXIT.                             7091                    U131 180
+     SAVE ARG. OF 1W1 IN W3.                    52H0                    U131 190
+                                                  J74                   U131 200
+                                                20W3                    U131 210
+                                                11W2                    U131 220
+     ADD 1 TO TALLY                               J125                  U131 230
+                                                30H0                    U131 240
+     SAVE LOC. OF ARG OF 1W0 IN W4              60W4                    U131 250
+     FIND ARG. OF 1W0                           52H0                    U131 260
+     COMPILE (FIND ARG.)                          U132                  U131 270
+                                                11W0                    U131 280
+     INSERT (FIND ARG.) AT FRONT                10X22                   U131 290
+     OF JDEF OF 1W0                               J10                   U131 300
+                                                  92                    U131 310
+     REPLACE ARG OF 1W0 WITH                    11W3                    U131 320
+     ARG OF 1W1.                                21W4       90           U131 330
+                                          91    11W2                    U131 340
+     ERASE TALLY AND EXIT                         J9      J35           U131 350
+     INSERT COMPILED (FIND ARG.)          92    44H0                    U131 360
+     DIVIDE JDEF                                  J75                   U131 370
+     SAVE REMAINDER                             20W5                    U131 380
+                                                  J6                    U131 390
+     ADD (FIND ARG.) TO HEAD                      J76                   U131 400
+     ADD REMAINDER                              11W5                    U131 410
+                                                  J76      J8           U131 420
+     COMPILE (FIND ARG) (0).  FINAL       U132  40H0                    U132 010
+     ARGS. ARE DESIG. SYMBS.  OUTPUT (0)          J90                   U132 020
+     IS LIST OF INSTRS. WITHOUT TERM.             J136                  U132 030
+                                                40W1                    U132 040
+     CREATE OUTPUT LIST IN W1.                  20W1                    U132 050
+                                                10X32                   U132 060
+     TEST IF ARGUMENT                             J10                   U132 070
+     IS DETERMINER.                             10X37                   U132 080
+                                                  J2                    U132 090
+     ARGUMENT NOT A DETERMINER,                 70         90           U132 100
+                                                  J90                   U132 110
+     SET UP Q-TALLY IN W0.                        J124                  U132 120
+                                                  J50                   U132 130
+     SAVE ARGUMENT                        92    40H0                    U132 140
+     FIND ITS DETERMINER                        10X37                   U132 150
+                                                  J10                   U132 160
+                                          94      J60                   U132 170
+                                                7093                    U132 180
+     TALLY X151S=Q                              12H0                    U132 190
+     OF DETERMINER IN W0                        10X151                  U132 200
+                                                  J2                    U132 210
+                                                7094                    U132 220
+                                                11W0                    U132 230
+                                                  J125                  U132 240
+                                                30H0       94           U132 250
+     COPY SYMBOL OF ARGUMENT              93    30H0                    U132 260
+                                                10X45                   U132 270
+                                                  J10                   U132 280
+                                                  J74                   U132 290
+     MAKE INSTRUCTION 1QS.                      11W0                    U132 300
+                                                10N1                    U132 310
+                                                  U100                  U132 320
+     INSERT INSTR. AT FRONT                     11W1                    U132 330
+     OF LIST 1W1.                                 J6                    U132 340
+     EXIT, LEAVING 1W1.                           J64                   U132 350
+                                                11W1      J31           U132 360
+     SET UP INSTR. SUBLIST,               90      J90                   U132 370
+     AND MARK IT LOCAL,                           J136                  U132 380
+     AND SAVE IT IN W0.                           J50                   U132 390
+     SAVE DETERMINER                            40H0                    U132 400
+     FIND ITS DSCN                              10X20                   U132 410
+                                                  J10                   U132 420
+     FIND LIST OF ARGUMENTS                     10X31                   U132 430
+     AND PROCESS THEM.                            J10                   U132 440
+                                                10910                   U132 450
+                                                  J100                  U132 460
+     FIND JDEF                                  10X22                   U132 470
+                                                  J10                   U132 480
+     COPY IT                                      J74                   U132 490
+                                                  J136                  U132 500
+                                                40H0                    U132 510
+     FIND LAST INSTRUCTION                        J61                   U132 520
+                                                52H0                    U132 530
+     ERASE ITS LINK                             10X46                   U132 540
+                                                  J14                   U132 550
+                                                11W0                    U132 560
+     FIND END OF LIST                             J61                   U132 570
+     INSERT LIST ON MAIN LIST                     95                    U132 580
+     INSERT SUBLIST IN LIST                     11W0                    U132 590
+                                                11W1                    U132 600
+     INSERT LIST ON MAIN LIST                     95                    U132 610
+     BRING IN LIST AND EXIT.                    11W1      J31           U132 620
+     COMPILE (FIND ARG.)                  910     U132                  U132 630
+     AND INSERT IN SUBLIST.                     11W0                    U132 640
+     INSERT LIST ON MAIN LIST                     95       J4           U132 650
+     INSERT LIST AT FRONT OF MAIN LIST    95    44H0                    U132 660
+                                                  J75                   U132 670
+                                                40W2                    U132 680
+                                                20W2                    U132 690
+                                                  J6                    U132 700
+                                                  J76                   U132 710
+                                                11W2                    U132 720
+                                                  J76                   U132 730
+                                                30W2       J8           U132 740
+                                          U133    J45                   U133 010
+     COMPILE JDEF WITH NAME (2)                 10X199                  U133 020
+     LIST OF SEGMENTS (1) AND FLOW                J73                   U133 030
+     CHART (0).  OUTPUT (0) IS JDEF               J136                  U133 040
+     NAME NEW JDEF                                J90                   U133 050
+                                                  J136                  U133 060
+                                                  J24                   U133 070
+     ASSIGN NAME TO FIRST INSTRUCTION           11W3                    U133 080
+                                                  J81                   U133 090
+                                                  J81                   U133 100
+                                                11W4                    U133 110
+                                                10X41                   U133 120
+                                                  J11                   U133 130
+                                                11W2                    U133 140
+                                                40W3                    U133 150
+     ATTACH SEGMENTS TO FLOW CHART        91      J60                   U133 160
+                                                7090                    U133 170
+                                                12H0                    U133 180
+                                                11W3                    U133 190
+                                                  J60                   U133 200
+                                                70J7                    U133 210
+                                                60W3                    U133 220
+                                                52H0                    U133 230
+                                                10X22                   U133 240
+                                                  J11      91           U133 250
+     ASSIGN ADDRESSES TO SEGMENTS         90    30H0                    U133 260
+                                                30W3                    U133 270
+                                                11W2                    U133 280
+                                                1092                    U133 290
+                                                  J100                  U133 300
+                                                11W0                    U133 310
+     ASSEMBLE SEGMENTS IN NEW JDEF              11W3                    U133 320
+                                                10910                   U133 330
+                                                  J100                  U133 340
+                                                40H0                    U133 350
+                                                  U122    J35           U133 360
+                                          910   11W0                    U133 370
+                                                  J6                    U133 380
+                                                  J76                   U133 390
+                                                20W0       J4           U133 400
+     ASSIGN ADDRESSES TO SEGMENT          92    64W5                    U133 410
+     FIND JDEF OF SEGMENT                       10X22                   U133 420
+                                                  J10                   U133 430
+                                                11W5                    U133 440
+     FIND P OF SEGMENT                          10X43                   U133 450
+                                                  J10                   U133 460
+     TEST IF P=7                                10N7                    U133 470
+                                                  J2                    U133 480
+     IF NOT, GO TO 93                           7093                    U133 490
+     IF P=7                                     11W5                    U133 500
+                                                40H0                    U133 510
+                                                  925                   U133 520
+     FIND SYMB OF SEGM                          10X45                   U133 530
+                                                  J10                   U133 540
+                                                40H0                    U133 550
+     TEST IF SYMB IS 0                          10N0                    U133 560
+                                                  J2                    U133 570
+     IF NOT, GO TO 94                           7094                    U133 580
+     IF SO, GO TO 93                            30H0       93           U133 590
+                                          94    11W2                    U133 600
+                                                  J6                    U133 610
+     FIND SYMB ON FLOW                            920                   U133 620
+                                                10X22                   U133 630
+     FIND ITS JDEF                                J10                   U133 640
+                                                70J7                    U133 650
+     BRING IN (FIELD)=(SYMB)                    10X45                   U133 660
+                                                11W1                    U133 670
+                                                  J60                   U133 680
+                                                60W1                    U133 690
+                                                52H0                    U133 700
+     LINK SEGM TO SYMB                            U120                  U133 710
+                                                11W5                    U133 720
+                                                10X22                   U133 730
+     BRING IN JDEF OF SEGM                        J10                   U133 740
+     FIND LINK OF SEGM                    93    11W5                    U133 750
+                                                10X46                   U133 760
+                                                  J10                   U133 770
+                                                40H0                    U133 780
+     TEST IF LINK IS 0                          10N0                    U133 790
+                                                  J2                    U133 800
+                                                7095                    U133 810
+     IF IT IS, EXIT                             30H0       J8           U133 820
+     IF LINK IS NOT 0                     95    11W2                    U133 830
+                                                  J6                    U133 840
+     FIND SYMB ON FLOW                            920                   U133 850
+                                                10X22                   U133 860
+     FIND ITS JDEF                                J10                   U133 870
+                                                70J7                    U133 880
+     BRING IN (FIELD)=(LINK)                    10X46                   U133 890
+                                                11W1                    U133 900
+                                                  J60                   U133 910
+                                                60W1                    U133 920
+                                                52H0                    U133 930
+     LINK SEGM TO SYMB                            U120     J4           U133 940
+     FIND SYMB ON FLOW                    920   04J50                   U133 950
+                                                10921                   U133 960
+                                                  J100    J30           U133 970
+     FIND NAME OF SYMB                    921   40H0                    U133 980
+     COMPARE WITH 1W0                           10X41                   U133 990
+                                                  J10                   U1331000
+                                                11W0                    U1331010
+                                                  J2                    U1331020
+     EXIT, STOP GENERATOR                       70         J3           U1331030
+     EXIT, CONTINUE GENERATOR                   30H0       J4           U1331040
+                                          925   14X22                   U1331050
+                                                  J10                   U1331060
+                                                  J90                   U1331070
+                                                  J136                  U1331080
+                                                40H0                    U1331090
+                                                10N7                    U1331100
+                                                10X43                   U1331110
