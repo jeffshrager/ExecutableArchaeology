@@ -3167,3 +3167,195 @@
      AS 1ST CHAR.                                 0                   T034 020 C
      ACTION=MARK ORIGIN, MARK END                 T0                  T034 030 C
      OUTPUT FIELD, ADVANCE                        T68                 T034 040 C
+     TYPE=TERMINAL PUNCT                          T1                  T034 050 C
+                                                  T22       0         T034 060 C
+     NON-TERMINATING PUNCT(), + - =       T35               0         T035 010 C
+     AS 1ST CHAR.                                 0                   T035 020 C
+     ACTION=MARK ORIGIN, END, OUTPUT              T0                  T035 030 C
+     + ADVANCE                                    T68                 T035 040 C
+                                                  T1                  T035 050 C
+                                                  T23       0         T035 060 C
+     * AS 1ST CHAR=LOCAL                  T36               0         T036 010 C
+                                                  0                   T036 020 C
+     ACTION=MARK ORIGIN, ADVANCE                  T0                  T036 030 C
+                                                  T64                 T036 040 C
+     TYPE=LOCAL SYMBOL                            T1                  T036 050 C
+                                                  T25                 T036 060 C
+     NEXT TABLE=T42                               T2                  T036 070 C
+                                                  T42       0         T036 080 C
+     NUMERIC 2ND CHAR                     T37               0         T037 010 C
+                                                  0                   T037 020 C
+     ACTION=ADVANCE                               T0                  T037 030 C
+                                                  T54       0         T037 040 C
+     BLANKS AS 1ST CHAR                   T38               0         T038 010 C
+                                                  0                   T038 020 C
+     ACTION=ADVANCE TO 1ST NON BLANK              T0                  T038 030 C
+                                                  T69       0         T038 040 C
+     + - =/AS 1ST CHAR                    T39               0         T039 010 C
+                                                  0                   T039 020 C
+     ACTION=MARK ORIGIN, END, OUTPUT,ADV          T0                  T039 030 C
+                                                  T68                 T039 040 C
+     TYPE=ARITHMETIC OPERATOR                     T1                  T039 050 C
+                                                  T27       0         T039 060 C
+     1ST CHARTABLE ASSUMES STD ALPHA=T30  T40     9-0       0         T040 010 C
+     T38=SUBTABLE FOR BLANKS              9-0     T38                 T040 020 C
+                                                  -                   T040 030 C
+                                                  T39                 T040 040 C
+                                                  .                   T040 050 C
+                                                  T34                 T040 060 C
+                                                  $                   T040 070 C
+                                                  T34                 T040 080 C
+                                                  (                   T040 090 C
+                                                  T35                 T040 100 C
+                                                  )                   T040 110 C
+                                                  T35                 T040 120 C
+                                                  ,                   T040 130 C
+                                                  T35                 T040 140 C
+                                                  +                   T040 150 C
+                                                  T39                 T040 160 C
+                                                  -                   T040 170 C
+                                                  T46                 T040 180 C
+                                                  =                   T040 190 C
+                                                  T39                 T040 200 C
+                                                  *                   T040 210 C
+                                                  T36                 T040 220 C
+                                                  0                   T040 230 C
+                                                  T32                 T040 240 C
+                                                  1                   T040 250 C
+                                                  T32                 T040 260 C
+                                                  2                   T040 270 C
+                                                  T32                 T040 280 C
+                                                  3                   T040 290 C
+                                                  T32                 T040 300 C
+                                                  4                   T040 310 C
+                                                  T32                 T040 320 C
+                                                  5                   T040 330 C
+                                                  T32                 T040 340 C
+                                                  6                   T040 350 C
+                                                  T32                 T040 360 C
+                                                  7                   T040 370 C
+                                                  T32                 T040 380 C
+                                                  8                   T040 390 C
+                                                  T32                 T040 400 C
+                                                  9                   T040 410 C
+                                                  T32                 T040 420 C
+     STD SUBTABLE = T30                           T17                 T040 430 C
+                                                  T30       0         T040 440 C
+     T41 = TABLE FOR 2ND CHAR.          1                             T041 000 C
+                                          T41     9-0       0         T041 010 C
+                                          9-0     T33                 T041 020 C
+                                                  (                   T041 030 C
+                                                  T33                 T041 040 C
+                                                  -                   T041 050 C
+                                                  T33                 T041 060 C
+                                                  *                   T041 070 C
+                                                  T47                 T041 080 C
+                                                  )                   T041 090 C
+                                                  T33                 T041 100 C
+                                                  ,                   T041 110 C
+                                                  T33                 T041 120 C
+                                                  =                   T041 130 C
+                                                  T33                 T041 140 C
+                                                  +                   T041 150 C
+                                                  T33                 T041 160 C
+                                                  .                   T041 170 C
+                                                  T33                 T041 180 C
+                                                  $                   T041 190 C
+                                                  T33                 T041 200 C
+                                                  0                   T041 210 C
+                                                  T37                 T041 220 C
+                                                  1                   T041 230 C
+                                                  T37                 T041 240 C
+                                                  2                   T041 250 C
+                                                  T37                 T041 260 C
+                                                  3                   T041 270 C
+                                                  T37                 T041 280 C
+                                                  4                   T041 290 C
+                                                  T37                 T041 300 C
+                                                  5                   T041 310 C
+                                                  T37                 T041 320 C
+                                                  6                   T041 330 C
+                                                  T37                 T041 340 C
+                                                  7                   T041 350 C
+                                                  T37                 T041 360 C
+                                                  8                   T041 370 C
+                                                  T37                 T041 380 C
+                                                  9                   T041 390 C
+                                                  T37                 T041 400 C
+     STD SUBTABLE = T31                           T17                 T041 410 C
+                                                  T31       0         T041 420 C
+     T42=TABLE FOR CHAR AFTER *         1                             T042 000 C
+                                          T42     9-0       0         T042 010 C
+     SUBTABLE FOR BLANK = T48             9-0     T48                 T042 020 C
+                                                  *                   T042 030 C
+                                                  T49                 T042 040 C
+     STD SUBTABLE =T48                            T17                 T042 050 C
+                                                  T48       0         T042 060 C
+                                          T46               0         T046 010 C
+                                                  0                   T046 020 C
+     ACTION=OUTPUT EITHER (---) OR (-)            T0                  T046 030 C
+                                                  T73                 T046 040 C
+     TYPE=OPERATOR                                T1                  T046 050 C
+                                                  T27                 T046 060 C
+     NEXT TABLE=T40                               T2                  T046 070 C
+                                                  T40       0         T046 080 C
+                                          T47               0         T047 010 C
+                                                  0                   T047 020 C
+                                                  T0                  T047 030 C
+                                                  T72       0         T047 040 C
+     STD SUBTABLE FOR T42, ALPHA OR       T48               0         T048 010 C
+     NUMERIC AFTER *                              0                   T048 020 C
+                                                  T0                  T048 030 C
+     ACTION = NOP                                 J0                  T048 040 C
+     NEXT TABLE = T41                             T2                  T048 050 C
+                                                  T41       0         T048 060 C
+     **=MULTIPLY                          T49               0         T049 010 C
+                                                  0                   T049 020 C
+     ACTION=MARK END, ADV, OUTPUT                 T0                  T049 030 C
+                                                  T71                 T049 040 C
+     TYPE=ARITH OPERATOR                          T1                  T049 050 C
+                                                  T27                 T049 060 C
+     NEXT TABLE = T40                             T2                  T049 070 C
+                                                  T40       0         T049 080 C
+     1ST CHAR-TABLE ASSUMES A                                         T049 090 C
+     DATA                               5        1                     000 000 D
+                                          A0      0         0         A000 010 D
+                                          A102    9-0                 A102 010 D
+                                                  9-1       0         A102 020 D
+                                          9-1     0                   A102 030 D
+                                                  9-2       0         A102 040 D
+                                          9-2   21NOUN                A102 050 D
+                                          9-0     0                   A102 060 D
+                                                  A120                A102 070 D
+                                                  A102      0         A102 080 D
+                                          A103    9-0                 A103 010 D
+                                                  9-1       0         A103 020 D
+                                          9-1     0                   A103 030 D
+                                                  9-2       0         A103 040 D
+                                          9-2   21ADJ                 A103 050 D
+                                          9-0     0                   A103 060 D
+                                                  A120                A103 070 D
+                                                  A102      0         A103 080 D
+                                          A106    9-0                 A106 010 D
+                                                  9-1       0         A106 020 D
+                                          9-1     0                   A106 030 D
+                                                  9-2       0         A106 040 D
+                                          9-2   21VERB                A106 050 D
+                                          9-0     0                   A106 060 D
+                                                  A120                A106 070 D
+                                                  A102      0         A106 080 D
+                                          A112    9-0                 A112 010 D
+                                                  9-1       0         A112 020 D
+                                          9-1     0                   A112 030 D
+                                                  9-2                 A112 040 D
+                                                  9-3       0         A112 050 D
+                                          9-2   21POSSE               A112 060 D
+                                          9-3   21SSIVE               A112 070 D
+                                          9-0     0                   A112 080 D
+                                                  A120                A112 090 D
+                                                  A103      0         A112 100 D
+                                          A113    9-0                 A113 010 D
+                                                  9-1       0         A113 020 D
+                                          9-1     0                   A113 030 D
+                                                  9-2       0         A113 040 D
+                                          9-2   21PREP                A113 050 D

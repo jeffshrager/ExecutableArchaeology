@@ -1,0 +1,51 @@
+ACTION=MARK END, ADV, OUTPUT|||T0||T049 030 C
+|||T71||T049 040 C
+TYPE=ARITH OPERATOR|||T1||T049 050 C
+|||T27||T049 060 C
+NEXT TABLE = T40|||T2||T049 070 C
+|||T40|0|T049 080 C
+# T049 090 has a comment but blank type and fields: an unnamed, unreachable cell after T49's
+# terminating 0. Its comment continues onto the next (header) card.
+1ST CHAR-TABLE ASSUMES A|||||T049 090 C
+# Section D header: type 5, PQ " 1" (Q=1: data list structures).
+DATA|5||| 1|||000 000 D
+|A0||0|0|A000 010 D
+|A102||9-0||A102 010 D
+|||9-1|0|A102 020 D
+|9-1||0||A102 030 D
+|||9-2|0|A102 040 D
+|9-2|21|NOUN||A102 050 D
+|9-0||0||A102 060 D
+|||A120||A102 070 D
+|||A102|0|A102 080 D
+|A103||9-0||A103 010 D
+|||9-1|0|A103 020 D
+|9-1||0||A103 030 D
+|||9-2|0|A103 040 D
+|9-2|21|ADJ||A103 050 D
+|9-0||0||A103 060 D
+|||A120||A103 070 D
+|||A102|0|A103 080 D
+|A106||9-0||A106 010 D
+|||9-1|0|A106 020 D
+|9-1||0||A106 030 D
+|||9-2|0|A106 040 D
+|9-2|21|VERB||A106 050 D
+|9-0||0||A106 060 D
+|||A120||A106 070 D
+|||A102|0|A106 080 D
+|A112||9-0||A112 010 D
+|||9-1|0|A112 020 D
+|9-1||0||A112 030 D
+|||9-2||A112 040 D
+|||9-3|0|A112 050 D
+|9-2|21|POSSE||A112 060 D
+|9-3|21|SSIVE||A112 070 D
+|9-0||0||A112 080 D
+|||A120||A112 090 D
+|||A103|0|A112 100 D
+|A113||9-0||A113 010 D
+|||9-1|0|A113 020 D
+|9-1||0||A113 030 D
+|||9-2|0|A113 040 D
+|9-2|21|PREP||A113 050 D
