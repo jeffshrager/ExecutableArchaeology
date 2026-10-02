@@ -1,0 +1,9 @@
+|||N2||X199 040 D
+|||N3||X199 050 D
+|||N4||X199 060 D
+|||N5||X199 070 D
+|||N6||X199 080 D
+|||N7||X199 090 D
+|||N8||X199 100 D
+|||N9|0|X199 110 D
+# End of the listing. No type-5 start card follows.
