@@ -5,7 +5,7 @@ reserved. (See copyright details at the end of this document.)
 
 *For the curious visitor who wants to see GPS-style means-end analysis
  turned on the job of programming itself: a 1961 IPL-V program that
- writes IPL-V programs*
+ writes IPL-V programs, and runs again after 65 years*
 
 ---
 
@@ -46,6 +46,20 @@ The target language is IPL-V itself, so it is an IPL-V program that
 writes IPL-V programs. Its "objects" are routines represented as IPL
 description lists, which is why so much of the program is about
 building, comparing, and rewriting list structures.
+
+**It runs again.** For the first time in about 65 years, Simon's
+Heuristic Compiler is running. The 1961 deck was transcribed card by
+card from the archival listing and loaded into a modern IPL-V
+interpreter. Its compilers now do what the 1963 paper says they did.
+Given only a phrase, INSERT AT END OF VALUE LIST, the program writes
+`J13 J52 11W2 11W0 J10 11W1 J65 J32 0`, the code printed in the paper,
+character for character. Given a before-and-after description of the
+machine, it writes the paper's `10J3 20H5 0` for SET SIGNAL MINUS. It
+reassembles the paper's routine J77 from its flow diagram. Nothing here
+was rewritten in a modern language. This is Simon's own IPL-V,
+executing. (One small print routine missing from the listing had to be
+reconstructed, and the English-language front end has not yet been
+run. See "Running It Today".)
 
 **A note on what you're reading.** The listing is headed `HEURISTIC
 CODER 7/16/61`. It is a line-printer listing of the complete card deck,
