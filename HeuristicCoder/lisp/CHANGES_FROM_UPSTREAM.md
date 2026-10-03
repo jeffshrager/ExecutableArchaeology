@@ -39,7 +39,10 @@ This is a handoff for merging this interpreter back into the IPL-V repo, where t
 ## J-functions added
 J12, J13, J61, J69, J70, J77, J83, J101 (emulates head marking), J118, J131, J149 (no-op), J150 (calls `pl`), J165 (no-op). Helpers: `last-cell-of-list`, `value-list-of-attribute`.
 
-## Suggested merge procedure (for the IPL-V session)
-1. Bring over the J-function additions (purely additive) and the card reader.
-2. Run LT (`lt.lisp`) and compare with the baseline `lt.out`. Then apply each ⚠ change one at a time and rerun LT, EPAM and Ackermann.
-3. If a ⚠ change breaks LT, the likely cause is LT relying on the old behavior (e.g. J62's search start, J68, `hack-output!!` for `(0` symbols, or a lone `9` as a local). Decide per case whether to keep the manual-correct behavior and fix LTFixed, or to make the change conditional.
+## Suggested procedure (for the IPL-V session)
+The plan is to **adopt this file wholesale**: copy it over `iplv.lisp` in the IPL-V repo. It is a drop-in replacement. `lt.lisp` only does `(load (compile-file "iplv.lisp"))` and then `(load-ipl "LTFixed.liplv" ...)`, and `.liplv` files still load as before (they are detected by their `(:` header).
+
+1. Save a baseline first, using the old interpreter: `lt.out` and `ltresults/`, plus the Ackermann and EPAM results.
+2. Copy this `iplv.lisp` over the old one and rerun LT, EPAM and the misccode tests.
+3. If the output differs, use the ⚠ items above as a checklist. The likeliest causes are J62's search start, J68's last-cell deletion, J155 no longer calling `hack-output!!` (LT's `(0`-style symbols), a lone `9` no longer being local, header Q parity, and `create-undefined-regionals`. For each one, decide whether to keep the manual-correct behavior and adjust LTFixed, or to make the change conditional.
+4. The auto-run `progn` at the end of the file is quoted out, so loading the file no longer runs `misccode/simple.liplv`. Re-enable it if the IPL-V repo wants that.
