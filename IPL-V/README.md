@@ -1,11 +1,20 @@
 # Common Lisp IPL-V interpreter
 
-`iplv.lisp` is Jeff Shrager's Common Lisp IPL-V interpreter (originally at github.com/jeffshrager/IPL-V), in the version used by the projects in this repository:
+`iplv.lisp` is Jeff Shrager's Common Lisp IPL-V interpreter. This is now its only maintained copy. The earlier repository, github.com/jeffshrager/IPL-V, is archived; it still holds EPAM, the older `LTFixed.liplv`/`lt.lisp` LT, and misc tests, none of them rerun on this version. The projects here that use it are:
 
 - `../HeuristicCoder/`: Simon's Heuristic Coder (1961) and the RM-3588 annexer (1963)
 - `../LogicTheorist/`: Stefferud's 1963 Logic Theorist (dmoews deck)
 
 It reads 80-column IPL-V card decks directly, as well as the older `.liplv` S-expression format. `CHANGES_FROM_UPSTREAM.md` lists every change since IPL-V @ 792cb15. Each change is also marked in the source with `[Fixed: …]`, `[Added: …]` or `[Changed: …]`.
+
+## The manual (`manual/`)
+
+| File | Contents |
+|---|---|
+| `1964-Newell-Information_Processing_Language-V_Second_Edition_1964_OCRED.pdf` | Newell et al., *IPL-V Manual*, 2nd ed. (1964), OCRed scan |
+| `IPL_manual.txt` | its text, with `===== PDF PAGE n =====` markers. PDF pp. 245-246 list all the J's. |
+| `IPL_manual_flow.txt` | the same text, one paragraph per page (best for grep). The OCR confuses `l`/`1`, `O`/`0` and `S`/`5`. |
+| `IPL-V_CheatSheet.pdf` | the IPL-V "cheat sheet" PDF from the old repository (116 pages) |
 
 ## Use
 

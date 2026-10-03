@@ -693,7 +693,7 @@ Newell, A. (Ed.). (1964). *Information Processing Language-V Manual* (2nd ed.). 
 
 Newell, A., Shaw, J. C., & Simon, H. A. (1960). "Report on a General Problem-Solving Program." *Information Processing: Proceedings of the International Conference on Information Processing*, pp. 256–264. UNESCO.
 
-Shrager, J. *IPL-V repository* (Common Lisp IPL-V interpreter and manual scan). github.com/jeffshrager/IPL-V
+Shrager, J. Common Lisp IPL-V interpreter and the 1964 manual scan: `../IPL-V/` in this repository (formerly github.com/jeffshrager/IPL-V, now archived).
 
 Shrager, J. "A Hacker's Guide to Herbert Simon's IPL-V Version of Yngve's Sentence Generator" and other Hacker's Guides.
 

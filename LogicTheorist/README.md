@@ -6,6 +6,7 @@ The deck, the input formulae and the transcribed 1963 output are David Moews's, 
 
 | File | Role |
 |---|---|
+| `1963_Stefferud_LT_RM-3731_OCRed.pdf` | Stefferud, *The Logic Theory Machine: A Model Heuristic Program*, RAND RM-3731 (1963), OCRed scan: the listing and the 1963 output |
 | `logic-theorist-1963-stefferud.iplv` | the LT deck (dmoews), unmodified |
 | `logic-theorist-1963-stefferud-input.txt` | the input formulae: the 24 theorems of *Principia* chapter 2-4 used in 1963 |
 | `logic-theorist-1963-stefferud-output.txt` | Stefferud's printed 1963 output, transcribed by dmoews |

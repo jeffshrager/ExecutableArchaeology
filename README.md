@@ -104,8 +104,9 @@ Repositories:
 * **LT5 / Python IPL-V reconstruction and IBM 7094 instructions:**  
   https://github.com/dmoews/ipl-v-logic-theorist
 
-* **Common Lisp IPL-V interpreter and LT5 work:**  
-  https://github.com/jeffshrager/IPL-V
+* **Common Lisp IPL-V interpreter and LT5 running on it:** now in this
+  repository, `IPL-V/` and `LogicTheorist/`. The earlier repository,
+  https://github.com/jeffshrager/IPL-V, is archived.
 
 Background:
 
