@@ -50,6 +50,10 @@ def main():
     # the same process, and U135 gives up, so the faithful run never tries
     # the state description compiler. This deck erases X105's DSCN first
     # (J14), so T1 compiles J3 from its state description, as in the paper.
+    # Justification: the executive (U134-U138, X196-X198) is identical in
+    # the 1963 listing (RM-3588-PR App. A), and there X105's DSCN cards are
+    # numbered as insertions (X105 015/016). So the paper's J3 result most
+    # likely came from X105 without a DSCN, the state this deck recreates.
     write(OUT_SDSC, cards + [
         card(typ='5', pq='00', comment='EXPERIMENT. NOT IN LISTING', ident='ADAPT 201'),
         card('Z0', '10', 'X105', comment='ERASE DSCN OF X105', ident='ADAPT 202'),

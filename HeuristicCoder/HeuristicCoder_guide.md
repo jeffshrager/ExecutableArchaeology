@@ -51,15 +51,17 @@ building, comparing, and rewriting list structures.
 Heuristic Compiler is running. The 1961 deck was transcribed card by
 card from the archival listing and loaded into a modern IPL-V
 interpreter. Its compilers now do what the 1963 paper says they did.
-Given only a phrase, INSERT AT END OF VALUE LIST, the program writes
-`J13 J52 11W2 11W0 J10 11W1 J65 J32 0`, the code printed in the paper,
-character for character. Given a before-and-after description of the
+Given a functional description of INSERT AT END OF VALUE LIST
+(supplied, as in Simon's own runs, as a hand-coded list structure, not
+as typed text), the program writes `J13 J52 11W2 11W0 J10 11W1 J65 J32
+0`, the code printed in the paper, character for character. Given a before-and-after description of the
 machine, it writes the paper's `10J3 20H5 0` for SET SIGNAL MINUS. It
 reassembles the paper's routine J77 from its flow diagram. Nothing here
 was rewritten in a modern language. This is Simon's own IPL-V,
-executing. (One small print routine missing from the listing had to be
-reconstructed, and the English-language front end has not yet been
-run. See "Running It Today".)
+executing. (One print routine missing from the 1961 listing, U126, was
+taken from the 1963 listing in Simon's RAND memorandum, and the
+English-language front end has not yet been run. See "Running It
+Today".)
 
 **A note on what you're reading.** The listing is headed `HEURISTIC
 CODER 7/16/61`. It is a line-printer listing of the complete card deck,
@@ -571,14 +573,24 @@ output goes to `run/t1.txt` and `run/t1-sdsc.txt`.
 
 - `heuristic.card` is the faithful transcription. `adapt.py` makes the
   runnable `heuristic-run.card` from it with two additions: a start card
-  for T1, which the listing lacks, and a reconstruction of **U126** (the
-  routine that prints a descriptive name), which is missing from the
-  listing. The reconstruction affects printing only.
+  for T1, which the listing lacks (the 1963 listing ends with exactly
+  this card, `KICKOFF 5 T1`), and **U126** (the routine that prints a
+  descriptive name), which is missing from the 1961 listing and is
+  taken from the 1963 listing in RAND RM-3588-PR, Appendix A.
 - In the deck as listed, **J3 does not compile**. U136 prefers J3's DSCN,
   no compiled routine shares its process, and the executive stops
   without trying the state description. `heuristic-run-sdsc.card` erases
   J3's DSCN first, and then the state description compiler produces the
-  paper's `10J3 20H5 0`.
+  paper's `10J3 20H5 0`. The 1963 listing explains why: its executive is
+  identical, but there X105's DSCN cards are numbered as insertions
+  (`X105 015/016`). The paper's J3 most likely came from a version in
+  which X105 had only its state description, which is the state the
+  experiment deck recreates. (The 1963 state description compiler also
+  differs: its state descriptions hold bare symbols, `X2 X1`, where the
+  1961 ones hold described symbols.)
+- The same memorandum's Appendix B, an "information-annexing" program
+  that stores definite-description statements ("X114 is the X33 of the
+  X25 of X105") into description lists, also runs: see `annexer/`.
 - Getting this far took some interpreter work: missing J-functions were
   added, and a few existing ones were corrected to match the 1964 manual.
   The details are in `seshsums/`.
@@ -672,8 +684,7 @@ in this directory. The listing copyright is held by CMU's Archives.
   to high: same title, dates two weeks apart, and the examples match).
 
 **Not established:** which machine the 1961 runs used, and whether
-Simon's own runs printed exactly as these do. U126 is a modern
-reconstruction.
+Simon's own runs printed exactly as these do.
 
 ---
 
@@ -690,6 +701,8 @@ Shrager, J. "A Hacker's Guide to Herbert Simon's IPL-V Version of Yngve's Senten
 Simon, H. A. (1961). *Experiments with a Heuristic Compiler.* The RAND Corporation, Report P-2349, June 30, 1961.
 
 Simon, H. A. (1963). "Experiments with a Heuristic Compiler." *Journal of the ACM*, 10(4), 493–506.
+
+Simon, H. A. (1963). *The Heuristic Compiler.* The RAND Corporation, Memorandum RM-3588-PR, May 1963. (Appendix A: program listing of the compiler; Appendix B: an information-annexing program.) Available from bitsavers.
 
 # Copyright
 
