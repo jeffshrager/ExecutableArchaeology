@@ -47,3 +47,15 @@ p24 U095 020  p48 U141 130  p72 A113 060
 ```
 
 The last card is `X199 110 D`. **No type-5 start card is visible**, so the program was presumably started by a separate card or another deck.
+
+## RAND Memorandum RM-3588-PR (May 1963)
+
+Simon, H. A., *The Heuristic Compiler*, RAND RM-3588-PR, May 1963. From bitsavers; not under copyright.
+
+| File | Contents |
+|---|---|
+| `RM-3588-PR_The_Heuristic_Compiler_May63.pdf` | the whole memorandum, 133 scanned pages, no text layer |
+| `RM-3588-PR_part1paper.pdf` / `_OCRed.pdf` | the paper: Parts I-III (memo pp. i-64), 72 pages |
+| `RM-3588-PR_part2code.pdf` / `_OCRed.pdf` | the listings, 61 pages: Appendix A, "Program Listing of the Heuristic Compiler" (memo pp. 65-117; the compiler subset with T1, including U126); Appendix B, "Program Listing of an Information-Annexing Scheme" (memo pp. 118-125) |
+
+The OCR versions were made by Jeff Shrager. In the code half, memo p. 125 comes second, after p. 65.
