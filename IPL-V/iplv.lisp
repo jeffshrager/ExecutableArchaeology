@@ -506,7 +506,7 @@
 	      (!! :load "Header okay!~%")
 	      (error "No valid header on ~s" file))
 	  (!! :load "Reading ~s as 80-column cards.~%" file))
-    (loop for read-row = (if liplv? (read i nil nil) (next-card-row i))
+    (loop for read-row = (if liplv? (read i nil nil) (next-card-row i load-mode))
 	  with cells = nil
 	  until (null read-row)
 	  do (!! :load "Reading card number ~a: ~s~%" (incf *card-number*) read-row)
@@ -536,13 +536,23 @@
 		    (save-cells (reverse cells) load-mode) (setf cells nil))
 	      	  (push cell cells))
 		(if (string-equal "5" (cell-type cell))
-		    (if (global-symbol? (cell-symb cell))
+		    (cond
+		      ;; [Added: P=4 header = restart mode (manual 18.5): reload
+		      ;; memory from the tape named by SYMB and resume after the
+		      ;; J166. In a single continuous run memory is already
+		      ;; there, so this is a no-op. (Stefferud LT: "RELOAD FROM
+		      ;; TAPE 2" after X9 = J166 J165.)]
+		      ((eql 4 (cell-p cell))
+		       (save-cells (reverse cells) load-mode) (setf cells nil)
+		       (!! :load "Ignoring restart (P=4) header: ~s~%" read-row))
+		      ((global-symbol? (cell-symb cell))
 			(progn
 			  (!! :load "** Execution start at ~s **~%" (cell-symb cell))
 			  (save-cells (reverse cells) load-mode)
 			  (setf cells nil)
 			  (create-undefined-regionals)
-			  (run (cell-symb cell) :adv-limit adv-limit))
+			  (run (cell-symb cell) :adv-limit adv-limit)))
+		      (t
 			;; Header Q (manual 18.5): 0, 2, 4 = routines; 1, 3, 5 =
 			;; data list structures. P is the input mode (0 = IPL
 			;; standard; the Heuristic Coder's first header has P=3,
@@ -557,7 +567,7 @@
 				  (!! :load "Switching to CODE load mode.~%")
 				  (save-cells (reverse cells) load-mode) (setf cells nil)
 				  (setf load-mode :code))
-				(!! :load "Ignoring: ~s~%" read-row)))))))
+				(!! :load "Ignoring: ~s~%" read-row))))))))
 	  finally (save-cells (reverse cells) load-mode)
 	  ))))
 
@@ -584,7 +594,7 @@
 (defun card-field (line from to)
   (string-trim '(#\Space) (card-cols line from to)))
 
-(defun read-card (line)
+(defun read-card (line &optional (load-mode :data))
   ;; Turn one card image into the 9-field row that load-ipl expects
   ;; (see *cols*), or NIL for cards the loader should skip: blank cards
   ;; and type 1 (comment) and type 9 (title) cards.
@@ -600,11 +610,16 @@
 	     (link (card-field line 57 61)))
 	(cond ((string= pq "21")
 	       ;; Alphanumeric data term: leading blanks are characters. An
-	       ;; all-blank term becomes " " (as in LTFixed.liplv) so that it
+	       ;; all-blank term is kept as five blanks so that it
 	       ;; isn't mistaken for an empty SYMB.
 	       (setf symb (string-right-trim '(#\Space) (card-cols line 51 55)))
-	       (when (string= symb "") (setf symb " ")))
-	      ((and (string= pq "01") (string= type ""))
+	       ;; [Changed: keep all five blank columns. Stefferud LT's /16
+	       ;; 'DEFINITIONS' has a blank external name, and its J157 entry
+	       ;; is five columns wide in the 1963 output.]
+	       (when (string= symb "") (setf symb "     ")))
+	      ((and (string= pq "01") (string= type "") (eq load-mode :data))
+	       ;; [Fixed: only in data sections. In routines, PQ 01 is
+	       ;; "execute the routine named in SYMB", e.g. LT's 01W5.]
 	       ;; Integer data term: the value may be anywhere in cols
 	       ;; 51-61. Beyer's 1620 loader wants it right-justified to col
 	       ;; 61; the 7094 decks (e.g. Acker.Ipl) left-justify it at col
@@ -613,7 +628,7 @@
 				  (remove #\Space (card-cols line 51 61)))
 		     symb "")))
 	(unless (string= pq "21") (setf symb (normalize-local symb)))
-	(unless (and (string= pq "01") (string= type "")) (setf link (normalize-local link)))
+	(unless (and (string= pq "01") (string= type "") (eq load-mode :data)) (setf link (normalize-local link)))
 	(list (card-field line 1 40) type (normalize-local (card-field line 43 47)) sign pq symb link
 	      (card-field line 62 70) (card-field line 71 80))))))
 
@@ -622,11 +637,26 @@
   ;; for "9-0", "9-10". The Heuristic Coder mixes both spellings for the
   ;; same label (U199 has 9-10 and 910), so map the old form to the new.
   ;; A lone "9" is the internal symbol 9, not a local.
-  (if (and (> (length symbol) 1)
-	   (char= #\9 (char symbol 0))
-	   (every #'digit-char-p (subseq symbol 1)))
-      (format nil "9-~a" (subseq symbol 1))
-      symbol))
+  ;; [Added: a lone regional character is the zeroth symbol of its region
+  ;; ("A" = "A0", manual 18.2), and J186 inputs it as "A0". Stefferud's LT
+  ;; spells it both ways ("N" on the card that defines it, "N0" in K31),
+  ;; so cards are read in the canonical "A0" form.]
+  (cond ((and (> (length symbol) 1)
+	      (char= #\9 (char symbol 0))
+	      (every #'digit-char-p (subseq symbol 1)))
+	 (format nil "9-~a" (subseq symbol 1)))
+	((and (= (length symbol) 1) (not (digit-char-p (char symbol 0))))
+	 (format nil "~a0" symbol))
+	;; [Added: a regional symbol is a region character and digits; other
+	;; characters are ignored, as J181 does for input. Stefferud LT's run
+	;; data has "K31 YES", which must equal the symbol Y (M19 tests
+	;; 11K31 10Y J2 to decide whether to print rejected problems).]
+	((and (> (length symbol) 1)
+	      (not (digit-char-p (char symbol 0)))
+	      (notevery #'digit-char-p (subseq symbol 1)))
+	 (let ((digits (remove-if-not #'digit-char-p (subseq symbol 1))))
+	   (format nil "~a~a" (char symbol 0) (if (string= digits "") "0" digits))))
+	(t symbol)))
 
 ;;; Regional symbols that are used but never defined (e.g. X97-X99 in the
 ;;; annexer, E0 and U99 in the Heuristic Coder) are reserved by the type-2
@@ -647,11 +677,11 @@
       (make-cell! :name s :symb "0" :link "0"))
     names))
 
-(defun next-card-row (stream)
+(defun next-card-row (stream &optional (load-mode :data))
   ;; Next non-skipped card from STREAM as a row, or NIL at end of file.
   (loop for line = (read-line stream nil nil)
 	while line
-	do (let ((row (read-card line)))
+	do (let ((row (read-card line load-mode)))
 	     (when row (return row)))))
 
 (defun decode-pq (pq? val hint)
@@ -1496,7 +1526,14 @@
 		(!! "J68 Moving symbol in ~s to ~s and deleting ~s."
 		    next-cell this-cell next-cell)
 		(setf (cell-symb this-cell) (cell-symb next-cell)
-		      (cell-link this-cell) (cell-link next-cell)))))
+		      (cell-link this-cell) (cell-link next-cell))
+		;; [Fixed: return the removed cell to available space. Left
+		;; linking into the list, it fooled the last-cell scan above
+		;; into unlinking it instead of the real previous cell, which
+		;; left a stray 0 at the end of Stefferud LT's theorem lists
+		;; (M62 9-102). And set H5+ explicitly.]
+		(setf (cell-symb next-cell) "0" (cell-link next-cell) "0")
+		(H5+))))
 	(poph0 1)
 	)
 
@@ -1926,8 +1963,12 @@
 	;; -) in their name, and local cells with q=2 (and non-local
 	;; q=4). This might want to check that the symbol has a - in
 	;; it.]
+	;; [Fixed: a data term's Q=1 is its type code (01 integer, 21 alpha),
+	;; so don't overwrite it. Doing so made J157 print Stefferud LT's
+	;; subproblem numbers (J120 copy + J136 of K10, M51) as "0".]
 	(let ((cell (<== H0)))
-	  (setf (cell-q cell) 2)))
+	  (unless (= 1 (cell-q cell))
+	    (setf (cell-q cell) 2))))
 
   (defj J137 ([0]) "MARK LIST (0) PROCESSED"
 	;; List (0) is preserved, its [new] head made empty (Q =
@@ -1993,7 +2034,9 @@
 	;; Clear Print Line CLEAR PRINT LINE. Print line 1W24 is cleared and the
 	;; current entry column, 1W25, is set equal to the left margin, 1W21 [always 1 at the moment].
 	(setf *W24-Line-Buffer* (blank80))
-	(W25-set 0))
+	;; [Fixed: columns are 1-based (manual 16.0), as in J181/J186 and the
+	;; J183/J184 scanners. This was 0, which shifted all output left one.]
+	(W25-set 1))
 
   (defj J155 () "Print line"
 	;; [Changed: print the line literally. hack-output!! (an LT-era kludge)
@@ -2011,15 +2054,20 @@
 	(PopH0 1)
 	;; "Symbols are entered in the print line compactly; i.e., as A1, B10,
 	;; etc. (A0 is entered as A)." (manual 16.2)
-	(let* ((s (if (and (= 2 (length [0])) (char= #\0 (char [0] 1))
-			   (not (digit-char-p (char [0] 0))))
-		      (subseq [0] 0 1)
-		      [0]))
+	;; [Added: an internal symbol prints as a number (its address on the
+	;; real machine), so our internal names "9-nnn" print as "nnn".]
+	(let* ((s (cond ((and (= 2 (length [0])) (char= #\0 (char [0] 1))
+			      (not (digit-char-p (char [0] 0))))
+			 (subseq [0] 0 1))
+			((and (> (length [0]) 2) (string= "9-" (subseq [0] 0 2))
+			      (every #'digit-char-p (subseq [0] 2)))
+			 (subseq [0] 2))
+			(t [0])))
 	       (l (length s))
 	       (p (W25-get)))
 	  (!! :io "             .....J156 trying to add ~s at pos ~a in print butter." s p)
-	  (if (<= (+ p l) 80)
-	      (loop for m from p by 1
+	  (if (<= (+ p l -1) 80)
+	      (loop for m from (1- p) by 1
 		    as c across s
 		    do (setf (aref *W24-Line-Buffer* m) c)
 		    finally (progn (W25-set (+ l p))
@@ -2046,9 +2094,10 @@
 		 (l (length s))
 		 (p (W25-get)))
 	    (!! :io "             .....J157 called on ~s, string: ~s (w25=~a)" a0 s p)
-	    (when (> (+ l p) 80) (H5-) (return-from J157A nil)) ;; (Sadly, J157 isn't a DEFUN'ed block)
+	    ;; [Fixed: 1W25 is a 1-based column.]
+	    (when (> (+ l p -1) 80) (H5-) (return-from J157A nil)) ;; (Sadly, J157 isn't a DEFUN'ed block)
 	    (loop for c across s
-		  as i from p by 1
+		  as i from (1- p) by 1
 		  do (setf (aref *W24-Line-Buffer* i) c))
 	    (W25-set (+ l p))
 	    (H5+)
@@ -2059,7 +2108,9 @@
 	(poph0 1)
 	(let ((col (numget col)))
 	  (!! :io "             .....Tabbing to ~a" col)
-	  (W25-set col)))
+	  ;; [Fixed: "1W25 is set equal to 1W21 + (0)"; the left margin 1W21
+	  ;; is always 1 here (see J154).]
+	  (W25-set (1+ col))))
 
   (defj J161 (a0) "INCREMENT COLUMN BY (0)"
 	;; (0) is taken as the name of an integer data term. Current
@@ -2086,7 +2137,10 @@
 	  (!! :io "             .....J180 Read: ~s" line)
 	  (H5+)
 	  (if line (scan-input-into-*W24-Line-Buffer* line) (H5-))
-	  (W25-set 0)
+	  ;; [Fixed: columns are 1-based, and J183/J184 scan from 1W25+1, so
+	  ;; column 1 is 1W25 = 1 (Stefferud LT's M89 counts from N1 = 1).
+	  ;; This was 0, which put every scanned column one too far right.]
+	  (W25-set 1)
 	  ))
 	
   (defj J181 () "INPUT LINE SYMBOL."  ;; ** Check  me !!
@@ -2142,12 +2196,18 @@
 	;; incremented by the amount 1W30.
 	(let* ((w25p (W25-get))
 	       (w30n (numget (cell-symb (cell "W30"))))
-	       (start w25p)
-	       (end (+ start w30n))
+	       ;; [Fixed: 1W25 is a 1-based column (it was read as 0-based,
+	       ;; which lost the first character, e.g. "*1.01" -> "1.01 "), and
+	       ;; "if the specified field exceeds five columns, the rightmost
+	       ;; five columns are taken".]
+	       (start (max (1- w25p) (- (+ (1- w25p) w30n) 5)))
+	       (end (+ (1- w25p) w30n))
 	       (string (subseq *W24-Line-Buffer* start end)))
 	  ;; WWW Assumes that the target is alpha, which could be wrong in future applications!
 	  (setf (cell-symb (cell [0])) string) 
 	  (W25-set (+ (W25-get) w30n))
+	  ;; [Added: H5 was never set. Blank field -> H5- (term is all blanks).]
+	  (if (string= "" (string-trim " " string)) (H5-) (H5+))
 	  (!! :jdeep "             .....J182 extracted ~s (~a-~a in ~s) [w25=~a, w30=~a] and jammed it into ~s"
 	      string start end *W24-Line-Buffer* w25p w30n [0])
 	))

@@ -560,9 +560,10 @@ That is, character for character, the code in the 1963 paper:
 
 ## Running It Today
 
-The program runs on Jeff Shrager's Common Lisp IPL-V interpreter, using
-a copy kept in this directory (`lisp/iplv.lisp`) that reads IPL-V card
-decks directly. To run it:
+The program runs on Jeff Shrager's Common Lisp IPL-V interpreter. This
+repository keeps its current version in `../IPL-V/iplv.lisp`, which
+reads IPL-V card decks directly and also runs Stefferud's 1963 Logic
+Theorist (`../LogicTheorist/`). To run it:
 
 ```
 ./run.sh
@@ -593,7 +594,7 @@ output goes to `run/t1.txt` and `run/t1-sdsc.txt`.
   X25 of X105") into description lists, also runs: see `annexer/`.
 - Getting this far took some interpreter work: missing J-functions were
   added, and a few existing ones were corrected to match the 1964 manual.
-  The details are in `seshsums/`.
+  The details are in `seshsums/` and `../IPL-V/CHANGES_FROM_UPSTREAM.md`.
 
 ---
 
@@ -613,8 +614,6 @@ output goes to `run/t1.txt` and `run/t1-sdsc.txt`.
   X176, and others).
 - **Proofreading.** Check the transcription against the scan, especially
   the routines the demonstration never reaches.
-- **The interpreter.** Recheck the Logic Theorist on the corrected
-  interpreter.
 
 ---
 

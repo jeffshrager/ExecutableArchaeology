@@ -23,7 +23,7 @@ spirit.
 
 ## Simon–Yngve Sentence Generator
 
-The project currently contained in this repository is:
+The first project in this repository is:
 
 ### `SimonYngveSentenceGenerator/`
 
@@ -58,6 +58,17 @@ The directory contains:
   IPL-V representation, execution, and reconstruction.
 
 The guide is the best place to begin.
+
+## Also in this repository
+
+* **`HeuristicCoder/`**: Herbert Simon's Heuristic Coder (IPL-V listing
+  of 7/16/61), transcribed and running again after 65 years, plus the
+  information-annexing program from RAND RM-3588-PR (1963). Start with
+  `HeuristicCoder_guide.md`.
+* **`LogicTheorist/`**: Einar Stefferud's 1963 IPL-V Logic Theorist
+  (David Moews's deck), running unmodified and reproducing the 1963
+  output for all 24 theorems.
+* **`IPL-V/`**: the Common Lisp IPL-V interpreter that runs both.
 
 ## Other examples of executable archaeology
 

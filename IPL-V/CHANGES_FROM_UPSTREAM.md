@@ -1,14 +1,14 @@
 # Changes to `iplv.lisp` relative to upstream (jeffshrager/IPL-V @ 792cb15)
 
-This is a handoff for merging this interpreter back into the IPL-V repo, where the Logic Theorist (LT), EPAM and the misccode tests live. For the full patch, run `diff <(git -C ~/Desktop/AIHistory/IPL-V/repo show 792cb15:iplv.lisp) lisp/iplv.lisp`. Nearly every change carries a `[Fixed: …]` / `[Added: …]` / `[Changed: …]` comment in the source.
+This interpreter began as a forward copy of jeffshrager/IPL-V @ 792cb15, made for the Heuristic Coder (`../HeuristicCoder/`), and was then fixed further to run Stefferud's Logic Theorist (`../LogicTheorist/`). The sections below were written in that order. For the full patch, run `diff <(git -C ~/Desktop/AIHistory/IPL-V/repo show 792cb15:iplv.lisp) iplv.lisp`. Nearly every change carries a `[Fixed: …]` / `[Added: …]` / `[Changed: …]` comment in the source.
 
-**Tested here:**
+**Tested (Heuristic Coder stage):**
 - Ackermann: card deck `tests/Acker.Ipl` → 125, and `tests/Ackermann.liplv` → 61.
 - J-probe deck `tests/jprobe.card`.
-- The Heuristic Coder: `../run.sh`, whose output is `../run/t1*.txt`.
-- The annexer: `../annexer/run.sh`.
+- The Heuristic Coder: `../HeuristicCoder/run.sh`, whose output is `../HeuristicCoder/run/t1*.txt`.
+- The annexer: `../HeuristicCoder/annexer/run.sh`.
 
-**NOT tested: LT, EPAM, F1, R3, T123.** Changes marked ⚠ alter behavior that these programs may depend on.
+**Not tested at that stage: LT, EPAM, F1, R3, T123.** (LT was run later; see the last section.) Changes marked ⚠ alter behavior that these programs may depend on.
 
 ## Loader
 1. **Reads 80-column card decks directly.** `load-ipl` looks at the first line: `(:` means `.liplv`, anything else means cards. New functions: `liplv-file?`, `card-cols`, `card-field`, `read-card`, `next-card-row`, `normalize-local`.
@@ -39,10 +39,32 @@ This is a handoff for merging this interpreter back into the IPL-V repo, where t
 ## J-functions added
 J12, J13, J61, J69, J70, J77, J83, J101 (emulates head marking), J118, J131, J149 (no-op), J150 (calls `pl`), J165 (no-op). Helpers: `last-cell-of-list`, `value-list-of-attribute`.
 
-## Suggested procedure (for the IPL-V session)
+## Suggested procedure (for the IPL-V session; done 2026-10-03)
 The plan is to **adopt this file wholesale**: copy it over `iplv.lisp` in the IPL-V repo. It is a drop-in replacement. `lt.lisp` only does `(load (compile-file "iplv.lisp"))` and then `(load-ipl "LTFixed.liplv" ...)`, and `.liplv` files still load as before (they are detected by their `(:` header).
 
 1. Save a baseline first, using the old interpreter: `lt.out` and `ltresults/`, plus the Ackermann and EPAM results.
 2. Copy this `iplv.lisp` over the old one and rerun LT, EPAM and the misccode tests.
 3. If the output differs, use the ⚠ items above as a checklist. The likeliest causes are J62's search start, J68's last-cell deletion, J155 no longer calling `hack-output!!` (LT's `(0`-style symbols), a lone `9` no longer being local, header Q parity, and `create-undefined-regionals`. For each one, decide whether to keep the manual-correct behavior and adjust LTFixed, or to make the change conditional.
 4. The auto-run `progn` at the end of the file is quoted out, so loading the file no longer runs `misccode/simple.liplv`. Re-enable it if the IPL-V repo wants that.
+
+## Stefferud LT (dmoews deck), 2026-10-03
+
+This file was copied into the IPL-V repo and then fixed until dmoews's unmodified Stefferud deck (now `../LogicTheorist/`) reproduced the 1963 output (see `../LogicTheorist/README.md`). The old `LTFixed.liplv` / `lt.lisp` run was **not** rechecked.
+
+Loader:
+- A type-5 header with **P=4** (restart mode: "reload from tape") is a no-op, because memory is already in place in a single run. It used to be taken as a start card for symbol `2`.
+- **PQ 01 is an integer data term only in data sections.** In routines it means "execute the routine named in SYMB" (LT's `01W5`). The reader used to squeeze cols 51-61 into LINK for every 01 card. `read-card`/`next-card-row` now take the load mode.
+- **A lone regional character `A` is read as `A0`**, the same symbol (and what J186 inputs). LT spells it both ways.
+- **Non-digits after the region character are dropped**: `YES` → `Y0`. LT's run data has `K31 YES`, which is tested against `Y`.
+- An all-blank alphanumeric term is kept as **five** blanks, not one. LT's /16 'DEFINITIONS' has a blank external name, which J157 enters 5 columns wide.
+
+Line I/O (columns are 1-based throughout, per manual §16):
+- J180 sets 1W25 = 1 (was 0); J154 sets 1W25 = 1 (was 0).
+- J182 reads from column 1W25 (it used to drop the first character), takes the rightmost 5 columns of a longer field, and now sets H5.
+- J156/J157 enter at column 1W25.
+- J160: 1W25 = 1W21 + (0), with left margin 1, per the manual. It used to be (0).
+- J156 prints an internal name `9-nnn` as `nnn`.
+
+J-functions:
+- **J68** (non-last cell): the cell it removes is returned to available space (symb/link cleared), and H5+ is set. The stale link used to fool J68's last-cell symtab scan into unlinking the wrong predecessor, which left a stray `0` in LT's theorem lists (M62).
+- **J136** no longer overwrites Q of a data term (Q=1 is its type code), so J157 prints J120+J136 copies of integers correctly (LT's subproblem numbers printed as `0.`).

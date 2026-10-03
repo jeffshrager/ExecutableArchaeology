@@ -46,7 +46,7 @@ Data:
 | `build.py` | builds `annexer.card` |
 | `input.txt` | the input statement cards (the same three statements as A0-A2) |
 | `output_1963.txt` | the only surviving output from 1963, the start of M2's dump of the statement list (memo p. 125) |
-| `run.sh` | builds and runs on `../lisp/iplv.lisp`. It writes `output.txt` (the program's printing) and `memory.txt` |
+| `run.sh` | builds and runs on `../../IPL-V/iplv.lisp`. It writes `output.txt` (the program's printing) and `memory.txt` |
 
 ## Result
 
@@ -68,7 +68,7 @@ The third statement **found** the X25 object created by the second (the identify
 ## Notes
 
 - The input cards are not in the memorandum. The surviving output shows that the first card read was A0, so the input here is A0-A2 written as cards.
-- Running this needed a few interpreter changes in `../lisp/iplv.lisp`:
+- Running this needed a few interpreter changes in `../../IPL-V/iplv.lisp`:
   - J77 was added.
   - Regional symbols that are used but not defined (X97-X100, X105, …) are created as empty cells.
   - J60 of the symbol 0 finds no next cell.

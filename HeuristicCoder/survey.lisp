@@ -1,9 +1,9 @@
 ;;; Load the Heuristic Coder deck and report every SYMB/LINK symbol that
 ;;; names nothing: undefined J's, undefined regionals, etc.
 ;;; sbcl --non-interactive --load survey.lisp
-(load (compile-file "iplv.lisp"))
+(load (compile-file "../IPL-V/iplv.lisp" :output-file (merge-pathnames "iplv.fasl" (truename "."))))
 (set-trace-mode :none)
-(load-ipl "../heuristic.card")
+(load-ipl "heuristic.card")
 (let ((missing (make-hash-table :test #'equal)))
   (loop for v being the hash-values of *symtab*
 	when (cell? v)
