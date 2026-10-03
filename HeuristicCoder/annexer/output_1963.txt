@@ -1,0 +1,21 @@
+Output printed after the start card on memo p. 125 (end of Appendix B).
+This is the beginning of M2's J150 dump of the statement list that M10
+read from the input cards. The printout stops here; nothing else of the
+1963 run survives in the memorandum.
+
+Each line is: address, PQ, symbol (J150 list-structure format).
+
+3630  3  0
+      2  3627
+      2  3637
+      2  3644
+
+3627  3  0
+      0  X113
+      0  X99
+      0  X31
+      0  X20
+
+Reading: the statement list (3630) has three statements, 3627, 3637 and
+3644. The first, 3627, begins X113 X99 X31 X20, matching data list A0
+(X113 X99 X31 X20 X105): "X113 is the X31 of the X20 of X105".

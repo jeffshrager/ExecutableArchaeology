@@ -1,0 +1,409 @@
+                                        2 A                10
+                                        2 M               100
+                                        2 N               100
+                                        2 X               200
+                                        2 Y               200
+                                        5
+     M0. PREPARE LIST (0) FOR             M0    40H0                     M000010
+     M1. OUTPUT (0) IS VALUE                    10X99                    M000020
+     (1) IS FUNCTION                              J62                    M000030
+     X99= ... IS THE                              J75                    M000040
+     VALUE OF ...                                 J50                    M000050
+     PUT FUNCTION IN W0                         40H0                     M000060
+                                                  J70                    M000070
+                                                40H0                     M000080
+     IF VALUE IS SYMBOL                           J60                    M000090
+     FIND IT, AND DO 90                         70J7                     M000095
+                                                  J60                    M000100
+                                                30H0                     M000110
+                                                70         90            M000120
+                                                  J60                    M000130
+                                                52H0       90            M000140
+     BRING IN FUNCTION                    90    11W0                     M000150
+     AND EXIT                                     J6      J30            M000160
+     ASSIGN (0) AS VALUE OF THE (1)       M1      J42                    M001010
+                                                  J21                    M001020
+                                                11W1                     M001025
+                                                40H0
+                                                  M20                    M001026
+     SIMPLIFY (0)                                 M21                    M001027
+                                                40H0
+                                                  M20                    M001028
+                                                20W1                     M001029
+                                                  J71
+                                                  J71
+                                          91    11W1                     M001030
+                                                  J83                    M001040
+                                                7090                     M001050
+                                                30H0                     M001060
+                                                  J90                    M001070
+                                                  J136                   M001080
+                                                60W2                     M001090
+                                                  910                    M001110
+                                                11W1                     M001140
+                                                  J60                    M001150
+                                                  J68                    M001160
+                                                11W2                     M001170
+                                                20W0       91            M001180
+                                          90    11W1                     M001190
+                                                  J82                    M001195
+                                                  910                    M001210
+                                                11W1                     M001230
+                                                  J71     J32            M001240
+     ASSIGN 1W0                           910   11W0                     M001250
+     AS VALUE OF J81(1W1) OF (0).               11W1                     M001260
+                                                  J81                    M001270
+                                                40H0                     M001280
+     IF J81(1W1)=X98                            10X98                    M001290
+     PUT 1W0 AT END OF (0)                        J2                     M001300
+                                                70J11                    M001310
+                                                30H0      J65            M001320
+                                          M2      M10                    M002010
+                                                40H0
+                                                  J150
+                                                  J4                     M002015
+                                                1090                     M002020
+                                                  J100                   M002025
+                                                  J154
+                                                  J155
+                                                10X105                   M002026
+                                                  M4       M7            M002027
+                                          90      M0                     M002030
+                                                  M1                     M002040
+                                                  J154                   M002045
+                                                  J155                   M002046
+                                                10X105                   M002050
+                                                  J150     J4            M002060
+     DELETE X98 TO X97 OF (0)             M3    10X97                    M003010
+                                                10X98     M26            M003020
+     M4. CREATE DESCRIPTION               M4      J90                    M004010
+     OF EXPRESSION (0)                            J90                    M04 020
+     OUTPUT (0) IS DESCRIPTION                    J52                    M04 030
+                                                11W1                     M004032
+                                                10X100                   M004034
+                                                  J65                    M004036
+     1W0 IS OUTPUT LIST                         11W1                     M04 040
+     1W1 IS GENERATOR LIST                      11W2                     M04 050
+     1W2 IS EXPRESSION                            J64                    M04 060
+                                                11W1                     M04 070
+                                                1090                     M04 080
+                                                  J100                   M04 090
+                                                11W0      J32            M004100
+     1W2 IS CURRENT EXPRESSION            90    40H0                   M004 0110
+                                                  J152
+                                                60W2
+     FIND ITS TYPE                                M5                     M04 120
+     ADD IT TO END OF VALUE LIST                40H0                     M04 130
+     FOR TYPE                                   11W0                     M04 140
+                                                  J6                     M04 150
+                                                11W2                     M04 160
+                                                  J6                     M04 170
+                                                  J13                    M04 180
+                                                11W2                     M04 190
+     PUT COMPONENTS ON GEN. LIST                11W1                     M004200
+                                                  M6       J4            M004210
+     M5. FIND TYPE OF EXPRESSION (0)      M5      J0                     M005010
+                                                12H0                     M05 015
+     OUTPUT (0) IS TYPE                           J60                    M05 020
+                                                30H0                     M05 030
+                                                70         90            M005050
+                                                  J60                    M05 050
+                                                30H0                     M05 060
+                                                7091                     M05 070
+                                                10X85       0            M05 080
+                                          90    30H0                     M005090
+                                                10X86       0            M005095
+                                          91    10X45       0            M05 100
+                                          92    30H0       91            M005110
+     M6. PUT COMPONENTS OF (1)            M6      J52                    M006010
+     OF TYPE (2)                                11W2                     M06 020
+     ON GENERATOR LIST (0)                      10X45                    M06 030
+     NO OUTPUT                                    J2                     M06 040
+                                                70        J32            M06 050
+                                                11W0                     M006052
+                                                10X100                   M006054
+                                                  J62                    M006056
+                                                20W0                     M006058
+                                                11W2                     M06 060
+                                                10X85                    M06 070
+                                                  J2                     M06 080
+                                                7090                     M06 090
+                                                11W1                     M006141
+                                          96      J60                    M006142
+                                                7092                     M006143
+                                                12H0                     M006144
+                                                11W0                     M006145
+                                                  J6                     M006146
+                                                  J63      96            M006147
+                                          90    12W1                     M06 150
+                                          91      J60                    M06 160
+                                                7092                     M06 170
+                                                  J60                    M006175
+                                                12H0                     M06 180
+                                                11W0                     M06 190
+                                                  J6                     M06 200
+                                                  J63      91            M006210
+                                          92    30H0      J32            M06 230
+     M7. PRINT DESCRIPTION (0)            M7      J40                    M007010
+     SAVE IT IN W0                              60W0                     M007020
+     PRINTS ITS LIST OF DLS                     10X86                    M002030
+                                                  910                    M007040
+                                                11W0                     M007050
+     PRINT ITS LIST OF LIST                     10X85                    M007060
+                                                  910                    M007070
+                                                11W0                     M007080
+     PRINT ITS LIST OF SYMBOLS                  10X45                    M007090
+                                                  910     J30            M007100
+                                          910   40H0                     M007110
+     PRINT ATTRIBUTE                              J152                   M007120
+                                                  J10                    M007130
+                                                7090                     M007140
+     PRINT LIST                                   J151                   M007150
+     SPACE                                90      J154   J155            M007160
+     M10. READ LIST OF STATEMENT          M10     J0                      M10005
+                                                  J154
+                                                10W25                     M10010
+     AND STORE AS LIST OF                         M11                     M10020
+     LISTS (0).                                 10W30                     M10030
+                                                  M11                     M10040
+     SET UP OUTPUT LIST                           J90                     M10050
+                                                  J50                     M10060
+     READ NEXT LINE                       90      J180                    M10070
+                                                7091                      M10080
+     SET UP STATEMENT LIST                        J90                     M10090
+                                                  J136                    M10100
+     SET POINTER TO PSJ 0                       11W25                     M10110
+                                                  J124                    M10120
+     SET POINTER TO FIRST SUMB                    J184                    M10130
+                                                7091                      M10135
+                                                30H0                      M10140
+                                          92    11W30                     M10150
+                                                  J124                    M10160
+     MEASURE SYMB                                 J183                    M10170
+                                                30H0                      M10180
+     AND SAVE IT                                40H0                      M10100
+     AND INPUT IT TO H0                           J181                    M10190
+     PUT IT AT END OF STATEMENT LIST              J65                     M10200
+                                                11W25                     M10210
+     FIND NEXT SYMB                               J184                    M10220
+                                                30H0                      M10230
+                                                7093       92             M10240
+                                          91    30W25                     M10250
+                                                30W30                     M10260
+                                                11W0      J30             M10270
+                                          93    11W0                      M10280
+                                                  J6                      M10290
+                                                  J65      90             M10300
+     M11. SET UP D.T. IN (0)              M11     J50                     M11010
+                                                  J90                     M11020
+                                                  J124                    M11030
+                                                41W0                      M11040
+                                                21W0      J30             M11050
+     M20. CREATE FIND LIST                M20     J50                    M020010
+     FROM DESCRIPTION LIST (0)                    J90                    M020020
+     OUTPUT (0) IS FIND LIST.                   40H0                     M020030
+                                                11W0                     M020040
+                                                1090                     M020050
+                                                  J100                   M020060
+                                                30H0      J30            M020065
+                                          90      J64                    M020070
+                                                40H0        0            M020080
+     M21. REDUCE FIND LIST (0)            M21     J41                    M021010
+     OUTPUT (0) IS REDUCED LIST                 40H0                     M021020
+                                                  J60                    M021030
+                                                60W0                     M021040
+     FIND NEXT ARGUMENT                         52H0                     M021050
+                                          92    11W0                     M021060
+     LOCATE NEXT DETERMINER                       J60                    M021070
+     IF NONE, GO TO 90                          7090                     M021080
+     FIND DETERMINER                            52H0                     M021090
+     SAVE IT                                    60W1                     M021100
+     DETERMINE FUNCTION                           J10                    M021110
+     IF NO VALUE, GO TO 91                      7091                     M021120
+     DELETE ARGUMENT FROM LIST                  11W0                     M021130
+                                                  J68                    M021140
+     REPLACE DETERMINER WITH VALUE              61W0       92            M021150
+     END OF LIST                          90    30H0                     M021160
+                                                30H0      J31            M021170
+     PROCESS X97 OR QUIT                  91    11W1                     M021180
+                                                10X97                    M021190
+                                                  J2                     M021200
+                                                70J31                    M021210
+     POINT TO PREDECESSOR OF X97                11W0                     M021220
+     AND PROCESS IT                               M22                    M021230
+                                                7093                     M021240
+                                                61W0                     M021250
+                                                  94       92            M021254
+                                          94      J0                     M021255
+                                                11W0                     M021256
+                                                  M24                    M021260
+     DELETE X98                                 11W0                     M021270
+                                                  J60     J68            M021280
+     CREATE OBJECT FOR                    93    40W2                     M021300
+     SUBDESCRIPTION                             11W0                     M021310
+     COPY PART DESCRIPTION                        M23                    M021320
+                                                20W2                     M021330
+     CREATE NEW OBJECT                            J90                    M021340
+                                                  J136                   M021345
+                                                40H0                     M021350
+                                                40H0                     M021360
+                                                11W2                     M021370
+                                                  J6                     M021380
+     PUT IT AT HEAD OF PART DESCRIPT              J64                    M021390
+                                                12W0                     M021400
+                                                  J6                     M021410
+     PUT IT AT END OF ARG LIST                    J65                    M021420
+                                                11W2                     M021430
+     DESCRIBE IT                                  M20                    M021440
+                                                  M0                     M021450
+                                                  M1                     M021460
+     SUBSTITUTE IT FOR ARG                      21W0                     M021470
+                                                  94      J32            M021480
+     M22. IDENTIFY LIST MEMBER            M22     J0                     M022010
+                                                12H0                     M022015
+     WITH ARG. LOCATION (0)                       J50                    M022020
+     X97 AT N(0)                                  M23                    M022030
+     IF IDENTIFIED, OUTPUT                      40H0                     M022040
+     (0) IS NAME OF MEMBER.                     11W0                     M022050
+     IF NOT IDENTIFIED, NO                      1090                     M022060
+     OUTPUT. FIND LIST NOT                        J100                   M022070
+                                                  J5                     M022072
+                                                70        J30            M022074
+                                                30H0                     M022076
+                                                30H0      J30            M022078
+     MUTILATED                            90    60W0                     M022080
+                                                  M25                    M022090
+                                                70         91            M022100
+                                                40H0       J4            M022110
+                                          91    51W0       J3            M022120
+     M23. COPY DESCRIPTION FROM           M23     J0                     M023010
+     X97 TO X98 OF (0)                    91      J60                    M023020
+     OUTPUT (0) IS COPY                         70J7                     M023030
+                                                12H0                     M023040
+                                                10X97                    M023050
+     TEST IF = X97                                J2                     M023060
+                                                7091                     M023070
+     PUT LOC OF X97 OUT                           J50                    M023080
+     CREATE NAME OF COPY                          J90                    M023090
+                                                40H0                     M023100
+                                                11W0                     M023110
+     DO 90 ON CELLS OF (0)                      1090                     M023120
+                                                  J100    J30            M023130
+                                          90    40H0                     M023140
+     IF SYMB IS X98, QUIT                       10X98                    M023150
+                                                  J2                     M023160
+                                                  J5                     M023170
+                                                70         92            M023180
+                                                  J8       J8            M023190
+     IF NOT, ADD TO LIST                  92      J65                    M023200
+                                                40H0        0            M023210
+     DELETE X97 TO X98 OF (0)             M24   10X98                    M024010
+                                                10X97     M26            M024020
+     M25. TEST IF (0) FITS                M25     J51                    M025010
+     DESCRIPTION (1)                      91    11W0                     M025020
+                                                11W1                     M025030
+     LOCATE NEXT DETERMINER                       J60                    M025040
+     SAVRE LOCATION                             60W1                     M025050
+     FIND IT                                    52H0                     M025060
+                                                40H0                     M025070
+                                                10X99                    M025080
+     IS IT X99                                    J2                     M025090
+     IF SO, TERMINATE TEST                      70         90            M025100
+     FIND VALUE OF (0)                            J10                    M025110
+     IF NONE, EXIT WITH -                       70J31                    M025120
+     IF SO, SUBSTITUTE IT FOR (0)               20W0       91            M025130
+     COMPARE VALUE WITH VALUE             90    30H0                     M025140
+     OF DESCRIPTION                             11W1                     M025150
+                                                  J60                    M025160
+                                                70J7                     M025170
+                                                52H0                     M025180
+     AND EXIT WITH SIGNAL                         J2      J31            M025190
+     M26 DELETE SECT FROM (0) TO (1)      M26     J52                    M026010
+     OF LIT (0). NO OUTPUT.                     11W2                     M026020
+     TESTS THAT CN(2)=(0). IF (1)               11W1                     M026030
+     NOT ON LIST, DOES NOTHING                    J77                    M026040
+                                                70J32                    M026050
+                                                11W2                     M026060
+                                                  J60                    M026070
+                                                12H0                     M026080
+                                                11W0                     M026090
+                                                  J2                     M026100
+                                                70J7                     M026110
+                                          90      J68                    M026120
+                                                11W2                     M026130
+                                                  J60                    M026140
+                                                70J7                     M026150
+                                                12H0                     M026160
+                                                11W1                     M026170
+                                                  J2                     M026180
+                                                7090                     M026190
+                                                30H0      J32            M026200
+                                        5        1
+                                          X113                           X113010
+                                          A0      0                      A000010
+                                                  X113                   A000013
+                                                  X99                    A000015
+                                                  X31                    A000020
+                                                  X20                    A000030
+                                                  X105      0            A000040
+                                          A1      0                      A001010
+                                                  X114                   A001013
+                                                  X99                    A001015
+                                                  X33                    A001020
+                                                  X25                    A001030
+                                                  X105      0            A001040
+                                          A2      0                      A002010
+                                                  X115                   A002013
+                                                  X116                   A002015
+                                                  X99                    A002017
+                                                  X34                    A002020
+                                                  X25                    A002030
+                                                  X105      0            A002040
+                                          N1     1          1            N001010
+     SDSC OF ROUTINE                      X24     90        0            X24 010
+                                          90      0                      X24 020
+                                                  X32                    X24 030
+                                                  X86                    X24 040
+                                                  X87                    X24 050
+                                                  91        0            X24 060
+                                          91      0                      X24 070
+                                                  X71       0            X24 080
+     NAME                                 X41     90        0            X41 010
+                                          90      0                      X41 020
+                                                  X32                    X41 030
+                                                  X45       0            X41 040
+     LIST OF AFFECTED CELLS               X71     90        0            X71 010
+                                          90      0                      X71 020
+                                                  X32                    X71 030
+                                                  X85                    X71 040
+                                                  X91                    X71 050
+                                                  X72       0            X71 060
+     AFFECTED CELL                        X72     90        0            X72 010
+                                          90      0                      X72 020
+                                                  X32                    X72 030
+                                                  X86                    X72 045
+                                                  X87                    X72 050
+                                                  91        0            X72 060
+                                          91      0                      X72 070
+                                                  X41                    X72 080
+                                                  X75                    X72 090
+                                                  X76       0            X72 100
+     INPUT STATE OF CELL                  X75     90        0            X75 010
+                                          90      0                      X75 020
+                                                  X32                    X75 030
+                                                  X85                    X75 040
+                                                  X91                    X75 050
+                                                  X45       0            X75 060
+     OUTPUT STATE OF CELL                 X76     90        0            X76 010
+                                          90      0                      X76 020
+                                                  X32                    X76 030
+                                                  X85                    X76 040
+                                                  X91                    X76 050
+                                                  X45       0            X76 060
+     LIST                                 X85                                X85
+     DESCRIPTION LIST                     X86                                X86
+     ATTRIBUTE                            X87                                X87
+     OBJECT                               X88                                X88
+     VALUE                                X89                                X89
+     MEMBER TYPE                          X91                            X91 010
+                                        5         M2

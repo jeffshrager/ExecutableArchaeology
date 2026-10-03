@@ -541,6 +541,7 @@
 			  (!! :load "** Execution start at ~s **~%" (cell-symb cell))
 			  (save-cells (reverse cells) load-mode)
 			  (setf cells nil)
+			  (create-undefined-regionals)
 			  (run (cell-symb cell) :adv-limit adv-limit))
 			;; Header Q (manual 18.5): 0, 2, 4 = routines; 1, 3, 5 =
 			;; data list structures. P is the input mode (0 = IPL
@@ -626,6 +627,25 @@
 	   (every #'digit-char-p (subseq symbol 1)))
       (format nil "9-~a" (subseq symbol 1))
       symbol))
+
+;;; Regional symbols that are used but never defined (e.g. X97-X99 in the
+;;; annexer, E0 and U99 in the Heuristic Coder) are reserved by the type-2
+;;; region cards, so they exist as empty cells. Create them before running.
+(defun create-undefined-regionals ()
+  (let ((names nil))
+    (loop for c being the hash-values of *symtab*
+	  when (cell? c)
+	    do (dolist (s (list (cell-symb c) (cell-link c)))
+		 (when (and (stringp s) (> (length s) 1)
+			    (alpha-char-p (char s 0))
+			    (every #'digit-char-p (subseq s 1))
+			    (not (member (char s 0) '(#\H #\W #\J)))
+			    (not (gethash s *symtab*)))
+		   (pushnew s names :test #'string=))))
+    (dolist (s names)
+      (!! :load "Creating empty regional cell ~s" s)
+      (make-cell! :name s :symb "0" :link "0"))
+    names))
 
 (defun next-card-row (stream)
   ;; Next non-skipped card from STREAM as a row, or NIL at end of file.
@@ -1270,7 +1290,9 @@
 	;; interpret a data term as a standard IPL cell.  !!! Must pop
 	;; late (if at all) 
 	(let* ((this-cell (cell [0]))
-	       (link (cell-link this-cell)))
+	       ;; [Added: J60 of the termination symbol 0 (an empty cell in the
+	       ;; real system) finds no next cell. The annexer's M5 relies on it.]
+	       (link (if this-cell (cell-link this-cell) "0")))
 	  (!! :jdeep "             .....In J60, this-cell = ~s, link = ~s" this-cell link)
 	  (if (zero? link)
 	      ;; Notice that we don't pop on eol!
@@ -2076,7 +2098,8 @@
 	  (if (regional-symbol? string)
 	      (progn
 		(!! :jdeep "             .....J181 decided that ~s IS a regional symbol, so we're installing it." string)
-		(make-cell! :name string :symb "0" :link "0")
+		(unless (gethash string *symtab*) ;; [Fixed: don't clobber an existing symbol]
+		  (make-cell! :name string :symb "0" :link "0"))
 		(ipush "H0" string)
 		(H5+))
 	      (progn
@@ -2195,6 +2218,14 @@
 			(setf (cell-link prev) "0") (H5+) (return))
 		       (t (setf prev (<== name)))))
 	(poph0 1))
+
+  (defj J77 ([0] [1]) "TEST IF (0) IS ON LIST (1)"
+	(loop for name = (cell-link (<== [1])) then (cell-link c)
+	      for c = (unless (zero? name) (<== name))
+	      while c
+	      when (ipl-string-equal (cell-symb c) [0]) do (H5+) (return)
+	      finally (H5-))
+	(poph0 2))
 
   (defj J83 ([0]) "FIND THE 3rd (non-head) SYMBOL OF (0)"
 	(poph0 1)
@@ -2477,7 +2508,8 @@
 (defun J183/4-Scanner ([0] mode)
   ;; NO POP H0! ("...leave (0)")
   (let* ((counter [0])
-	 (w25p (W25-get)))
+	 (w25p (W25-get))
+	 (start w25p))
     (!! :jdeep "             .....Starting in J183/4-Scanner: counter = ~s, w25p = ~a" counter w25p)
     (if (not (numberp w25p)) (break "In J183/4 expected W25(p) (~a) to be a number.~%" (cell "W25")))
     (H5-)
@@ -2491,7 +2523,10 @@
 		  (:blank (char-equal char #\space))
 		  (:non-blank (not (char-equal char #\space)))
 		  (t (error "!!! J183/4-Scanner given unknown mode: ~s" mode)))
-	    (numset counter w25p)
+	    ;; [Fixed: "One is added to (0) for each column scanned", so (0)
+	    ;; gains (found - 1W25). The old code set (0) to the column, which
+	    ;; is only right when (0) is 1W25 itself, as in J184 uses.]
+	    (numset counter (+ (numget counter) (- w25p start)))
 	    (H5+)
 	    (return t))
 	  (incf w25p)
@@ -2499,7 +2534,8 @@
     ))
 
 (defun scan-input-into-*W24-Line-Buffer* (line)
-  (loop for c across line
+  (setf *W24-Line-Buffer* (blank80)) ;; [Fixed: clear what a longer line left]
+  (loop for c across (subseq line 0 (min 80 (length line)))
 	as p from 0 by 1
 	do (setf (aref *W24-Line-Buffer* p) c))
   (!! :jdeep "             .....Read into *W24-Line-Buffer*: ~s" *W24-Line-Buffer*))
