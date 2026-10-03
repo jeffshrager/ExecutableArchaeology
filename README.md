@@ -67,7 +67,7 @@ The guide is the best place to begin.
   `HeuristicCoder_guide.md`.
 * **`LogicTheorist/`**: Einar Stefferud's 1963 IPL-V Logic Theorist
   (David Moews's deck), running unmodified and reproducing the 1963
-  output for all 24 theorems.
+  output for all 24 theorems. Start with `LT_guide.md`.
 * **`IPL-V/`**: the Common Lisp IPL-V interpreter that runs both.
 
 ## Other examples of executable archaeology

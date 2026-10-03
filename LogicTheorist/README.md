@@ -16,7 +16,7 @@ The deck, the input formulae and the transcribed 1963 output are David Moews's, 
 | `compare.py` | per-theorem comparison of result, subproblems, substitutions and effort with the 1963 output |
 | `lt-stefferud-lisp.out` | output of the last run |
 
-Run with `./run.sh` (about 6 seconds).
+Run with `./run.sh` (about 6 seconds). **`LT_guide.md`, a Hacker's Guide to the program, is the place to start reading.**
 
 ## Result (2026-10-03)
 
