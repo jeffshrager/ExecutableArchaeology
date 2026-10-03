@@ -48,20 +48,17 @@ description lists, which is why so much of the program is about
 building, comparing, and rewriting list structures.
 
 **It runs again.** For the first time in about 65 years, Simon's
-Heuristic Compiler is running. The 1961 deck was transcribed card by
-card from the archival listing and loaded into a modern IPL-V
-interpreter. Its compilers now do what the 1963 paper says they did.
-Given a functional description of INSERT AT END OF VALUE LIST
+Heuristic Compiler is running. The 1961 deck, transcribed card by card
+from the archival listing, runs, and its compilers do what the 1963
+paper says they did. Given a functional description of INSERT AT END OF VALUE LIST
 (supplied, as in Simon's own runs, as a hand-coded list structure, not
 as typed text), the program writes `J13 J52 11W2 11W0 J10 11W1 J65 J32
 0`, the code printed in the paper, character for character. Given a before-and-after description of the
 machine, it writes the paper's `10J3 20H5 0` for SET SIGNAL MINUS. It
-reassembles the paper's routine J77 from its flow diagram. Nothing here
-was rewritten in a modern language. This is Simon's own IPL-V,
-executing. (One print routine missing from the 1961 listing, U126, was
-taken from the 1963 listing in Simon's RAND memorandum, and the
-English-language front end has not yet been run. See "Running It
-Today".)
+reassembles the paper's routine J77 from its flow diagram. This is
+Simon's own IPL-V, executing. (One print routine, U126, is missing from
+the 1961 listing and is supplied from Simon's 1963 listing. See
+"Running It Today".)
 
 **A note on what you're reading.** The listing is headed `HEURISTIC
 CODER 7/16/61`. It is a line-printer listing of the complete card deck,
@@ -560,41 +557,68 @@ That is, character for character, the code in the 1963 paper:
 
 ## Running It Today
 
-The program runs on Jeff Shrager's Common Lisp IPL-V interpreter. This
-repository keeps its current version in `../IPL-V/iplv.lisp`, which
-reads IPL-V card decks directly and also runs Stefferud's 1963 Logic
-Theorist (`../LogicTheorist/`). To run it:
+The deck runs on the Common Lisp IPL-V interpreter in this repository,
+`../IPL-V/iplv.lisp`. It reads 80-column IPL-V card decks directly; the
+1964 manual is in `../IPL-V/manual/`. You need SBCL and Python 3.
+
+**The quick way.** From this directory:
 
 ```
 ./run.sh
 ```
 
-`run.sh` rebuilds the deck from the transcription and runs it. The
-output goes to `run/t1.txt` and `run/t1-sdsc.txt`.
+This rebuilds the deck from the page transcriptions, runs T1 twice, and
+writes the printed output to `run/t1.txt` and `run/t1-sdsc.txt`. It takes
+a few seconds.
 
-- `heuristic.card` is the faithful transcription. `adapt.py` makes the
-  runnable `heuristic-run.card` from it with two additions: a start card
-  for T1, which the listing lacks (the 1963 listing ends with exactly
-  this card, `KICKOFF 5 T1`), and **U126** (the routine that prints a
-  descriptive name), which is missing from the 1961 listing and is
-  taken from the 1963 listing in RAND RM-3588-PR, Appendix A.
-- In the deck as listed, **J3 does not compile**. U136 prefers J3's DSCN,
-  no compiled routine shares its process, and the executive stops
-  without trying the state description. `heuristic-run-sdsc.card` erases
-  J3's DSCN first, and then the state description compiler produces the
-  paper's `10J3 20H5 0`. The 1963 listing explains why: its executive is
-  identical, but there X105's DSCN cards are numbered as insertions
-  (`X105 015/016`). The paper's J3 most likely came from a version in
-  which X105 had only its state description, which is the state the
-  experiment deck recreates. (The 1963 state description compiler also
-  differs: its state descriptions hold bare symbols, `X2 X1`, where the
-  1961 ones hold described symbols.)
-- The same memorandum's Appendix B, an "information-annexing" program
-  that stores definite-description statements ("X114 is the X33 of the
-  X25 of X105") into description lists, also runs: see `annexer/`.
-- Getting this far took some interpreter work: missing J-functions were
-  added, and a few existing ones were corrected to match the 1964 manual.
-  The details are in `seshsums/` and `../IPL-V/CHANGES_FROM_UPSTREAM.md`.
+**The decks.**
+
+- `heuristic.card` is the faithful transcription of the listing, built
+  from `transcription/pNN.txt` by `transcription/build.py`.
+- `heuristic-run.card` is what actually runs. `adapt.py` makes it from
+  the faithful deck by adding two things the 1961 listing lacks:
+  - a start card for T1 (the 1963 listing ends with exactly this card,
+    `KICKOFF 5 T1`);
+  - **U126**, the routine that prints a descriptive name, from the 1963
+    listing in RAND RM-3588-PR, Appendix A (`appendixA/u126.txt`).
+- `heuristic-run-sdsc.card` is the same deck with J3's DSCN erased before
+  T1 starts. See "Why J3 needs a second deck" below.
+
+**At the REPL.** To explore, load the interpreter and the deck yourself:
+
+```lisp
+(load (compile-file "../IPL-V/iplv.lisp"))
+(set-trace-mode :none)
+(load-ipl "heuristic-run.card" :adv-limit 400000)  ; loads, then runs T1
+(pl "X105")                                         ; look at a structure
+```
+
+- `load-ipl` loads the deck and then runs from its start card.
+- `:adv-limit` caps the number of interpreter steps. The default is
+  only 100, so always raise it.
+- Lines the program prints come out prefixed with `::::`.
+- Afterwards memory is intact, so you can inspect any list with `pl`:
+  routines, X data, or the JDEFs the compilers built.
+- `(set-trace-mode)` with no argument turns on light tracing of runs and
+  J-calls. It is verbose; `:none` turns it off.
+
+**Why J3 needs a second deck.** In the deck as listed, J3 does not
+compile. U136 prefers J3's DSCN, no compiled routine shares its
+process, and the executive stops without trying the state description.
+`heuristic-run-sdsc.card` erases J3's DSCN first, and then the state
+description compiler produces the paper's `10J3 20H5 0`.
+
+The 1963 listing explains this. Its executive is identical, but there
+X105's DSCN cards are numbered as insertions (`X105 015/016`). So the
+paper's J3 most likely came from a version in which X105 had only its
+state description, which is the state the second deck recreates. (The
+1963 state description compiler also differs: its state descriptions
+hold bare symbols, `X2 X1`, where the 1961 ones hold described symbols.)
+
+**A companion program.** The same memorandum's Appendix B is an
+"information-annexing" program. It stores definite-description
+statements ("X114 is the X33 of the X25 of X105") into description
+lists. It runs too: see `annexer/` and its `run.sh`.
 
 ---
 
@@ -604,12 +628,9 @@ output goes to `run/t1.txt` and `run/t1-sdsc.txt`.
   breaker (T80), dictionary lookup (T106-T108), the parser (U23-U99),
   the DEFINE handling (T102, T185-T189, T300), and U199 (which turns a
   parse into a DSCN) have not been run. They need input sentences, which
-  are not in the listing, and a fuller implementation of line input.
-  This is the path that would let the compiler take English
+  are not in the listing. This is the path that would let the compiler take English
   definitions. The paper credits H. S. Kelly with linguistic components
   it leaves out, and these routines may be them.
-- **The faithful run.** Explain, or reconcile, why the listed deck does
-  not compile J3 while the paper shows it compiled.
 - **The pencil.** Evaluate the handwritten corrections (U135, U153/U154,
   X176, and others).
 - **Proofreading.** Check the transcription against the scan, especially
