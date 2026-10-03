@@ -1890,6 +1890,12 @@
 	(if (find #\- [0]) (H5-) (H5+))
 	(poph0 1))
 
+  (defj J131 ([0]) "TEST IF (0) NAMES A DATA TERM"
+	;; [Added for the Heuristic Coder's U126.] A data term has Q=1.
+	(let ((c (<== [0])))
+	  (if (and c (= 1 (cell-q c))) (H5+) (H5-)))
+	(poph0 1))
+
   (defj J132 ([0]) "TEST IF (O) IS LOCAL SYMBOL"
 	(if (find #\- [0]) (H5+) (H5-))
 	(poph0 1))
@@ -1990,7 +1996,10 @@
 	(W25-set 0))
 
   (defj J155 () "Print line"
-	(format t ":::::::::::::::::::::::::::::::: ~a~%" (hack-output!! *W24-Line-Buffer*))
+	;; [Changed: print the line literally. hack-output!! (an LT-era kludge)
+	;; dropped any 0 after ( or ), turning the data term "(0)" into "()".
+	;; Compact entry of region-0 symbols is J156's job, per the manual.]
+	(format t ":::::::::::::::::::::::::::::::: ~a~%" *W24-Line-Buffer*)
 	)
 
   (defj J156 ([0]) "ENTER SYMBOL (0) LEFT-JUSTIFIED"
@@ -2000,7 +2009,12 @@
 	;; H5 is set + . If (0) exceeds the remaining space, no entry
 	;; is made and H5 is set - .
 	(PopH0 1)
-	(let* ((s [0])
+	;; "Symbols are entered in the print line compactly; i.e., as A1, B10,
+	;; etc. (A0 is entered as A)." (manual 16.2)
+	(let* ((s (if (and (= 2 (length [0])) (char= #\0 (char [0] 1))
+			   (not (digit-char-p (char [0] 0))))
+		      (subseq [0] 0 1)
+		      [0]))
 	       (l (length s))
 	       (p (W25-get)))
 	  (!! :io "             .....J156 trying to add ~s at pos ~a in print butter." s p)

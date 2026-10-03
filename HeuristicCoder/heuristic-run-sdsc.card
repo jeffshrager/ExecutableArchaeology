@@ -3120,22 +3120,91 @@
      IF 1W4 LARGER,                             7096                    X007 820
      CALL DIFFERENCE (ADD)                      10X82       0           X007 830
      IF SMALLER, (DELETE)                 96    10X81       0           X007 840
-     RECONSTRUCTED. ENTER DSCN OF (0)     U126  10X20                  ADAPT 101
-                                                  J10                  ADAPT 102
-     NO DSCN, QUIT                              70J8                   ADAPT 103
-                                                10X30                  ADAPT 104
-     PROCESS OF DSCN                              J10                  ADAPT 105
-                                                70J8                   ADAPT 106
-                                                109-1                  ADAPT 107
-     ENTER EACH FRAGMENT                          J100      0          ADAPT 108
-                                          9-1   40H0                   ADAPT 109
-                                                10X31                  ADAPT 110
-     ARGUMENT SLOT                                J2                   ADAPT 111
-                                                709-2                  ADAPT 112
-                                                30H0                   ADAPT 113
-                                                109-3                  ADAPT 114
-                                          9-2     J157     J4          ADAPT 115
-                                          9-3   21( )                  ADAPT 116
+     ENTER IN PRINT LINE THE NAME OF      U126    J41                   U126 000
+                                                40H0                    U126 001
+     TEST IF ROUTINE                            10X32                   U126 002
+     IS A DETERMINER                              J10                   U126 003
+                                                7096                    U126 004
+                                                10X37                   U126 005
+                                                  J2                    U126 006
+     IF NOT, GO TO 96                           7096                    U126 007
+     IF SO, PRINT ITS VERB                      40H0                    U126 008
+                                                10X20                   U126 009
+                                                  J10                   U126 010
+     ENTER DATA TERMS OF VERB             98      J60                   U126 011
+                                                7097                    U126 012
+                                                12H0                    U126 013
+                                                  910      98           U126 014
+                                          97      E51                   U126 015
+     AND CONTINUE AT 96                         30H0       96           U126 016
+                                          96    10X20                   U126 019
+     FIND ITS DSCN                                J10                   U126 020
+                                                40H0                    U126 030
+                                                10X30                   U126 040
+                                                  J10                   U126 050
+     PUT PROCESS IN W0                          20W0                    U126 060
+                                                10X31                   U126 070
+                                                  J10                   U126 080
+     PUT ARGS IN W1                             20W1                    U126 090
+                                          91    11W0                    U126 100
+     FIND NEXT WORD IN NAME                       J60                   U126 110
+     EXIT IF NONE                               7092                    U126 120
+                                                60W0                    U126 130
+                                                52H0                    U126 140
+                                                40H0                    U126 150
+     TEST IF 1H0 NAMES DATA TERM                  J131                  U126 160
+                                                7090                    U126 170
+                                                  910      91           U126 180
+     DOES NOT NAME DATA TERM              90    30H0                    U126 190
+                                                11W1                    U126 191
+     SPACE ONCE                                   E51                   U126 195
+     FIND NEXT ARGUMENT                           J60                   U126 200
+     ERROR STOP                                 70J7                    U126 210
+                                                60W1                    U126 220
+                                                52H0                    U126 230
+                                                40H0                    U126 240
+                                                10X32                   U126 250
+                                                  J10                   U126 260
+                                                10X37                   U126 270
+     TEST IF ARG IS A DETERMINER                  J2                    U126 280
+                                                70         94           U126 290
+     IF NOT, SAVE IT                            40H0                    U126 300
+     TEST IF MEMBER OF H0 LIST                  10X32                   U126 301
+                                                  J10                   U126 302
+                                                10X35                   U126 303
+                                                  J2                    U126 304
+     IF SO, BRANCH TO 95                        70         95           U126 305
+     IF NOT, SAVE IT                            40H0                    U126 306
+     FIND ITS DETERMINER                        10X37                   U126 310
+                                                  J10                   U126 315
+                                                1093                    U126 320
+     AND ENTER IT                                 J100                  U126 330
+     SPACE ONCE                                   E51                   U126 335
+     FIND ITS SYMBOL                            10X45                   U126 340
+                                                  J10                   U126 350
+                                                40H0                    U126 360
+                                                10X33                   U126 370
+                                                  J10                   U126 380
+                                                  910                   U126 390
+                                                10X34                   U126 400
+                                                  J10                   U126 410
+                                                  910                   U126 420
+                                                  E51      91           U126 425
+                                          92    30H0      J31           U126 430
+                                          93    10910                   U126 440
+                                                  J100      0           U126 450
+                                          94      U126     91           U126 460
+     ENTER IN PRINT LINE                  910   40H0                    U126 470
+                                                  J157                  U126 475
+     LINE SPACE IF NO ROOM                      70         J8           U126 480
+                                                  E50                   U126 490
+                                                10N10                   U126 500
+                                                  J160    910           U126 510
+     ENTER NAME OF MEMBER                 95      J60                   U126 530
+     OF H0 LIST                                 70J7                    U126 540
+                                                52H0                    U126 550
+                                                  910                   U126 560
+                                                  E51      91           U126 570
                                         5        5                     000 000 C
                                           T10                         T010 010 C
                                           T11     9-0       0         T011 010 C

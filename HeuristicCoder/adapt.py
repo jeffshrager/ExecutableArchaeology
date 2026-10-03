@@ -6,6 +6,7 @@ the faithful transcription and is never edited by hand. Every change
 needed to run it is made here, so each one is documented and repeatable.
 """
 import os
+import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SRC = os.path.join(HERE, 'heuristic.card')
@@ -32,31 +33,11 @@ def card(name='', pq='', symb='', link='', typ='', comment='', ident=''):
 
 def main():
     cards = open(SRC).read().splitlines()
-    # 1. U126 ("ENTER DSCN IN PRINT LINE", called from U128 100) is not in
-    #    the listing: U125 is followed by U127. This is a RECONSTRUCTION,
-    #    not Simon's code. Input (0) is a routine; it enters the BCD
-    #    fragments of the process of its DSCN (X20 -> X30) in the print
-    #    line, and "( )" for each argument slot (X31). The text is only as
-    #    good as the 5-character fragments, whose trailing blanks the
-    #    listing cannot show.
-    u126 = [
-        card('U126', '10', 'X20', comment='RECONSTRUCTED. ENTER DSCN OF (0)', ident='ADAPT 101'),
-        card('', '', 'J10', ident='ADAPT 102'),
-        card('', '70', 'J8', comment='NO DSCN, QUIT', ident='ADAPT 103'),
-        card('', '10', 'X30', ident='ADAPT 104'),
-        card('', '', 'J10', comment='PROCESS OF DSCN', ident='ADAPT 105'),
-        card('', '70', 'J8', ident='ADAPT 106'),
-        card('', '10', '9-1', ident='ADAPT 107'),
-        card('', '', 'J100', '0', comment='ENTER EACH FRAGMENT', ident='ADAPT 108'),
-        card('9-1', '40', 'H0', ident='ADAPT 109'),
-        card('', '10', 'X31', ident='ADAPT 110'),
-        card('', '', 'J2', comment='ARGUMENT SLOT', ident='ADAPT 111'),
-        card('', '70', '9-2', ident='ADAPT 112'),
-        card('', '30', 'H0', ident='ADAPT 113'),
-        card('', '10', '9-3', ident='ADAPT 114'),
-        card('9-2', '', 'J157', 'J4', ident='ADAPT 115'),
-        card('9-3', '21', '( )', ident='ADAPT 116'),
-    ]
+    # 1. U126 ("ENTER IN PRINT LINE THE NAME OF", called from U128 100) is
+    #    not in the 1961 listing: U125 is followed by U127. Simon's 1963
+    #    listing (RAND RM-3588-PR, Appendix A, pp. 76-77) has it, and we use
+    #    that version, transcribed in appendixA/u126.txt.
+    u126 = load_cards(os.path.join(HERE, 'appendixA', 'u126.txt'))
     c_header = next(i for i, c in enumerate(cards) if c.endswith('000 000 C'))
     cards[c_header:c_header] = u126
 
@@ -75,6 +56,18 @@ def main():
         card('', '10', 'X20', ident='ADAPT 203'),
         card('', '', 'J14', 'T1', comment='THEN RUN T1', ident='ADAPT 204'),
         card(typ='5', symb='Z0', comment='START AT Z0', ident='ADAPT 205')])
+
+
+def load_cards(path):
+    """Cards from a file in the transcription/ field format."""
+    sys.path.insert(0, os.path.join(HERE, 'transcription'))
+    from build import card as build_card
+    out = []
+    for n, raw in enumerate(open(path), 1):
+        raw = raw.rstrip('\n')
+        if raw.strip() and not raw.lstrip().startswith('#'):
+            out.append(build_card(raw.split('|'), f'{os.path.basename(path)}:{n}'))
+    return out
 
 
 def write(path, cards):
