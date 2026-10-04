@@ -54,7 +54,8 @@ It lives in two directories:
 * `ysimon.card`, a faithful transcription as an IPL-V card deck;
 * `ysimon-fixed.card` and `ysimon-fast.card`, adapted to run on
   W. T. Beyer's 1963 IBM 1620 IPL-V interpreter under Paul Kimpel's
-  retro-1620 emulator (scripts and output in `retro1620/`); and
+  retro-1620 emulator (scripts and output in `retro1620/`; the
+  emulator is `HeadlessIBM1620IPL-V/`); and
 * `Yngve_guide.md`, a detailed guide to the program, grammar,
   IPL-V representation, execution, and reconstruction.
 
@@ -88,6 +89,11 @@ on the Lisp IPL-V) is the best place to begin.
   generator), with the 1964 IPL-V manual. `CHANGES_FROM_UPSTREAM.md`
   lists every change to the interpreter and the programs it was checked
   against.
+* **`HeadlessIBM1620IPL-V/`**: W. T. Beyer's 1963 IBM 1620 IPL-V
+  interpreter on Paul Kimpel's retro-1620 emulator, run headless from
+  Node.js (`run-ipl.sh my.card`). It is the minimal part of the
+  retro-1620 fork needed to test IPL-V decks on a genuine 1960s
+  implementation, and it runs the 1620 Yngve decks.
 * **`seshsums/`** (and `HeuristicCoder/seshsums/`): working session
   summaries, a running log of how the reconstructions were done.
 

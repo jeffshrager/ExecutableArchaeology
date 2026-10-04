@@ -1,11 +1,12 @@
 #!/bin/sh
 # Rebuild a 1620 deck from ../ysimon.card and run it on the headless
-# retro-1620 emulator. RETRO1620 = path to the retro-1620 fork checkout.
+# retro-1620 emulator. RETRO1620 = path to the headless 1620
+# (default ../../HeadlessIBM1620IPL-V, or a retro-1620 fork checkout).
 #   run.sh          ysimon-fixed.card: punched output with the trace
 #   run.sh fast     ysimon-fast.card: typewriter output, sentences only
 # Extra arguments are passed to adapt.py, e.g. run.sh fast --count 5 --seed 7
 set -e
-: "${RETRO1620:=$HOME/Desktop/AIHistory/IPL-V/retro-1620-fork}"
+: "${RETRO1620:=$(cd "$(dirname "$0")/../../HeadlessIBM1620IPL-V" && pwd)}"
 cd "$(dirname "$0")"
 if [ "$1" = fast ]; then
     shift

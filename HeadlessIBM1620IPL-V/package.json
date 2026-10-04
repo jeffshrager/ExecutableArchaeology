@@ -1,0 +1,10 @@
+{
+  "name": "retro-1620",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "IBM 1620 emulator (retro-1620 fork) -- headless CLI tools for driving the emulator from Node, in addition to the browser UI.",
+  "scripts": {
+    "1620": "node tools/cli/run1620.mjs"
+  }
+}

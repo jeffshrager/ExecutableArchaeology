@@ -16,8 +16,9 @@ fork:
 ./run.sh fast --count 20 --seed 7 # any adapt.py options
 ```
 
-`RETRO1620` can point at a different checkout of the fork (default
-`~/Desktop/AIHistory/IPL-V/retro-1620-fork`). A run takes about half a minute.
+The emulator is the in-repo copy, `../../HeadlessIBM1620IPL-V/`. `RETRO1620`
+can point at another copy, e.g. a checkout of the retro-1620 fork. A run takes
+about half a minute.
 
 | File | What it is |
 |---|---|
