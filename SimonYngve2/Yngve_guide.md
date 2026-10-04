@@ -605,6 +605,15 @@ This is probably close to what the 1962 line printer would have shown had the ru
 
 The run also prints the derivation, as the 1962 run did: C1's trace cards print each symbol it expands (J152), and C2's print each random draw (J153). `run.sh` writes the raw output to `yngve-lisp.out`, the printed lines alone to `printout.txt`, and the decoded sentences with their derivations to `sentences.txt`.
 
+**The clean version.** `ysimon-clean.card` (`./run.sh clean`) is the program with a new printer, written in IPL. It drops the trace cards and replaces C3 with C3–C9. These group each word with a following comma or plural S into one unit, wrap lines between units instead of between fragments, and end each sentence with a period:
+
+```
+WHEN HE IS PROUD OF BLACK WHISTLES, STEAM, SMALL AND BIG AND OILED WHEELS, HE IS
+HEATED.
+```
+
+The trick for wrapping is that J157 refuses a fragment that does not fit and says so in H5. The printer then rebuilds the line from the units already on it, prints it, and starts the next line with the unit that did not fit. C0, C1, C2 and the grammar are unchanged, so for a given seed it prints the same sentences as the faithful deck. The details are in `README.md` and `make_clean_deck.py`.
+
 **What the interpreter needed.** The Lisp IPL-V was written for the Logic Theorist, which uses none of the program's arithmetic. Four small additions were made for this program, all standard parts of the 1964 manual:
 
 - **J123**, negate. C0 and C2 count by negating a number and tallying it up to zero.
