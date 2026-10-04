@@ -68,3 +68,12 @@ Line I/O (columns are 1-based throughout, per manual §16):
 J-functions:
 - **J68** (non-last cell): the cell it removes is returned to available space (symb/link cleared), and H5+ is set. The stale link used to fool J68's last-cell symtab scan into unlinking the wrong predecessor, which left a stray `0` in LT's theorem lists (M62).
 - **J136** no longer overwrites Q of a data term (Q=1 is its type code), so J157 prints J120+J136 copies of integers correctly (LT's subproblem numbers printed as `0.`).
+
+## Simon/Yngve sentence generator, 2026-10-04
+
+Added so that the faithful deck `../SimonYngve2/ysimon.card` runs unmodified. With seed 53 its 20 sentences and derivations are identical to the 1620 run (`../SimonYngveSentenceGenerator/retro1620/sentences.txt`). Rerun afterwards with unchanged output: LT (24/24), the Heuristic Coder (`run/t1*.txt`), the annexer, and `tests/Acker.Ipl` (125) / `tests/Ackermann.liplv` (61).
+
+- ⚠ **`numget`** returns negative numbers. It used to `break` on them. A program that ran before never reached that `break`, so its behavior is unchanged.
+- **J123** negate (0) in place, no pop. The manual's "zero into minus zero" is not represented, since Lisp integers have no −0.
+- **J129** random number in [0, (0)), integers only, as in Beyer's 1620 JJ129 (`MM D5,9013` / `SF 90` / `TF D5,99` / `M D5,D6`): the seed s, in the cell named by W10, becomes s × 9013 mod 10^10, and the output is a new integer ⌊s × (0) / 10^10⌋.
+- **J153** print data term (0) without name or type: prints the value alone on a line.

@@ -1878,6 +1878,30 @@
 
 ;************************************* 
 
+  (defj J123 ([0]) "NEGATE (0)"
+	;; [Added for the Simon/Yngve generator.] The number (0) is
+	;; replaced by its negative and left as the output (0); no pop.
+	;; The manual's "zero into minus zero" is not represented: Lisp
+	;; integers have no -0.
+	(numset [0] (- (numget [0]))))
+
+  (defj J129 ([0]) "PRODUCE RANDOM NUMBER IN RANGE 0 TO (0)"
+	;; [Added for the Simon/Yngve generator, following Beyer's 1963
+	;; IBM 1620 JJ129 (MM D5,9013 / SF 90 / TF D5,99 / M D5,D6).]
+	;; W10 names an integer data term, the seed s. s := (s * 9013)
+	;; mod 10^10 is stored back; the output (0) is a new integer
+	;; data term floor(s * (0) / 10^10), i.e. the random fraction
+	;; s/10^10 times (0). Integers only.
+	(let* ((n (numget [0]))
+	       (seed-name (cell-symb (cell "W10")))
+	       (s (mod (* (numget seed-name) 9013) (expt 10 10)))
+	       (out (cell-name (make-cell! :name (newsym) :p 0 :q 1 :link 0))))
+	  (numset seed-name s)
+	  (numset out (floor (* s n) (expt 10 10)))
+	  (poph0 1)
+	  (ipush "H0" out)
+	  (H5+)))
+
   (defj J125 ([0]) "TALLY 1 IN (0)"
 	;; An integer 1 is added to the number (0). The type of the
 	;; result is the same as the type of (0). It is left as the
@@ -2029,6 +2053,13 @@
 	;; Pop after!!
 	(PopH0 1)
 	(pretty-print-cell (cell [0])))
+
+  (defj J153 ([0]) "PRINT DATA TERM (0) WITHOUT NAME OR TYPE"
+	;; [Added for the Simon/Yngve generator.] Prints just the value,
+	;; on its own line.
+	(PopH0 1)
+	(let ((c (<== [0])))
+	  (format t "~a~%" (if (= (cell-q c) 1) (cell-link c) (cell-symb c)))))
 
   (defj J154 () "Clear print line" 
 	;; Clear Print Line CLEAR PRINT LINE. Print line 1W24 is cleared and the
@@ -2561,9 +2592,12 @@
   (let* ((data-cell (cell sym))
 	 (n (progn (!! :jdeep "Numget trying to  get the number from ~a" data-cell)
 		   (cell-link data-cell))))
+    ;; [Fixed: negative numbers are legal data terms (J123 makes
+    ;; them; the Simon/Yngve generator counts up from -N to 0). This
+    ;; used to break on any negative number.]
     (if (not (numberp n))
 	(break "Numget was asked to get a non-number ~s from ~s (~s)." n data-cell sym)
-	(if (>= n 0) n (break "Numget was asked to get a negative number ~a from  ~s (~s)." n data-cell sym)))))
+	n)))
 
 (defun numset (sym n)
   (!! :jdeep "NUMSET asked to set ~s to ~s" sym n)

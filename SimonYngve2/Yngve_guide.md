@@ -572,101 +572,65 @@ So `10L2` pushes the name L2, `11W0` pushes what W0 holds, and `12H0` pushes the
 
 **Reading the scan.** Printed columns, left to right: machine address, comment, NAME, PQ+SYMB (run together, e.g. `10T1`), LINK, card ID. Data-term cards show PQ as `1` (integer) or `21` (alphanumeric). Several page images overlap their neighbours by a few lines at the fanfold, so a transcriber must remove the duplicates. The header line (`OPERATOR-007 … 12:42:26 R350.039 IPL 015 060`) and the closing `STOP / PMTM / 00:21:53 020` are job-control output whose fields I can't decode with confidence.
 
-**Running it.** As far as I can tell the listing is complete: four routines, 70 rules, 48 words, three numeric constants, and the start card. The ExecutableArchaeology repository has three card decks (<https://github.com/jeffshrager/ExecutableArchaeology/blob/main/SimonYngveSentenceGenerator/>):
+**Running it.** As far as I can tell the listing is complete: four routines, 70 rules, 48 words, three numeric constants, and the start card. `ysimon.card` (<https://github.com/jeffshrager/ExecutableArchaeology/blob/main/SimonYngve2/>) is a faithful transcription. It applies the pencil fix at C3055/C3058, keeps the unnumbered trace cards, and writes the printout's local labels (`90`, `910`) in the 1964 input form (`9-0`, `9-10`). This guide runs it unmodified on Shrager's Common Lisp IPL-V; see the next section. The 1620 versions, `ysimon-fixed.card` and `ysimon-fast.card`, are in `../SimonYngveSentenceGenerator/`.
 
-- `ysimon.card` is a faithful transcription. It applies the pencil fix at C3055/C3058, keeps the unnumbered trace cards, and writes the printout's local labels (`90`, `910`) in the 1964 input form (`9-0`, `9-10`).
-- `ysimon-fixed.card` is the same program adapted to run on an IBM 1620. Like the 1962 run, it punches the derivation trace along with the sentences. See the next section.
-- `ysimon-fast.card` is the 1620 version without the trace. It types just the sentences on the console typewriter.
-
-The listing never defines L1 and L2 as data; they are used as bare symbols and empty lists. The 1962 system must have accepted this, since its trace shows L2 stacking correctly, but not every IPL-V does. The 1620 does not. Shrager's Common Lisp IPL-V interpreter (`../IPL-V/iplv.lisp`) runs `ysimon.card` unmodified, with the same sentences as the 1620; see `../SimonYngve2/`. The deck also has no print-line reservation card, which some systems may need for J154–J161. Exact reproduction of the 1962 sentences would also require the installation's J129 multiplier, which is not in this listing.
+The listing never defines L1 and L2 as data; they are used as bare symbols and empty lists. The 1962 system must have accepted this, since its trace shows L2 stacking correctly, but not every IPL-V does. The 1620 does not; the Lisp IPL-V does. The deck also has no print-line reservation card, which some systems may need for J154–J161. Exact reproduction of the 1962 sentences would also require the installation's J129 multiplier, which is not in this listing.
 
 ---
 
-## Running It Today: The 1620 Version
+## Running It Today: The Lisp IPL-V
 
-`ysimon-fixed.card` runs on Wendell Terry Beyer's 1963 IPL-V interpreter for the IBM 1620 (University of Oregon), under Paul Kimpel's retro-1620 emulator. It uses the Mod-3-4 interpreter decks and the headless command-line driver in Shrager's fork (github.com/jeffshrager/retro-1620-fork). Load four decks, in this order:
+`ysimon.card` runs **unmodified** on Shrager's Common Lisp IPL-V, `../IPL-V/iplv.lisp` in the ExecutableArchaeology repository, which reads 80-column cards directly:
 
-1. `IPL-V-Interpreter-Mod-3-4-Deck-1.card` (the loader)
-2. `ysimon-fixed.card`
-3. `IPL-V-Subroutines.card`
-4. `IPL-V-Interpreter-Mod-3-4-Deck-2.card` (the interpreter)
-
-The fixed deck is `ysimon.card` with five changes, which its own comment cards list:
-
-- **Card format.** Integers are right-justified in the LINK field (columns 57–61), as Beyer's loader requires; a left-justified value is read 10,000 times too large. The deck also drops the sign that `ysimon.card` puts in column 48. That turned out to be unnecessary: column 48 is IPL-V's standard sign column, and the run is identical with the signs left in.
-- **L1 and L2 are defined as empty lists.** On the 1620, a regional symbol that is never defined as data does not behave as an empty list. With L2 undefined, pushes did not stack: every pop found a one-item L2, the main clause was lost, and the run crashed at the first comma.
-- **J82 is replaced by a three-card routine, C8** (`J60 J60 J80`: locate, locate, take the symbol). This works around a bug in the interpreter, not in Simon's program (see below).
-- **C3 is rewritten.** Beyer's system has no print line: no J155, J157, J160, or J161. The new C3 punches each word symbol and then its fragments with J152, one card each, so a sentence has to be read down the cards. The pencil fix (`10L1 / J75 J71`) is kept.
-- **The C2 trace uses J152 instead of J153**, which the 1620 system also lacks.
-
-C0, C1, C2, and the grammar are otherwise card-for-card the 1962 program. With these changes the run does what the 1962 run did not: it prints all twenty sentences and halts cleanly at the end of C0's loop. A few of them:
-
-```
- 4. A PROUD SANDDOME IS HEATED
- 7. WHEN ENGINEER SMALL IS POLISHED , HE IS OILED
-14. ENGINEER SMALL IS PROUD. OF WATER AND ENGINE S
-17. HE KEEPS THE FOUR DRIVINGWHEEL S , A HEATED AND BLACK TRAIN AND SMALL
-18. WHEN A OILED , BIG , BLACK AND BIG BOILER HAS THE HEATED , BIG AND
-    POLISHED FIREBOX S IN FOUR POLISHED DRIVINGWHEEL S AND STEAM , HE IS
-    POLISHED
+```sh
+cd SimonYngve2
+./run.sh                      # 20 sentences, seed 53 (about 3 seconds)
+./run.sh --count 5 --seed 7
 ```
 
-The 1962 blemishes survive the trip: the floating `S` and comma, `PROUD.` with its stray period, and Yngve's own `A OILED`. The raw punched output of one run is in `retro1620/punch_output.txt`.
-
-**The fast version.** `ysimon-fixed.card` keeps the unnumbered trace cards, so most of its output is the derivation: 2,958 punched cards for twenty sentences. `ysimon-fast.card` prints only the sentences, on the console typewriter. It differs from the fixed deck in four ways:
-
-- The four trace cards (`40H0 / J152` in C1 and C2) are removed.
-- C0 opens with two new cards, `10N1 / 20W20`. W20 is the manual's *print unit cell*: it names the integer that selects the output unit. Beyer's output routine punches when that is zero and types when it is not, so pointing W20 at N1 (whose value is 1) sends every J152 to the typewriter. Nothing is punched at all.
-- C3 types only the word fragments, not the word symbols.
-- After each sentence, C3 types a period. It is the symbol `.0`, in a new one-cell region named `.`, and J152 types it as a bare `.`.
-
-The word data is untouched, so the fragments are Simon's own. The typescript has one fragment per line. On Beyer's system an IPL program cannot type more than one item on a line: every J152 begins with a carriage return, and the print-line routines that would build up a line do not exist. Each fragment also carries the cell name and type code (`81` = alphanumeric) that J152 types in front of any data term:
+None of the five changes the 1620 needs apply here. The Lisp interpreter has a working J82, treats the undefined L1 and L2 as empty lists, has J153, and has the print-line routines. So Simon's own printer, C3, runs as written. It fills an 80-column line (J154 clear, J160 tab to N10, J161 skip a column, J157 enter a fragment), prints it with J155 when the next fragment does not fit, and starts the next line at the margin:
 
 ```
-             0235027    81        WHEN
-             0235639    81        THE
-             0233203    81        STEA
-             0233227    81        M
-             0232783    81        MAKE
-             0232807    81        S
-             ...
-             0232951    81        OILE
-             0232975    81        D
-               .
-   0 27047           THE END                 16922
+           WHEN THE STEAM MAKES SMALL AND THE FIREBOX S IN THE FOUR HEATED AND
+          BIG SANDDOME S PROUD. OF THE BELL IN THE LITTLE , POLISHED , BLACK AND
+          BIG WHEEL S AND SMALL AND POLISHED AND SHINY SMOKESTACK S , ITS STEAM
+          KEEPS HIS SHINY BOILER S AND FOUR BOILER S
+           WHEN HE IS PROUD. OF BLACK WHISTLE S , STEAM , SMALL AND BIG AND OILE
+          D WHEEL S , HE IS HEATED
+          ...
+           A PROUD SANDDOME IS HEATED
 ```
 
-Nothing marks where one word ends and the next begins, so the reader does the joining: `STEA` `M` is STEAM, `MAKE` `S` is MAKES. Simon's four-character chunks can mislead. SMOKESTACK is one word, stored as `SMOK` `ESTA` `CK`, and the split makes it look like two words run together.
+This is probably close to what the 1962 line printer would have shown had the run not died after one sentence. Two features of the layout are Simon's, not the interpreter's. C3 enters a blank column before each word but not after an overflow, so a sentence's first line starts one column right of its continuation lines. And a line can break between the fragments of one word: `OILE` / `D`.
 
-At the end of every run the interpreter itself types `THE END`. The typescript of one run is in `retro1620/fast_typewriter_output.txt`.
+The run also prints the derivation, as the 1962 run did: C1's trace cards print each symbol it expands (J152), and C2's print each random draw (J153). `run.sh` writes the raw output to `yngve-lisp.out`, the printed lines alone to `printout.txt`, and the decoded sentences with their derivations to `sentences.txt`.
 
-**Two cards you can change.** Both decks end with two integer constants that control a run:
+**What the interpreter needed.** The Lisp IPL-V was written for the Logic Theorist, which uses none of the program's arithmetic. Four small additions were made for this program, all standard parts of the 1964 manual:
+
+- **J123**, negate. C0 and C2 count by negating a number and tallying it up to zero.
+- **Negative numbers.** The interpreter used to stop on any negative data term.
+- **J129**, random number. The manual specifies only "multiplying the number named in storage cell W10 by a fixed number and taking the low-order digits". The Lisp J129 follows Beyer's 1620 code exactly: the seed s becomes s × 9013 mod 10^10, and the result for input n is ⌊s × n / 10^10⌋.
+- **J153**, print a data term without its name.
+
+None of these changes the Logic Theorist or Heuristic Coder runs.
+
+**Two cards you can change.** The deck ends with two integer constants that control a run:
 
 ```
-     SENTENCE COUNT, NEGATED BY C0        N20   01         20
-     RANDOM SEED, MOVED TO W10            N0    01         53
+     SENTENCE COUNT, NEGATED BY C0        N20  +01      20
+     RANDOM SEED, MOVED TO W10            N0   +01      53
 ```
 
-- **N20 is the number of sentences.** C0 negates it in place, tallies it once per sentence, and stops at zero. Despite its name it can hold any count. `ysimon-fixed.card` keeps the original 20; `ysimon-fast.card` is set to 5.
-- **N0 is the random seed.** C0 puts its name in W10, the cell J129 takes its seed from, and 53 is the 1962 value. The same seed always gives the same sentences: neither the 1620 nor Beyer's interpreter has a clock or any run-time input, so nothing inside IPL can vary from run to run. For a new set of sentences, change N0, as the manual intends ("starting W10 with different initial numbers").
-
-When editing either card, keep the value right-justified so its last digit is in column 61.
+- **N20 is the number of sentences.** C0 negates it in place, tallies it once per sentence, and stops at zero. Despite its name it can hold any count.
+- **N0 is the random seed.** C0 puts its name in W10, the cell J129 takes its seed from, and 53 is the 1962 value. The same seed always gives the same sentences. For a new set, change N0, as the manual intends ("starting W10 with different initial numbers"). `run.sh --count` and `--seed` edit these two cards in a copy of the deck.
 
 > **★ DON'T MISS**
 >
-> The J82 problem is a 63-year-old bug in the 1620 interpreter. In Beyer's SPS source, the table cells of the J routines are laid out like this:
->
-> ```
-> J80   DS  ,J0+12*80
-> J81   DS  12
-> J82   DS  12
-> ```
->
-> A DS card with an explicit address does not move the assembler's location counter, so `J81 DS 12` is placed after whatever came *before* J80. That was J71. So J81, J82, and J83 label the cells of J72, J73, and J74. The OCR of the 1963 listing shows the same addresses, so this is not a transcription error. J81 itself is reached through its own J cell and works, provided J80 is loaded. J82 does J60 and then calls "J81" through the wrong cell, so it cannot work. J83 would fail the same way. A further catch: the loader loads a machine-coded J routine only if the program names it, and naming J81 does not bring in J80. C8 names J80, which also repairs C1's J81.
+> With seed 53, the Lisp run and the 1620 run (`../SimonYngveSentenceGenerator/retro1620/sentences.txt`) produce **the same twenty sentences, by the same derivations, random draw for random draw**. Beyer's 1963 interpreter in an emulated IBM 1620 and a Lisp interpreter written from the manual agree on every step of the program. The 1620 deck's five workarounds did not change what the program does, and the transcription behaves the same on both.
 
 > **★ DON'T MISS**
 >
-> The 1620 run uses the same seed as 1962 (N0 = 53). Its first six random draws are those of the 1962 trace: A0 [0], A13 [0], A14 [3], A7 [0], A18 [1], A1 [2]. The first sentence even opens the same way: `WHEN THE STEAM MAKES`. The draws diverge at the seventh, A12: [1] on the 1620, [3] in 1962. Six matching draws by chance would be about a 1-in-500 event. The likeliest reading is that both J129s multiply by the same constant, as the manual describes, and that they differ in word length or truncation, so the sequences separate after a few steps. (Inference; I have not checked the 1962 machine's J129.)
+> Both runs use the 1962 seed, 53. Their first six random draws are those of the 1962 trace: A0 [0], A13 [0], A14 [3], A7 [0], A18 [1], A1 [2]. The first sentence even opens the same way: `WHEN THE STEAM MAKES`. The draws diverge at the seventh, A12: [1] now, [3] in 1962. Six matching draws by chance would be about a 1-in-500 event. The likeliest reading is that the 1962 J129 also multiplied by 9013, as Beyer's does, and that the two differ in word length or truncation, so the sequences separate after a few steps. (Inference; I have not checked the 1962 machine's J129.)
 
 ---
 
@@ -708,7 +672,7 @@ with their permission.
 - the C1–C3 control flow;
 - the trace-to-grammar correspondences in the Day in the Life, which were checked random draw by random draw.
 
-**From running it, high confidence:** everything in "Running It Today" about the 1620 is observed in runs of `ysimon-fixed.card`, `ysimon-fast.card`, and small test decks on the retro-1620 emulator. That covers the J82/J83 table-cell bug (confirmed in the SPS source and the 1963 listing's assembled addresses), the J80 loading requirement, the undefined-list behavior, the missing print-line routines, W20 switching output to the typewriter, and the harmlessness of the column-48 sign.
+**From running it, high confidence:** everything in "Running It Today" is observed in runs of `ysimon.card` on the Lisp IPL-V, compared with runs of the 1620 deck `../SimonYngveSentenceGenerator/ysimon-fixed.card` on the retro-1620 emulator. The Lisp J129 was written from Beyer's SPS source (JJ129), and its agreement with the 1620 run over twenty sentences confirms that reading.
 
 **From the IPL-V manual, high confidence:** J-function meanings and card types are from the 1964 IPL-V manual, 2nd edition, as OCR'd in Shrager's IPL-V repository. That edition postdates the listing, but the program's traced behavior is consistent with it (moderate-to-high confidence that 1962 meanings were the same).
 
@@ -725,7 +689,7 @@ with their permission.
 - who signed "Hal" (unknown);
 - the Yngve–Weizenbaum connection: the commute and the pattern-matching conversations come from Weizenbaum's interview as reported by McCorduck; the "Y" in `YMATCH` standing for Yngve is speculation;
 - whether this program marks a research interest in language at Carnegie or a family hobby (open; see "What Makes It Worth Visiting");
-- that the 1962 and 1620 J129s share a multiplier, from six matching draws (moderate);
+- that the 1962 J129 shares Beyer's multiplier, 9013, from six matching draws (moderate);
 - that the 1962 system accepted undefined L1 and L2 as empty lists (inferred from its trace, where L2 stacks correctly).
 
 **Not established here:** the host machine is not named on the printout. Why no data term exceeds four characters is not documented.
