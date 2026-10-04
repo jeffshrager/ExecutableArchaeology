@@ -23,10 +23,6 @@ spirit.
 
 ## Simon–Yngve Sentence Generator
 
-The first project in this repository is:
-
-### `SimonYngveSentenceGenerator/`
-
 In 1959–61, MIT linguist **Victor Yngve** developed a program for the
 random generation of English sentences from a phrase-structure
 grammar. Yngve's original program was written in COMIT.
@@ -50,14 +46,33 @@ IPL-V data, execution traces, and handwritten corrections. It
 therefore preserves not only a historical program but evidence of the
 process by which that program was being adapted and debugged.
 
-The directory contains:
+It lives in two directories:
+
+### `SimonYngveSentenceGenerator/`: the scan, the transcription, and the 1620
 
 * the archival scan of the surviving program listing;
-* `ysimon.card`, a transcribed IPL-V card deck; and
+* `ysimon.card`, a faithful transcription as an IPL-V card deck;
+* `ysimon-fixed.card` and `ysimon-fast.card`, adapted to run on
+  W. T. Beyer's 1963 IBM 1620 IPL-V interpreter under Paul Kimpel's
+  retro-1620 emulator (scripts and output in `retro1620/`); and
 * `Yngve_guide.md`, a detailed guide to the program, grammar,
   IPL-V representation, execution, and reconstruction.
 
-The guide is the best place to begin.
+### `SimonYngve2/`: the same program on the Lisp IPL-V
+
+* `ysimon.card` runs **unmodified** on the Lisp interpreter in
+  `IPL-V/`, with Simon's own trace and line printer. With the 1962
+  seed it produces the same twenty sentences as the 1620, by the same
+  derivations, random draw for random draw.
+* `ysimon-clean.card` is a new version with no trace and a printer
+  rewritten in IPL, which prints finished sentences:
+  `WHEN HE IS PROUD OF BLACK WHISTLES, STEAM, SMALL AND BIG AND OILED
+  WHEELS, HE IS HEATED.`
+* `run.sh` runs either deck (`./run.sh`, `./run.sh clean`), with a
+  choice of seed and sentence count.
+
+The guide (either copy; the one in `SimonYngve2/` describes running
+on the Lisp IPL-V) is the best place to begin.
 
 ## Also in this repository
 
@@ -68,7 +83,13 @@ The guide is the best place to begin.
 * **`LogicTheorist/`**: Einar Stefferud's 1963 IPL-V Logic Theorist
   (David Moews's deck), running unmodified and reproducing the 1963
   output for all 24 theorems. Start with `LT_guide.md`.
-* **`IPL-V/`**: the Common Lisp IPL-V interpreter that runs both.
+* **`IPL-V/`**: the Common Lisp IPL-V interpreter that runs all three
+  programs (the Heuristic Coder, the Logic Theorist and the Simon–Yngve
+  generator), with the 1964 IPL-V manual. `CHANGES_FROM_UPSTREAM.md`
+  lists every change to the interpreter and the programs it was checked
+  against.
+* **`seshsums/`** (and `HeuristicCoder/seshsums/`): working session
+  summaries, a running log of how the reconstructions were done.
 
 ## Other examples of executable archaeology
 
