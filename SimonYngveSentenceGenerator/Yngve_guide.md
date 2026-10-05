@@ -584,7 +584,7 @@ The listing never defines L1 and L2 as data; they are used as bare symbols and e
 
 ## Running It Today: The 1620 Version
 
-`ysimon-fixed.card` runs on Wendell Terry Beyer's 1963 IPL-V interpreter for the IBM 1620 (University of Oregon), under Paul Kimpel's retro-1620 emulator. It uses the Mod-3-4 interpreter decks and the headless command-line driver in Shrager's fork (github.com/jeffshrager/retro-1620-fork). Load four decks, in this order:
+`ysimon-fixed.card` runs on Wendell Terry Beyer's 1963 IPL-V interpreter for the IBM 1620 (University of Oregon), under Paul Kimpel's retro-1620 emulator. It uses the Mod-3-4 interpreter decks and the headless command-line driver from Shrager's fork (github.com/jeffshrager/retro-1620-fork), a copy of which is in this repository as `HeadlessIBM1620IPL-V/` (`run-ipl.sh ysimon-fixed.card`, or `retro1620/run.sh`). Load four decks, in this order:
 
 1. `IPL-V-Interpreter-Mod-3-4-Deck-1.card` (the loader)
 2. `ysimon-fixed.card`
@@ -740,7 +740,7 @@ Beyer, W. T. (1964). "1620 IPL-V: A Non-numeric Problem Solving Tool." In *1620 
 
 Hutchins, J. (2012). "Victor H. Yngve (1920–2012)." *Computational Linguistics*, 38(3).
 
-Kimpel, P. *retro-1620: a web-based emulator for the IBM 1620 Model 2*. github.com/pkimpel/retro-1620. Headless driver and IPL-V decks: github.com/jeffshrager/retro-1620-fork.
+Kimpel, P. *retro-1620: a web-based emulator for the IBM 1620 Model 2*. github.com/pkimpel/retro-1620. Headless driver and IPL-V decks: github.com/jeffshrager/retro-1620-fork; the parts needed to run IPL-V are copied into this repository as `HeadlessIBM1620IPL-V/`.
 
 Lenski, L. (1940). *The Little Train*. Oxford University Press.
 

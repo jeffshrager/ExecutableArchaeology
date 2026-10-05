@@ -713,7 +713,7 @@ Beyer, W. T. (1964). "1620 IPL-V: A Non-numeric Problem Solving Tool." In *1620 
 
 Hutchins, J. (2012). "Victor H. Yngve (1920–2012)." *Computational Linguistics*, 38(3).
 
-Kimpel, P. *retro-1620: a web-based emulator for the IBM 1620 Model 2*. github.com/pkimpel/retro-1620. Headless driver and IPL-V decks: github.com/jeffshrager/retro-1620-fork.
+Kimpel, P. *retro-1620: a web-based emulator for the IBM 1620 Model 2*. github.com/pkimpel/retro-1620. Headless driver and IPL-V decks: github.com/jeffshrager/retro-1620-fork; the parts needed to run IPL-V are copied into this repository as `HeadlessIBM1620IPL-V/`.
 
 Lenski, L. (1940). *The Little Train*. Oxford University Press.
 
