@@ -89,6 +89,10 @@ on the Lisp IPL-V) is the best place to begin.
   generator), with the 1964 IPL-V manual. `CHANGES_FROM_UPSTREAM.md`
   lists every change to the interpreter and the programs it was checked
   against.
+* **`KBEmacs/`**: a pointer to <https://github.com/jeffshrager/kbemacs>,
+  the reanimation of MIT's KBEmacs (the Programmer's Apprentice's
+  Knowledge-Based Editor), transcribed from the January 1985 listings
+  and running again under SBCL.
 * **`HeadlessIBM1620IPL-V/`**: W. T. Beyer's 1963 IBM 1620 IPL-V
   interpreter on Paul Kimpel's retro-1620 emulator, run headless from
   Node.js (`run-ipl.sh my.card`). It is the minimal part of the
