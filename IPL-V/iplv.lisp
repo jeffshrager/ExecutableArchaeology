@@ -2003,14 +2003,14 @@
 
   ;; [Removed: an earlier J137 that inserted a new first cell instead of
   ;; preserving (0). It was dead code: this definition replaced it.]
-  (defj J137 (l) "MARK LIST (0) PROCESSED"
+  (defj J137 ([0]) "MARK LIST (0) PROCESSED"
 	;; List (0) is preserved [ipushed], its [new] head made empty (Q =
 	;; 4, SYMB = 0), and P set to be 1. Restoring (0) will return
 	;; (0) to its initial state. This will work even with data
 	;; terms. The output (0) is the input (0).
 	;(poph0 1)
-	(ipush l) ;; This will leave a copy in the main symtab.
-	(let ((newmain (cell l))) ;; This should be the NEW copy of the pushed head.
+	(ipush [0]) ;; This will leave a copy in the main symtab.
+	(let ((newmain (cell [0]))) ;; This should be the NEW copy of the pushed head.
 	  ;; Now we mark the new main cell as indicated.
 	  (setf (cell-q newmain) 4 (cell-p newmain) 1 (cell-symb newmain) "0")
 	  ))
