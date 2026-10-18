@@ -69,9 +69,12 @@ SMALL = {  # name: [(deck in tests/, golden file, expected substring)]
     'symbols': [('symprobe.card', 'symprobe.out',
                  [': R1 F ', ': R2 T ', ': R3 F ', ': R4 F ', ': R5 T ', ': R6 F ',
                   ': R7 V1 ', ': R8 V10 '])],
+    # J166 pops its unit and sets H5+; J66 skips (1)'s own SYMB. Before
+    # the 2026-10-18 fixes: "M1 N1", "N1 F", "F3 E1".
+    'fixes': [('fixprobe.card', 'fixprobe.out', [': F1 M1 ', ': F2 T ', ': F3 D1 '])],
 }
 LT_KNOWN = {'2.15'}   # documented in LogicTheorist/README.md
-ORDER = ['ackermann', 'jprobe', 'symbols', 'lt', 'hc', 'annexer', 'yngve', 'yngve-clean']
+ORDER = ['ackermann', 'jprobe', 'symbols', 'fixes', 'lt', 'hc', 'annexer', 'yngve', 'yngve-clean']
 
 
 def norm(text):
