@@ -4,6 +4,7 @@
 
 - `../HeuristicCoder/`: Simon's Heuristic Coder (1961) and the RM-3588 annexer (1963)
 - `../LogicTheorist/`: Stefferud's 1963 Logic Theorist (dmoews deck)
+- `../SimonYngve2/`: Simon's 1962 IPL-V version of Yngve's sentence generator
 
 It reads 80-column IPL-V card decks directly, as well as the older `.liplv` S-expression format. `CHANGES_FROM_UPSTREAM.md` lists every change since IPL-V @ 792cb15. Each change is also marked in the source with `[Fixed: …]`, `[Added: …]` or `[Changed: …]`.
 
@@ -28,13 +29,34 @@ It reads 80-column IPL-V card decks directly, as well as the older `.liplv` S-ex
 
 ## Tests
 
-| Deck | Expected |
-|---|---|
-| `tests/Acker.Ipl` (cards) | N0 = 125, i.e. A(3,4) |
-| `tests/Ackermann.liplv` | N0 = 61, i.e. A(3,3) |
-| `tests/jprobe.card` | J-function probes |
+**Run `python3 tests/regress.py` after any change to `iplv.lisp`.** It takes about 25 seconds and prints PASS/FAIL for each program:
 
-Both Ackermann decks need `:adv-limit` of about 10^6 or more.
+```
+ackermann    PASS       3.7s
+jprobe       PASS       0.4s
+lt           PASS       5.5s
+hc           PASS       3.7s
+annexer      PASS       3.4s
+yngve        PASS       2.9s
+yngve-clean  PASS       2.9s
+7 of 7 passed
+```
+
+| Name | What runs | Passes when |
+|---|---|---|
+| `ackermann` | `tests/Acker.Ipl` (cards), `tests/Ackermann.liplv` | N0 = 125 (A(3,4)) and 61 (A(3,3)), and output matches `tests/golden/` |
+| `jprobe` | `tests/jprobe.card` (J-function probes) | output matches `tests/golden/jprobe.out` |
+| `lt` | `../LogicTheorist/run.sh` | output unchanged; 24/24 theorems as in 1963, except the documented *2.15 difference |
+| `hc` | `../HeuristicCoder/run.sh` | decks and `run/t1*.txt` unchanged |
+| `annexer` | `../HeuristicCoder/annexer/run.sh` | decks, `output.txt`, `memory.txt` unchanged |
+| `yngve` | `../SimonYngve2/run.sh` | outputs unchanged, and `sentences.txt` still equals the IBM 1620 run's |
+| `yngve-clean` | `../SimonYngve2/run.sh clean` | `ysimon-clean.card`, `clean_sentences.txt` unchanged |
+
+- **The reference output** for a project program is its committed output in the project directory. The harness saves those files, runs the project's `run.sh`, compares, and restores them, so a test run leaves the repository unchanged. The `tests/golden/` snapshots (made 2026-10-18) record what the interpreter did then, not necessarily what is correct.
+- **What is compared:** lines starting with `;` (SBCL compiler messages, with timestamps and paths) are ignored. A failure writes the new output and a diff to `$TMPDIR/iplv-regress/<name>/`, and the harness also reports any other file a run changed.
+- **Options:** `regress.py lt yngve` runs only those programs. `regress.py --accept` keeps the new outputs as the reference, for a change that is *meant* to alter output; review the diffs and commit them with the change.
+
+The harness was checked by temporarily changing J129's multiplier: `yngve` and `yngve-clean` failed, and the other five passed.
 
 ## Verified on this version (2026-10-03)
 

@@ -55,7 +55,7 @@ The interpreter now runs four historical programs: Stefferud's LT (24/24 theorem
 
 ## Proposed steps (in order; each one is a separate commit, with the regression suite run before and after)
 
-**Step 1. Regression harness (do first, change no behavior).** Add `IPL-V/tests/regress.sh`, which runs:
+**Step 1. Regression harness (do first, change no behavior).** *Done 2026-10-18 as `IPL-V/tests/regress.py`; see `README.md`, "Tests". All 7 programs pass on the unchanged interpreter.* Add `IPL-V/tests/regress.sh`, which runs:
 - Ackermann (125, 61) and `jprobe.card`;
 - `../LogicTheorist/run.sh`, checking for 24/24 and no "differs" except *2.15;
 - `../HeuristicCoder/run.sh`, diffed against `run/t1*.txt`;
@@ -94,7 +94,7 @@ It prints PASS/FAIL per program. The scripts already exist and only need to be i
 
 ## Verification
 
-- After every step, run `tests/regress.sh`; all programs must stay at PASS with output byte-identical, except where a step is *meant* to change output, in which case the diff is reviewed and explained in the commit.
+- After every step, run `tests/regress.py`; all programs must stay at PASS with output byte-identical, except where a step is *meant* to change output, in which case the diff is reviewed and explained in the commit.
 - For Step 2.1, also add `jprobe` cases: J2 on `Q1` vs `Q10`, J10 with both `Q1` and `Q10` on one description list, and J2 on `9-12` vs `9-120`.
 - For Step 3's arity change, build once with `(declaim (optimize (debug 1) (speed 1)))` and run the suite. Agreement shows the debug-3 dependency is gone.
 
