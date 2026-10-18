@@ -181,7 +181,13 @@
 		#'> :key #'second)
 	  do (format t "~a ~a [~a]~%   ~a~%" ncalls jname expl argcounts))))
 
+;;; [Changed: execution history for trace!/backtrace!, most recent first.
+;;; It used to grow by one entry per instruction and J call (952,340 for
+;;; LT) and was never cleared. Now it keeps the last *history-limit*
+;;; entries (trimmed in batches) and reset! clears it.]
 (defvar *card-cycles.ids-executed* nil)
+(defvar *history-limit* 10000)
+(defvar *history-count* 0)
 
 (defun trace! ()
   (loop for entry in (reverse *card-cycles.ids-executed*)
@@ -861,6 +867,7 @@
 
 (defun reset! ()
   (clrhash *symtab*) 
+  (setf *card-cycles.ids-executed* nil *history-count* 0)
   ;;(initialize-system-cell-stacks)
   (setup-j-fns)
   (clrhash *col->vals*)
@@ -3122,6 +3129,9 @@ Primary method runs the interpreter loop.  Analysis layers attach
 
 (defun maybe-break? (s &aux (cycles (H3-cycles)))
   (push (cons cycles s) *card-cycles.ids-executed*)
+  (when (> (incf *history-count*) (* 2 *history-limit*))
+    (setf (cdr (nthcdr (1- *history-limit*) *card-cycles.ids-executed*)) nil
+	  *history-count* *history-limit*))
   (when (or (equal t *breaks*)
 	    (member t *breaks*)
 	    (member cycles *breaks* :test #'equal)
