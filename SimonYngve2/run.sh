@@ -17,10 +17,17 @@ if [ "$1" = clean ]; then
     shift
     python3 make_clean_deck.py ysimon.card ysimon-clean.card "$@"
     cp ysimon-clean.card ysimon-run.card
-    sbcl --non-interactive --load run-yngve.lisp > ysimon-clean.out 2>&1 || { cat ysimon-clean.out; exit 1; }
+    # The deck prints nothing but sentences, so print lines need no marker:
+    # *ipl-print-prefix* is "", and SBCL's banner, init file and compiler
+    # messages are kept off stdout. Only the 80-column lines' trailing blanks
+    # are trimmed.
+    sbcl --noinform --non-interactive --no-userinit \
+        --eval '(let ((*standard-output* (make-broadcast-stream)) (*error-output* (make-broadcast-stream))) (load (compile-file "../IPL-V/iplv.lisp" :output-file (merge-pathnames "iplv.fasl" (truename ".")))))' \
+        --eval '(setf *ipl-print-prefix* "")' \
+        --eval '(progn (set-trace-mode :none) (load-ipl "ysimon-run.card" :adv-limit 100000000))' \
+        > ysimon-clean.out 2>&1 || { cat ysimon-clean.out; rm -f ysimon-run.card iplv.fasl; exit 1; }
     rm -f ysimon-run.card iplv.fasl
-    # J155 prints each line after a row of colons; keep the line itself.
-    grep '^::::' ysimon-clean.out | sed 's/^:* //; s/ *$//' > clean_sentences.txt
+    sed 's/ *$//' ysimon-clean.out > clean_sentences.txt
     rm -f ysimon-clean.out
     cat clean_sentences.txt
     exit 0

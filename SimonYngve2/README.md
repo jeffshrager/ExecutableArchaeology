@@ -59,8 +59,9 @@ What it does not fix, because it is in Yngve's grammar rather than the
 printer: the plural is just S (`FIREBOXS`), and the article is not matched to
 the next word (`A OILED`).
 
-`J155` in the Lisp IPL-V prints each line after a row of colons, which
-`run.sh` strips.
+`run.sh clean` sets the interpreter's `*ipl-print-prefix*` to `""`, so J155
+prints bare lines instead of putting a row of colons in front, and keeps
+SBCL's own messages off stdout. The run's output is then just the sentences.
 
 | File | What it is |
 |---|---|

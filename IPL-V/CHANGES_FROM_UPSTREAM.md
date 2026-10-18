@@ -77,3 +77,7 @@ Added so that the faithful deck `../SimonYngve2/ysimon.card` runs unmodified. Wi
 - **J123** negate (0) in place, no pop. The manual's "zero into minus zero" is not represented, since Lisp integers have no −0.
 - **J129** random number in [0, (0)), integers only, as in Beyer's 1620 JJ129 (`MM D5,9013` / `SF 90` / `TF D5,99` / `M D5,D6`): the seed s, in the cell named by W10, becomes s × 9013 mod 10^10, and the output is a new integer ⌊s × (0) / 10^10⌋.
 - **J153** print data term (0) without name or type: prints the value alone on a line.
+
+## Print-line prefix, 2026-10-18
+
+- **`*ipl-print-prefix*`** (new variable): the string J155 prints before each line. The default is the old hard-coded row of 32 colons and a space, so output is unchanged (`tests/regress.py`: 7/7 pass). Set it to `""` for bare lines, as `../SimonYngve2/run.sh clean` does. The colons stay the default because they mark print lines among traces and other output, which helps debugging.

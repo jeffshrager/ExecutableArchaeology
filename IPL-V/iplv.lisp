@@ -926,6 +926,11 @@
 
 (defvar *j15-mode* :clear-dl)
 
+;;; [Added: J155 prints each line after this prefix. The default row of
+;;; colons marks print lines among traces and other output (run scripts
+;;; grep for it); set it to "" to print bare lines.]
+(defvar *ipl-print-prefix* ":::::::::::::::::::::::::::::::: ")
+
 (defmacro defj (name args explanation &rest forms)
   `(let ((uname ,(string-upcase (format nil "~a" name))))
      (setf (gethash uname *jfn-plists*) '(explanation ,explanation))
@@ -2073,7 +2078,8 @@
 	;; [Changed: print the line literally. hack-output!! (an LT-era kludge)
 	;; dropped any 0 after ( or ), turning the data term "(0)" into "()".
 	;; Compact entry of region-0 symbols is J156's job, per the manual.]
-	(format t ":::::::::::::::::::::::::::::::: ~a~%" *W24-Line-Buffer*)
+	;; [Changed: the prefix is *ipl-print-prefix* (default unchanged).]
+	(format t "~a~a~%" *ipl-print-prefix* *W24-Line-Buffer*)
 	)
 
   (defj J156 ([0]) "ENTER SYMBOL (0) LEFT-JUSTIFIED"
