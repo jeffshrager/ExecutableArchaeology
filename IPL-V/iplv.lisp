@@ -494,7 +494,10 @@
 (defvar *input-stream* nil) 
 (defvar *card-number* nil)
 
-(defun load-ipl (file &key (reset? t) (load-mode :code) (adv-limit 100))
+;;; [Changed: the default adv-limit (instruction advances before the run
+;;; stops) is 10^8. It was 100, which every real program had to override;
+;;; LT needs about 650,000. Pass :adv-limit nil for no limit.]
+(defun load-ipl (file &key (reset? t) (load-mode :code) (adv-limit 100000000))
   ;; Load-mode will be :code or :data as set by the latest type=5
   ;; cell's Q: Q=0=code, Q=1=data) And if the sym entry on a type 5
   ;; cell is filled, it's an execution start cell.
@@ -2857,7 +2860,7 @@
 
 (defvar *adv-limit* nil)
 
-(defun run (start-symb &key (adv-limit 1000))
+(defun run (start-symb &key (adv-limit 100000000))
   (initialize-machine)
   (!! :run "********** Starting run at ~a with adv-limit = ~a **********" start-symb adv-limit)
   (setf *adv-limit* adv-limit)
