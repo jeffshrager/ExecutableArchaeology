@@ -933,7 +933,9 @@
 
 (defmacro defj (name args explanation &rest forms)
   `(let ((uname ,(string-upcase (format nil "~a" name))))
-     (setf (gethash uname *jfn-plists*) '(explanation ,explanation))
+     ;; [Changed: also record the argument list. The executor takes the
+     ;; J's inputs from it, instead of from function-lambda-expression.]
+     (setf (gethash uname *jfn-plists*) '(explanation ,explanation args ,args))
      (let ((fn (lambda ,args ,@forms)))
        (setf (gethash uname *symtab*) fn)
        (setf (gethash fn *jfn->name*) uname))))
@@ -2974,11 +2976,15 @@ Primary method runs the interpreter loop.  Analysis layers attach
      (let* ((fn (if (functionp (cell-symb (h1))) (cell-symb (h1))
 		    (if (functionp (cell (cell-symb (h1)))) (cell (cell-symb (h1)))))))
        (when fn 
-	 (let* ((arglist (second (function-lambda-expression fn)))
+	 ;; [Changed: the argument list is the one defj recorded, and only
+	 ;; that many H0 entries are fetched. It used to come from
+	 ;; function-lambda-expression, which needs (debug 3), and the whole
+	 ;; H0 stack was walked on every J call.]
+	 (let* ((arglist (getf (gethash (gethash fn *jfn->name*) *jfn-plists*) 'args))
 		(args (if (null arglist) ()
 			  (check-jfn-arglist-for-red-flags***
 			   (loop for arg in arglist
-				 as val in (getstack "H0") ;; FFF %%% Walk this so we don't need the whole stack
+				 as val in (getstack "H0" (length arglist))
 				 collect (cell-symb val))))))
 	   (when *fname-hint* 
 	     (!! :jcalls (format t (if arglist "   .......... Calling ~a [~a]: ~s=~s~%"
