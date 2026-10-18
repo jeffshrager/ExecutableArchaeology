@@ -1156,7 +1156,9 @@
 	  ;; superroutine, and records it in one of the hideout cells (see §
 	  ;; 15.0, MONITOR SYSTEM).
 	  (poph0 2) ;; Safe -- never passed H0
-	  (let* ((wn (parse-integer (subseq wn-symb 1 2))))
+	  ;; [Fixed: read every digit of Wn. (subseq wn-symb 1 2) read W10-W42
+	  ;; as W1-W4.]
+	  (let* ((wn (parse-integer wn-symb :start 1)))
 	    (J4n=preserve-wn wn)
 	    (push (make-gentry :fn fn
 			       :wn wn :wnames (first-n (1+ wn) *w-cells*)
