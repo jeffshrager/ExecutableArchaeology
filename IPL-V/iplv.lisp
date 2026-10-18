@@ -2521,7 +2521,8 @@
   (if (zero? link) link ;; end of recursion
       (let* ((attcell (<== link))
 	    (valcell (<== (cell-link attcell))))
-	(if (string-equal att (cell-symb attcell))
+	;; [Fixed: symbol comparison, not string-equal.]
+	(if (ipl-string-equal att (cell-symb attcell))
 	    ;; Skip the attribute and value cells, and return the link
 	    ;; of the value.
 	    (cell-link (<== (cell-link attcell)))
