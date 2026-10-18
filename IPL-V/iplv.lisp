@@ -2637,7 +2637,9 @@
     (if (not (numberp w25p)) (break "In J183/4 expected W25(p) (~a) to be a number.~%" (cell "W25")))
     (H5-)
     (incf w25p) ;; Start at W25+1 (per manual)
-    (loop until (= w25p 80) 
+    ;; [Fixed: scan through column 80. "until (= w25p 80)" stopped before
+    ;; examining it.]
+    (loop until (> w25p 80)
 	  ;; WWW OBIWON !!! The only place I should have to correct this is here (I hope!) 
 	  as char = (aref *W24-Line-Buffer* (1- w25p))
 	  do 
