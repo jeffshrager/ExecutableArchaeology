@@ -1488,19 +1488,23 @@
 	;; with a branching list!]
 	(let ((target [0]))
 	  (!! :jdeep "             .....J66 trying to insert ~s in ~s" target [1])
+	  ;; [Fixed: the search starts with the cell after (1); it used to
+	  ;; test (1)'s own SYMB (for a head, its description list) too. It
+	  ;; uses the symbol comparison, ipl-string-equal, not string-equal.
+	  ;; The manual specifies no H5 for J63-J66, and Beyer's library J65
+	  ;; (40H5 J6 J61 J6 30H5 J64) preserves H5, so H5 is left alone.]
 	  (loop with list-cell = (<== [1])
 		as link = (cell-link list-cell)
 		do
-		(cond ((string-equal (cell-symb list-cell) target)
-		       (!! :jdeep "             .....J66 found ~s in the list already. No action!" target)
-		       (PopH0 2) (return nil))
-		      ((zero? link)
+		(cond ((zero? link)
 		       (!! :jdeep "             .....J66 hit end, adding ~s to the end of the list!" target)
 		       (setf (cell-link list-cell)
 			     (cell-name (make-cell! :name (newsym) :symb target :link "0")))
 		       (PopH0 2) (return t)))
-		;; Move to next cell if nothing above returned out
-		(setf list-cell (cell (cell-link list-cell))))))
+		(setf list-cell (cell link))
+		(when (ipl-string-equal (cell-symb list-cell) target)
+		  (!! :jdeep "             .....J66 found ~s in the list already. No action!" target)
+		  (PopH0 2) (return nil)))))
  
   (defj J68 ([0]) "DELETE SYMBOL IN CELL (0)"
 	;; (0) names a cell in a list. The symbol in it is deleted by
