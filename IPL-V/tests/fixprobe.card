@@ -1,0 +1,37 @@
+     PROBES FOR 2026-10-18 FIXES        9
+     EACH PROBE PRINTS A LABEL AND      1
+     T OR F, OR THE SYMBOL ON TOP.      1
+                                        5       00
+     F1 J166 POPS ITS UNIT. EXPECT M1     P0    10F1
+                                                10M1
+                                                10N1
+                                                00J166
+     TOP OF H0 SHOULD BE M1 AGAIN               00P2
+     F2 J166 SETS H5+. EXPECT T                 10F2
+                                                10N1
+                                                00J3
+                                                00J166
+                                                00P1
+     F3 J66 IGNORES THE HEAD SYMB.              10L6
+     L6 HEAD SYMB IS D1. EXPECT D1              10D1
+     ADDED, SO LAST SYMBOL IS D1                00J66
+                                                10F3
+                                                10L6
+                                                00J61
+                                                52H0
+                                                00P2    0
+     P1 PRINT LABEL (0), T IF H5+         P1    70      9-1
+                                                10F0    P2
+                                          9-1   10T0    P2
+     P2 PRINT LABEL (1), SYMBOL (0)       P2    00J154
+                                                00J6
+                                                00J156
+                                                10N1
+                                                00J161
+                                                00J156
+                                                00J155  0
+                                        5       01
+     L6: HEAD SYMB D1, ONE CELL E1        L6    00D1
+                                                00E1    0
+                                          N1    01          1
+                                        5         P0

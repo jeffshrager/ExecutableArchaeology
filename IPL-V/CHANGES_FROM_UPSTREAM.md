@@ -88,3 +88,20 @@ Added so that the faithful deck `../SimonYngve2/ysimon.card` runs unmodified. Wi
 - Measured first: in about 94,000 calls in LT, the Heuristic Coder, the annexer and Yngve, the old and exact comparisons never differed. So the four programs never relied on the trimming, and their outputs are unchanged (`tests/regress.py`: all pass).
 - New probe deck `tests/symprobe.card` (`regress.py symbols`). Before the fix it gave `Q1` = `Q10`, `K2` = `K20` and `9-12` = `9-120`, and J10 found `Q10`'s value when asked for `Q1`'s (Q10 first on the description list). `A01` and `A1` are different symbols, both before and after (probe R6).
 - Not changed yet: the plain `string-equal` comparisons (J66 and one J11 path), which are exact except for case.
+
+## Simple bugs and efficiency, 2026-10-18 (improvement plan Steps 2.2-2.9 and parts of 3)
+
+All outputs are unchanged (`tests/regress.py`, all pass). The new `tests/fixprobe.card` (`regress.py fixes`) shows the fixes to J166 and J66.
+
+- **J137**: the first of two definitions was dead code (the second, which follows the manual, replaced it). It is deleted, and the live one's argument is named `[0]`, per the file's convention.
+- **J17**: reads every digit of Wn. `W10`-`W42` were read as `W1`-`W4`.
+- ⚠ **J166** pops its unit and sets H5+ (manual: "J166 sets H5+, and restarting causes H5 to be set −"). It popped nothing, so LT's X9 (`10N2 J166 J165`, run at the start card) left N2 on H0 for the whole run.
+- **J183/J184 scanner** examines column 80 (the loop stopped before it, at the `WWW OBIWON` comment).
+- **J126's count and 1W25** are created as integer data terms, P=0 Q=1 (were P=1 Q=2).
+- ⚠ **J66** searches from the cell after (1) with the symbol comparison. It also tested (1)'s own SYMB (a head's description list) and used `string-equal`. **J14**'s attribute search uses the symbol comparison too.
+- **H5 in J63-J66 is deliberately not set.** The plan proposed setting it, but the manual specifies no H5 for these, and Beyer's library J65 (`40H5 J6 J61 J6 30H5 J64`) preserves H5 around its work. (J64 still sets H5+, as before.)
+- **J arguments**: `defj` records each J's argument list in `*jfn-plists*`, and the executor fetches exactly that many H0 entries. It used to get them from `function-lambda-expression`, which needs `(debug 3)`, and it walked the whole H0 stack on every J call. Built at `(debug 1)`, the old executor crashes and the new one runs LT 24/24 and Yngve identically. But 83 LT effort figures differ by a constant 28 cycles within one theorem, so something else still depends on `(debug 3)`, which stays.
+- **Execution history** (`*card-cycles.ids-executed*`, for `trace!`/`backtrace!`) keeps the last 10,000 entries and is cleared by `reset!`. It grew without limit (952,340 entries for LT).
+- **`load-ipl`'s default `:adv-limit`** is 10^8 (was 100); `run`'s is too (was 1000).
+
+Profile of LT (2.6 s, 650,000 cycles): about 25% is J68's last-cell case, which scans the whole symbol table, and about 24% is symbol-table inserts (cells are never reclaimed). Both belong to the memory model (plan Steps 4-5). The changes above save about 2% of time and bound the history's memory.

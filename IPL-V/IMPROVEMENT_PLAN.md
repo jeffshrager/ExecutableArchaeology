@@ -64,7 +64,7 @@ The interpreter now runs four historical programs: Stefferud's LT (24/24 theorem
 
 It prints PASS/FAIL per program. The scripts already exist and only need to be invoked; the diffs reuse `LogicTheorist/compare.py`.
 
-**Step 2. Fix the A-list bugs, one per commit:**
+**Step 2. Fix the A-list bugs, one per commit:** *(2026-10-18: 2.1-2.5, 2.8 and 2.9 done; in 2.2 the H5 part was dropped as unfaithful, see CHANGES_FROM_UPSTREAM.md; 2.6 (J181) and 2.7 (J182) remain.)*
 1. *(Done 2026-10-18: no program output changed; probes in `tests/symprobe.card`.)* Exact symbol equality in `ipl-string-equal`, keeping blank-trimming only for alphanumeric data-term contents. This is the riskiest fix, so run the suite immediately after it.
 2. J66 (start after the head, use the IPL comparison, set H5), and H5 in J63/J65.
 3. J17 multi-digit Wn.
@@ -75,7 +75,7 @@ It prints PASS/FAIL per program. The scripts already exist and only need to be i
 8. PQ of J126 and `w25-init`.
 9. Delete the dead J137.
 
-**Step 3. Robustness (no change to program semantics):**
+**Step 3. Robustness (no change to program semantics):** *(2026-10-18: explicit J arglists done, but `(debug 3)` is still needed for another reason; history bounded; default adv-limit raised. The `break`-to-conditions change remains.)*
 - Give `defj` an explicit arity stored in `*jfn-plists*`, and fetch exactly that many H0 entries. This removes `function-lambda-expression` and makes the `(debug 3)` requirement unnecessary; test that by building at default optimization.
 - Replace `break` with conditions (`ipl-halt` for J7, `ipl-limit-exceeded` for the adv-limit, and an `ipl-error` class). Keep an interactive-debugger option.
 - Raise the default `:adv-limit` to something like 10^7.

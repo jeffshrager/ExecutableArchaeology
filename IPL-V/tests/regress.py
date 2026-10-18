@@ -7,6 +7,7 @@ is unchanged:
   ackermann  tests/Acker.Ipl -> 125, tests/Ackermann.liplv -> 61
   jprobe     tests/jprobe.card (J-function probes)
   symbols    tests/symprobe.card (symbol identity: Q1 /= Q10, A = A0)
+  fixes      tests/fixprobe.card (J166, J66)
   lt         ../../LogicTheorist/run.sh: 24/24 theorems as in 1963 (except the
              known *2.15 difference: it fails at the effort limit in both runs,
              after 31 subproblems in 1963 and 48 here; see LogicTheorist/README.md)

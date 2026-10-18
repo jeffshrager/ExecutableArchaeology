@@ -35,18 +35,20 @@ It reads 80-column IPL-V card decks directly, as well as the older `.liplv` S-ex
 ackermann    PASS       3.7s
 jprobe       PASS       0.4s
 symbols      PASS       0.4s
+fixes        PASS       0.4s
 lt           PASS       5.5s
 hc           PASS       3.7s
 annexer      PASS       3.4s
 yngve        PASS       2.9s
 yngve-clean  PASS       2.9s
-8 of 8 passed
+9 of 9 passed
 ```
 
 | Name | What runs | Passes when |
 |---|---|---|
 | `ackermann` | `tests/Acker.Ipl` (cards), `tests/Ackermann.liplv` | N0 = 125 (A(3,4)) and 61 (A(3,3)), and output matches `tests/golden/` |
 | `jprobe` | `tests/jprobe.card` (J-function probes) | output matches `tests/golden/jprobe.out` |
+| `fixes` | `tests/fixprobe.card` (J166 pops and sets H5+; J66 skips the head) | each probe gives the right answer, and output matches the golden file |
 | `symbols` | `tests/symprobe.card` (symbol identity) | each probe gives the right answer (`Q1` ≠ `Q10`, `A` = `A0`, ...), and output matches the golden file |
 | `lt` | `../LogicTheorist/run.sh` | output unchanged; 24/24 theorems as in 1963, except the documented *2.15 difference |
 | `hc` | `../HeuristicCoder/run.sh` | decks and `run/t1*.txt` unchanged |
