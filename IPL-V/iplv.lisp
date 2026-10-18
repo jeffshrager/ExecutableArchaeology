@@ -2145,10 +2145,16 @@
 	  (!! :io "             .....New col is ~a" r)
 	  (W25-set r)))
   
-  (defj J166 () "SAVE ON UNIT (O) FOR RESTART"
-	(PopH0 0)
-	(!! :jdeep "             .....Yeah, I'm gonna pass on implementing J166 (Save for restart)!")
-	)
+  (defj J166 ([0]) "SAVE ON UNIT (O) FOR RESTART"
+	;; (0) names an integer data term giving the tape unit. "The program
+	;; does not terminate when J166 is executed. J166 sets H5+, and
+	;; restarting causes H5 to be set -." Nothing is saved here (a run
+	;; is never restarted). [Fixed: pop the unit (it was (PopH0 0), which
+	;; left it on H0; LT's X9 runs this at the start card) and set H5+.]
+	(declare (ignore [0]))
+	(PopH0 1)
+	(!! :jdeep "             .....J166 (save for restart) saves nothing.")
+	(H5+))
 
   (defj J180 () "READ LINE J180 READLINE" 
 	;; The next record on unit 1W18 is read to line 1W24. (The record is
