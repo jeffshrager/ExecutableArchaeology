@@ -1149,9 +1149,9 @@
   
   ;; Just as a reminder: (defvar *genstack* nil) (defstruct gentry fn wn :wnames +- gentag)
 
-  (defj J17 (wn-symb fn) "GENERATOR SETUP"  
+  (defj J17 ([0] [1]) "GENERATOR SETUP"  
 	(let ((gentag (gensym "GEN-")))
-	  (!! :gentrace "    >>>>>>>>>> J17 [Gen Setup @~a] ~s ~s tag=~s >>>>>>>>>>"  (H3-cycles) wn-symb fn gentag)
+	  (!! :gentrace "    >>>>>>>>>> J17 [Gen Setup @~a] ~s ~s tag=~s >>>>>>>>>>"  (H3-cycles) [0] [1] gentag)
 	  (!! :gentrace (let ((*trace-cell-names-or-exprs* '("H0" "H1" "W0" "W1"))
 			      (*cell-tracing-on* t))
 			  (format t "Cell trace before:")
@@ -1170,9 +1170,9 @@
 	  (poph0 2) ;; Safe -- never passed H0
 	  ;; [Fixed: read every digit of Wn. (subseq wn-symb 1 2) read W10-W42
 	  ;; as W1-W4.]
-	  (let* ((wn (parse-integer wn-symb :start 1)))
+	  (let* ((wn (parse-integer [0] :start 1)))
 	    (J4n=preserve-wn wn)
-	    (push (make-gentry :fn fn
+	    (push (make-gentry :fn [1]
 			       :wn wn :wnames (first-n (1+ wn) *w-cells*)
 			       ;; ??? There's an open issue of what
 			       ;; happens if J19 is called before any of
@@ -1385,25 +1385,25 @@
 	  (poph0 2) 
 	  (ipush "H0" (cell-name r)))))
 
-  (defj J63 (new-symbol list-cell-name) "INSERT (0) BEFORE SYMBOL IN (1)"
+  (defj J63 ([0] [1]) "INSERT (0) BEFORE SYMBOL IN (1)"
 	;; (1) is assumed to name a cell in a list. A new cell is
 	;; inserted in the list behind (1). The symbol in (1) is
 	;; moved into the new cell, and (0) is put into (1). The end
 	;; result is that (0) occurs in the list before the symbol
 	;; that was originally in cell (1).
 	(!! :jdeep "             .....******** In J64 WORRY ABOUT THE UNINTERPRETABLE TERMINATION CELL CASE!")
-	(!! :jdeep "             .....=========================================================J64 trying to append ~s to ~s~%" new-symbol list-cell-name)
+	(!! :jdeep "             .....=========================================================J64 trying to append ~s to ~s~%" [0] [1])
 	(!! :jdeep "             .....Here are the lists before:")
-	(let* ((list-cell (cell list-cell-name))
+	(let* ((list-cell (cell [1]))
 	       (new-cell-name (newsym))
 	       (list-cell-symb (cell-symb list-cell))
 	       (new-cell (make-cell! :name new-cell-name :symb list-cell-symb :link (cell-link list-cell))))
 	  (declare (ignore new-cell))
-	  (setf (cell-symb list-cell) new-symbol
+	  (setf (cell-symb list-cell) [0]
 		(cell-link list-cell) new-cell-name))
 	(!! :jdeep "             .....*********************************************************")
 	(!! :jdeep "             .....Here is the target list, after:")
-	(!! :jdeep (pl list-cell-name))
+	(!! :jdeep (pl [1]))
 	(!! :jdeep "             .....=========================================================")
 	(poph0 2)
 	)
@@ -1412,7 +1412,7 @@
   ;; to get right because it depends upon subtlties of locality and
   ;; such.
 
-  (defj J64 (new-symbol list-cell-name) "INSERT (0) AFTER SYMBOL IN (1)" 
+  (defj J64 ([0] [1]) "INSERT (0) AFTER SYMBOL IN (1)" 
 	;; (format t "~%~%***************** (J64 :Insert ~s :In ~s) *****************!~%~%" new-symbol list-cell-name)
 	;; (format t "~%~%--------------------------~%~%")
 	;; (pl "L11") 
@@ -1432,14 +1432,14 @@
 	;; heuristically assume that x|0|0 is a list header, and in
 	;; this case add a new cell to the tail anyway, but flag an
 	;; alert..
-	(!! :jdeep "             .....=========================================================J64 trying to append ~s to ~s~%" new-symbol list-cell-name)
+	(!! :jdeep "             .....=========================================================J64 trying to append ~s to ~s~%" [0] [1])
 	(!! :jdeep "             .....Here are the lists before:")
-	(!! :jdeep (pl new-symbol) (pl list-cell-name))
-	(let* ((list-cell (cell list-cell-name))
+	(!! :jdeep (pl [0]) (pl [1]))
+	(let* ((list-cell (cell [1]))
 	       (list-cell-symb (cell-symb list-cell))
 	       (list-cell-link (cell-link list-cell))
 	       (new-cell-name (newsym)))
-	  (make-cell! :name new-cell-name :symb new-symbol :link list-cell-link)
+	  (make-cell! :name new-cell-name :symb [0] :link list-cell-link)
 	  ;;; If the cell we've been handed is heuristically an empty
 	  ;;; list header, we soft flag this and add the new cell to
 	  ;;; the end.
@@ -1458,7 +1458,7 @@
 	  )
 	(!! :jdeep "             .....*********************************************************")
 	(!! :jdeep "             .....Here is the target list, after:")
-	(!! :jdeep (pl list-cell-name))
+	(!! :jdeep (pl [1]))
 	(!! :jdeep "             .....=========================================================")
 	(H5+) ;; We MUST set H5+ here, otherwise empty list insertions (esp. in clean setups)
 	      ;; will inherit failure status (H5-) from prior ops, causing spurious failures.
@@ -1880,16 +1880,16 @@
 	  ;; Does this need to pop and push? (Probably not.)
 	  (setf (cell-symb (H0)) new-cell-name)))
   
-  (defj J121 (to from) "SET (O) IDENTICAL TO (1)"
+  (defj J121 ([0] [1]) "SET (O) IDENTICAL TO (1)"
 	;; The contents of the cell named (1) is placed in the cell
 	;; (0). The output (0) is the input (0).
 	;; (For some reson my initial implemenation of this only moved the link????????)
-	(setf (cell-symb (cell to)) (cell-symb (cell from)))
-	(setf (cell-link (cell to)) (cell-link (cell from)))
-	(setf (cell-p (cell to)) (cell-p (cell from)))
-	(setf (cell-q (cell to)) (cell-q (cell from)))
+	(setf (cell-symb (cell [0])) (cell-symb (cell [1])))
+	(setf (cell-link (cell [0])) (cell-link (cell [1])))
+	(setf (cell-p (cell [0])) (cell-p (cell [1])))
+	(setf (cell-q (cell [0])) (cell-q (cell [1])))
 	(poph0 2)
-	(ipush "H0" to))
+	(ipush "H0" [0]))
 
   (defj J124 ([0]) "CLEAR (0)" 
 	;; The number (0) is set to be 0. If the cell is not a data
@@ -1985,19 +1985,19 @@
 	(if (find #\- [0]) (H5+) (H5-))
 	(poph0 1))
 
-  (defj J133 (l) "TEST IF LIST (0) HAS BEEN MARKED PROCESSED"
+  (defj J133 ([0]) "TEST IF LIST (0) HAS BEEN MARKED PROCESSED"
 	;; Tests if P = 1 (and Q != 1 or 5) in the cell whose name is
 	;; (0). It will only be 1 if list (0) has been preserved and P
 	;; = 1 put in its head by J137. This means list (0) has been
 	;; marked processed. 
 	(poph0 1)
-	(let* ((l (<== l))
+	(let* ((l (<== [0]))
 	       (p (cell-p l))
 	       (q (cell-q l)))
 	  (if (and (= p 1) (member q '(0 2 3 4 6 7)))
 	      (H5+) (H5-))))
 
-  (defj J136 (H0) "MAKE SYMBOL (O) LOCAL." 
+  (defj J136 ([0]) "MAKE SYMBOL (O) LOCAL." 
 	;; !!! SEE NOTES AT J73/74 !!!  The output (0) is the input
 	;; (0) with Q = 2. Since all copies of this symbol carry along
 	;; the Q value, if a symbol is made local when created, it
@@ -2014,7 +2014,7 @@
 	;; [Fixed: a data term's Q=1 is its type code (01 integer, 21 alpha),
 	;; so don't overwrite it. Doing so made J157 print Stefferud LT's
 	;; subproblem numbers (J120 copy + J136 of K10, M51) as "0".]
-	(let ((cell (<== H0)))
+	(let ((cell (<== [0])))
 	  (unless (= 1 (cell-q cell))
 	    (setf (cell-q cell) 2))))
 
@@ -2118,14 +2118,14 @@
 	(!! :io "             .....Print buffer is now:~s~%" *W24-Line-Buffer*)
 	)
 
-  (defj J157 (a0) "ENTER DATA TERM (0) LEFT-JUSTIFIED [216]"
+  (defj J157 ([0]) "ENTER DATA TERM (0) LEFT-JUSTIFIED [216]"
 	;; Data term (0) is entered in the current print line with its
 	;; leftmost character in print position 1W25, 1W25 is
 	;; advanced, and H5 is set + . If (0) exceeds the remaining
 	;; space, no entry is made and H5 is set - .
 	(poph0 1)
 	(block J157A
-	  (let* ((the-cell (cell a0))
+	  (let* ((the-cell (cell [0]))
 		 ;; IPL-V data terms: p=0,q=1 → integer (value in link);
 		 ;; p=2,q=1 → alpha (value in symb). J157 must handle both.
 		 ;; We check p/q on the cell rather than whether symb is blank,
@@ -2135,7 +2135,7 @@
 			(cell-symb the-cell)))
 		 (l (length s))
 		 (p (W25-get)))
-	    (!! :io "             .....J157 called on ~s, string: ~s (w25=~a)" a0 s p)
+	    (!! :io "             .....J157 called on ~s, string: ~s (w25=~a)" [0] s p)
 	    ;; [Fixed: 1W25 is a 1-based column.]
 	    (when (> (+ l p -1) 80) (H5-) (return-from J157A nil)) ;; (Sadly, J157 isn't a DEFUN'ed block)
 	    (loop for c across s
@@ -2146,19 +2146,19 @@
 	    (!! :io "             .....Print buffer is now:~s (w25=~a)~%" *W24-Line-Buffer* (W25-get))
 	    )))
 
-  (defj J160 (col) "TAB TO COL (0)"
+  (defj J160 ([0]) "TAB TO COL (0)"
 	(poph0 1)
-	(let ((col (numget col)))
+	(let ((col (numget [0])))
 	  (!! :io "             .....Tabbing to ~a" col)
 	  ;; [Fixed: "1W25 is set equal to 1W21 + (0)"; the left margin 1W21
 	  ;; is always 1 here (see J154).]
 	  (W25-set (1+ col))))
 
-  (defj J161 (a0) "INCREMENT COLUMN BY (0)"
+  (defj J161 ([0]) "INCREMENT COLUMN BY (0)"
 	;; (0) is taken as the name of an integer data term. Current
 	;; entry column, 1W25, is set equal to 1W25 + (0).
 	(poph0 1)
-	(let ((r (+ (cell-link (cell a0)) (W25-get))))
+	(let ((r (+ (cell-link (cell [0])) (W25-get))))
 	  (!! :io "             .....New col is ~a" r)
 	  (W25-set r)))
   
