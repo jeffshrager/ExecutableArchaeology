@@ -1999,22 +1999,8 @@
 	  (unless (= 1 (cell-q cell))
 	    (setf (cell-q cell) 2))))
 
-  (defj J137 ([0]) "MARK LIST (0) PROCESSED"
-	;; List (0) is preserved, its [new] head made empty (Q =
-	;; 4, SYMB = 0), and P set to be 1. Restoring (0) will return
-	;; (0) to its initial state. This will work even with data
-	;; terms. The output (0) is the input (0).
-	(let* ((head-cell (<== [0]))
-	       (current-first-cell-name (cell-link head-cell))
-	       (new-first-cell-name (newsym))
-	       (new-first-cell (make-cell! :name new-first-cell-name :p 1 :q 4 :symb "0" :link current-first-cell-name))
-	       )
-	  (setf (cell-link head-cell) new-first-cell-name)
-	  (!! :jdeep "   .....J137 created new cell ~s in list: ~s" new-first-cell head-cell)
-	  (!! :jdeep (pl [0]))
-	  ))
-
-
+  ;; [Removed: an earlier J137 that inserted a new first cell instead of
+  ;; preserving (0). It was dead code: this definition replaced it.]
   (defj J137 (l) "MARK LIST (0) PROCESSED"
 	;; List (0) is preserved [ipushed], its [new] head made empty (Q =
 	;; 4, SYMB = 0), and P set to be 1. Restoring (0) will return
