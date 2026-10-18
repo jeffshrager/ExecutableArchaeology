@@ -98,6 +98,7 @@ on the Lisp IPL-V) is the best place to begin.
   Node.js (`run-ipl.sh my.card`). It is the minimal part of the
   retro-1620 fork needed to test IPL-V decks on a genuine 1960s
   implementation, and it runs the 1620 Yngve decks.
+* **`OPEN_ISSUES.md`**: every known open issue, in one list.
 * **`seshsums/`** (and `HeuristicCoder/seshsums/`): working session
   summaries, a running log of how the reconstructions were done.
 
