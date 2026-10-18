@@ -1,0 +1,24 @@
+This is SBCL 2.2.6, an implementation of ANSI Common Lisp.
+More information about SBCL is available at <http://www.sbcl.org/>.
+
+SBCL is free software, provided as is, with absolutely no warranty.
+It is mostly in the public domain; some portions are provided under
+BSD-style licenses.  See the CREDITS and COPYING files in the
+distribution for more information.
+(ql:quickload "...")
+(ql:system-apropos "...")
+--- Loaded quicklisp ---
+To load "fiveam":
+  Load 1 ASDF system:
+    fiveam
+
+WARNING: Cell "P0-9-120" is being added for missing local symbol "9-120"!
+WARNING: Cell "P0-9-12" is being added for missing local symbol "9-12"!
+:::::::::::::::::::::::::::::::: R1 F                                                                            
+:::::::::::::::::::::::::::::::: R2 T                                                                            
+:::::::::::::::::::::::::::::::: R3 F                                                                            
+:::::::::::::::::::::::::::::::: R4 F                                                                            
+:::::::::::::::::::::::::::::::: R5 T                                                                            
+:::::::::::::::::::::::::::::::: R6 F                                                                            
+:::::::::::::::::::::::::::::::: R7 V1                                                                           
+:::::::::::::::::::::::::::::::: R8 V10                                                                          

@@ -29,23 +29,25 @@ It reads 80-column IPL-V card decks directly, as well as the older `.liplv` S-ex
 
 ## Tests
 
-**Run `python3 tests/regress.py` after any change to `iplv.lisp`.** It takes about 25 seconds and prints PASS/FAIL for each program:
+**Run `python3 tests/regress.py` after any change to `iplv.lisp`.** It takes about 30 seconds and prints PASS/FAIL for each program:
 
 ```
 ackermann    PASS       3.7s
 jprobe       PASS       0.4s
+symbols      PASS       0.4s
 lt           PASS       5.5s
 hc           PASS       3.7s
 annexer      PASS       3.4s
 yngve        PASS       2.9s
 yngve-clean  PASS       2.9s
-7 of 7 passed
+8 of 8 passed
 ```
 
 | Name | What runs | Passes when |
 |---|---|---|
 | `ackermann` | `tests/Acker.Ipl` (cards), `tests/Ackermann.liplv` | N0 = 125 (A(3,4)) and 61 (A(3,3)), and output matches `tests/golden/` |
 | `jprobe` | `tests/jprobe.card` (J-function probes) | output matches `tests/golden/jprobe.out` |
+| `symbols` | `tests/symprobe.card` (symbol identity) | each probe gives the right answer (`Q1` ≠ `Q10`, `A` = `A0`, ...), and output matches the golden file |
 | `lt` | `../LogicTheorist/run.sh` | output unchanged; 24/24 theorems as in 1963, except the documented *2.15 difference |
 | `hc` | `../HeuristicCoder/run.sh` | decks and `run/t1*.txt` unchanged |
 | `annexer` | `../HeuristicCoder/annexer/run.sh` | decks, `output.txt`, `memory.txt` unchanged |

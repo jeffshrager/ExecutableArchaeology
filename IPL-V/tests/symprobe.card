@@ -1,0 +1,63 @@
+     SYMBOL EQUALITY PROBES             9
+     EACH PROBE PRINTS A LABEL AND      1
+     T OR F (J2), OR THE VALUE (J10).   1
+                                        5       00
+     R1 Q1 = Q10 ? EXPECT F               P0    10R1
+                                                10Q1
+                                                10Q10
+                                                00J2
+                                                00P1
+     R2 Q1 = Q1 ? EXPECT T                      10R2
+                                                10Q1
+                                                10Q1
+                                                00J2
+                                                00P1
+     R3 K2 = K20 ? EXPECT F                     10R3
+                                                10K2
+                                                10K20
+                                                00J2
+                                                00P1
+     R4 LOCALS 9-12 = 9-120 ? F                 10R4
+                                                109-12
+                                                109-120
+                                                00J2
+                                                00P1
+     R5 A = A0 ? EXPECT T                       10R5
+                                                10A
+                                                10A0
+                                                00J2
+                                                00P1
+     R6 A01 = A1 ? (OBSERVE)                    10R6
+                                                10A01
+                                                10A1
+                                                00J2
+                                                00P1
+     R7 J10 Q1 OF L5. EXPECT V1                 10R7
+                                                10L5
+                                                10Q1
+                                                00J10
+                                                00P2
+     R8 J10 Q10 OF L5. EXPECT V10               10R8
+                                                10L5
+                                                10Q10
+                                                00J10
+                                                00P2    0
+     P1 PRINT LABEL (0), T IF H5+         P1    70      9-1
+                                                10F0    P2
+                                          9-1   10T0    P2
+     P2 PRINT LABEL (1), SYMBOL (0)       P2    00J154
+                                                00J6
+                                                00J156
+                                                10N1
+                                                00J161
+                                                00J156
+                                                00J155  0
+                                        5       01
+     Q10 BEFORE Q1, SO A FALSE MATCH      L5    009-1   0
+     ON Q1 FINDS V10                      9-1   000
+                                                00Q10
+                                                00V10
+                                                00Q1
+                                                00V1    0
+                                          N1    01          1
+                                        5         P0

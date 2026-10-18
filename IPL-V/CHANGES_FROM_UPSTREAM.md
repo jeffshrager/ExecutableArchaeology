@@ -81,3 +81,10 @@ Added so that the faithful deck `../SimonYngve2/ysimon.card` runs unmodified. Wi
 ## Print-line prefix, 2026-10-18
 
 - **`*ipl-print-prefix*`** (new variable): the string J155 prints before each line. The default is the old hard-coded row of 32 colons and a space, so output is unchanged (`tests/regress.py`: 7/7 pass). Set it to `""` for bare lines, as `../SimonYngve2/run.sh clean` does. The colons stay the default because they mark print lines among traces and other output, which helps debugging.
+
+## Exact symbol equality, 2026-10-18 (improvement plan Step 2.1)
+
+- ⚠ **`ipl-string-equal`** compares symbols exactly, after `canonical-symbol` gives each its one spelling: `""` and `"0"` are the termination symbol `0`, and a lone region character `X` is `X0` (manual: "the character A by the IPL-V symbol A0"). It used to strip all trailing `0`s and blanks, so `Q1` = `Q10`, `K2` = `K20` and locals `9-12` = `9-120`. It is used by J2, J10, the J11/J12/J13 helpers, J62, J69 and J77. Trimming blanks from data-term contents stays with J114.
+- Measured first: in about 94,000 calls in LT, the Heuristic Coder, the annexer and Yngve, the old and exact comparisons never differed. So the four programs never relied on the trimming, and their outputs are unchanged (`tests/regress.py`: all pass).
+- New probe deck `tests/symprobe.card` (`regress.py symbols`). Before the fix it gave `Q1` = `Q10`, `K2` = `K20` and `9-12` = `9-120`, and J10 found `Q10`'s value when asked for `Q1`'s (Q10 first on the description list). `A01` and `A1` are different symbols, both before and after (probe R6).
+- Not changed yet: the plain `string-equal` comparisons (J66 and one J11 path), which are exact except for case.

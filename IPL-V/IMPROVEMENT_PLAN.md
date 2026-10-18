@@ -65,7 +65,7 @@ The interpreter now runs four historical programs: Stefferud's LT (24/24 theorem
 It prints PASS/FAIL per program. The scripts already exist and only need to be invoked; the diffs reuse `LogicTheorist/compare.py`.
 
 **Step 2. Fix the A-list bugs, one per commit:**
-1. Exact symbol equality in `ipl-string-equal`, keeping blank-trimming only for alphanumeric data-term contents. This is the riskiest fix, so run the suite immediately after it.
+1. *(Done 2026-10-18: no program output changed; probes in `tests/symprobe.card`.)* Exact symbol equality in `ipl-string-equal`, keeping blank-trimming only for alphanumeric data-term contents. This is the riskiest fix, so run the suite immediately after it.
 2. J66 (start after the head, use the IPL comparison, set H5), and H5 in J63/J65.
 3. J17 multi-digit Wn.
 4. Pop in J166.

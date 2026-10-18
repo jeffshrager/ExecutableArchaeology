@@ -6,6 +6,7 @@ is unchanged:
 
   ackermann  tests/Acker.Ipl -> 125, tests/Ackermann.liplv -> 61
   jprobe     tests/jprobe.card (J-function probes)
+  symbols    tests/symprobe.card (symbol identity: Q1 /= Q10, A = A0)
   lt         ../../LogicTheorist/run.sh: 24/24 theorems as in 1963 (except the
              known *2.15 difference: it fails at the effort limit in both runs,
              after 31 subproblems in 1963 and 48 here; see LogicTheorist/README.md)
@@ -62,9 +63,14 @@ SMALL = {  # name: [(deck in tests/, golden file, expected substring)]
     'ackermann': [('Acker.Ipl', 'acker.out', '|125 [VALUE OF N;]'),
                   ('Ackermann.liplv', 'ackermann-liplv.out', '|61 [VALUE OF N;]')],
     'jprobe': [('jprobe.card', 'jprobe.out', None)],
+    # Symbol identity (J2, J10): exact, except A = A0. Before the 2026-10-18
+    # fix, R1, R3 and R4 gave T and R7 found V10.
+    'symbols': [('symprobe.card', 'symprobe.out',
+                 [': R1 F ', ': R2 T ', ': R3 F ', ': R4 F ', ': R5 T ', ': R6 F ',
+                  ': R7 V1 ', ': R8 V10 '])],
 }
 LT_KNOWN = {'2.15'}   # documented in LogicTheorist/README.md
-ORDER = ['ackermann', 'jprobe', 'lt', 'hc', 'annexer', 'yngve', 'yngve-clean']
+ORDER = ['ackermann', 'jprobe', 'symbols', 'lt', 'hc', 'annexer', 'yngve', 'yngve-clean']
 
 
 def norm(text):
@@ -120,8 +126,9 @@ def run_small(name, accept):
              % os.path.join(TESTS, deck)],
             capture_output=True, text=True, timeout=600)
         new = '\n'.join(norm(r.stdout + r.stderr)) + '\n'
-        if expect and expect not in new:
-            problems.append('%s: expected %r not in output' % (deck, expect))
+        for e in ([expect] if isinstance(expect, str) else expect or []):
+            if e not in new:
+                problems.append('%s: expected %r not in output' % (deck, e))
         g = os.path.join(GOLDEN, golden)
         if accept or not os.path.exists(g):
             os.makedirs(GOLDEN, exist_ok=True)

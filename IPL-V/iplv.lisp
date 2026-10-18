@@ -975,8 +975,8 @@
     (ipl-eval [0]))
 
   (defj J2 ([0] [1]) "TEST (0) == (1)?" ;; The identity test 
-	;; is on the SYMBpart only; P and Q are ignored. [Also, in the
-	;; case of alphabetics, trailing blanks or zeros are ignored.]
+	;; is on the SYMBpart only; P and Q are ignored. [Symbols are
+	;; compared exactly; see canonical-symbol. A0 = A, but Q1 /= Q10.]
 	;; Before we go anywhere else, the names could be equal or the
 	;; name of one could be equal to the symbol of the other, in
 	;; either direction. 
@@ -2440,8 +2440,23 @@
 ;;; blanks (and zeros!) are irrelevant in string equality. (Per Manual
 ;;; pg. 215)
 
+;;; [Fixed: symbols are compared exactly, after canonical spelling. This
+;;; used to strip all trailing 0s and blanks, so Q1 = Q10, K2 = K20 and
+;;; 9-12 = 9-120. The only real "invisible zero" in IPL-V is after a lone
+;;; region character (manual: "the character A by the IPL-V symbol A0"),
+;;; and the termination symbol 0 may arrive as "" or "0". Trimming blanks
+;;; from data-term contents is J114's business, not symbol identity's.
+;;; Measured before the fix: in ~94,000 calls across LT, the Heuristic
+;;; Coder, the annexer and Yngve, old and exact comparison never differed.]
+(defun canonical-symbol (s)
+  (let ((s (string-right-trim " " (if (stringp s) s (format nil "~a" s)))))
+    (cond ((or (string= s "") (string= s "0")) "0")
+	  ((and (= (length s) 1) (not (digit-char-p (char s 0))))
+	   (concatenate 'string s "0"))
+	  (t s))))
+
 (defun ipl-string-equal (a b)
-  (string-equal (right-string-trim "0 " a) (right-string-trim "0 " b)))
+  (string= (canonical-symbol a) (canonical-symbol b)))
 
 (defun right-string-trim (cs s)
   (subseq s 0 (loop for p from (1- (length s)) downto 0
