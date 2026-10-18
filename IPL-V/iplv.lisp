@@ -1928,7 +1928,8 @@
 	;; the head). If (0) = H2, J126 will count the available space
 	;; list. This is the only place where H2 can be used safely by
 	;; the programmer. [Nb. H2 is not passed to COUNT LIST in LT]
-	(let* ((count-cell (make-cell! :name (newsym) :p 1 :q 2 :link 0))
+	;; [Fixed: an integer data term is P=0, Q=1 (was :p 1 :q 2).]
+	(let* ((count-cell (make-cell! :name (newsym) :p 0 :q 1 :link 0))
 	       (count-cell-name (cell-name count-cell))
 	       (list-head (cell [0]))
 	       (next-cell-name (cell-link list-head))
@@ -2597,7 +2598,8 @@
 
 (defun w25-get () (numget (cell-symb (cell "W25"))))
 (defun w25-set (n) (numset (cell-symb (cell "W25")) n))
-(defun w25-init () (setf (cell-symb (cell "W25")) (cell-name (make-cell! :p 1 :q 2 :link 1))))
+;;; [Fixed: 1W25 is an integer data term, P=0, Q=1 (was :p 1 :q 2).]
+(defun w25-init () (setf (cell-symb (cell "W25")) (cell-name (make-cell! :p 0 :q 1 :link 1))))
 
 ;;; These number things have to be given the name of what is supposed
 ;;; to be a numerical data cell, that is, one where the link is
