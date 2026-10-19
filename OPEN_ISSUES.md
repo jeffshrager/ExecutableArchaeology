@@ -62,7 +62,7 @@ After any change, run `python3 IPL-V/tests/regress.py` (9 tests).
 
 ## Other
 
-13. **Leading zeros in symbols.** `A01` and `A1` are different symbols in the Lisp IPL-V (probe R6
+13. **Leading zeros in symbols.** *(Evidence 2026-10-18: in the EPAM II listing U2 is defined as `U0002` and referenced as `U2`, so leading zeros don't matter there. EPAM's run deck normalizes them; the interpreter doesn't yet.)* `A01` and `A1` are different symbols in the Lisp IPL-V (probe R6
     in `IPL-V/tests/symprobe.card`). It hasn't been checked whether IPL-V reads the number part as
     an integer, which would make them equal. Check the manual and Beyer's loader.
     (`seshsums/20261018_1154_seshsum.md`)
@@ -77,10 +77,32 @@ After any change, run `python3 IPL-V/tests/regress.py` (9 tests).
     self-tests run. The KBEmacs README shows only SQRT, so verify it before posting.
     (`seshsums/20261018_1154_seshsum.md`)
 
+## EPAM
+
+17. **EPAM II serial-anticipation experiment (List A).** Needs:
+    - an environment deck: the memory drum C0/C1 and C6 that F10 expects, the trial loop and the criterion;
+    - letter codes for K A G L U R I P E M O T (to be reconstructed from net U1);
+    - the six syllable items;
+    - A9 ("IS … AN ANCHOR POINT"), which the listing never defines.
+
+    Then debug about 400 never-run cards and compare with P-1817 Fig. 4.1. (`EPAM/EPAM_II_model.md` §9)
+18. **J16 and J135** (used by EPAM II's E5, a random branch, and E7) are missing from the Lisp IPL-V.
+    Adding them is an interpreter change.
+19. **Undefined regionals outside letter+digits** (EPAM's `*0`) aren't created by the Lisp IPL-V's
+    `create-undefined-regionals`. EPAM's run deck defines `*0` itself.
+20. **The Stanford EPAM listing** (`EPAM/EPAM_sc0340_1986-052_b56_f2.pdf`) is not transcribed.
+    It is a later EPAM that ran; how it relates to EPAM II and EPAM III is unknown. (`EPAM/HISTORY.md`)
+21. **Further reanimation candidates.** EPAM-V (Richman 1987, IPL-V listing pp. 9-21), and EPAM IV on
+    Richman's PC IPL-V (Richman & Simon 1988), if the code survives. (`EPAM/HISTORY.md`)
+22. **Unexamined EPAM material** in the archived IPL-V repo: `1991_EPAM_Typicality_Programs_from_Simon_Archive.pdf`
+    and four Simon-archive PDFs. (`EPAM/HISTORY.md`)
+
 ## Not issues (documented differences)
 
 - **LT \*2.15** fails at the effort limit in both 1963 and the Lisp run, after 31 subproblems in
   1963 and 48 here; the first 31 match. Explained in `LogicTheorist/README.md`, and allowed by
   `regress.py`.
+- **EPAM II's D0 assigns attributes to data-term responses** (a latent 1959 bug, found because EPAM II
+  was never run). It is patched in `EPAM/make_run.py` and described in `EPAM/EPAM_II_model.md` §6.
 - **J63-J66 don't set H5.** The manual specifies none, and Beyer's library J65 preserves it.
   (`IPL-V/CHANGES_FROM_UPSTREAM.md`)

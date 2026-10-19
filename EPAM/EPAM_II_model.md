@@ -96,7 +96,11 @@ To our knowledge this is the first time EPAM II code has run.
 - Letter codes other than A (next step): to be reconstructed from U1's paths, which fix each letter's tested bits, with untested bits set to 0. Each code is checked to sort to its own letter.
 - The run-deck changes listed in `make_run.py`: spelling, section headers, `*0`, the D0 patch.
 
-## 8. Next
+## 8. Sources and later versions
+
+See `HISTORY.md` for every source and EPAM's later versions: EPAM III (1964), EPAM IV (Richman & Simon 1988, on a PC IPL-V), EPAM-V (Richman 1987, with an IPL-V listing), and the Stanford listing.
+
+## 9. Next
 
 1. Letter codes for the letters of List A (K, A, G, L, U, R, I, P, E, M, O, T).
 2. The six syllables as items, an empty net U2, and a serial-anticipation driver around F0 (one F0 cycle per trial, as in Fig. 4.1).
