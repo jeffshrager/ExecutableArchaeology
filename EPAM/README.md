@@ -8,6 +8,7 @@ Start with:
 
 - `EPAM_II_model.md`: what EPAM II models and is supposed to do, with our outputs (kept up to date)
 - `HISTORY.md`: the sources and EPAM's versions (I to V), and what each source settles
+- `LEAN/`: EPAM's cognitive postulates in Lean 4, and machine-checked proofs of the phenomena they explain (see `../coglean.md`)
 
 | File | What it is |
 |---|---|

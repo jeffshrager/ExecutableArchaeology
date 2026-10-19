@@ -1,0 +1,5 @@
+name = "epam"
+defaultTargets = ["Epam"]
+
+[[lean_lib]]
+name = "Epam"
