@@ -32,8 +32,7 @@
                                           L23   21W                   CAPL23
                                           L24   21X                   CAPL24
                                           L25   21Y                   CAPL25
-     +0                                 1
-     ALPHABET                             L26   21Z0                  CAPL26
+     ALPHABET                             L26   21Z                   CAPL26
      FORMAT OF A DIFFERENCE             1 90      0000                DIFF 1
      INTEGER DESIGNATING LINE           1         N3                  DIFF 2
      INTEGER DESIGNATING BIT            1         N2                  DIFF 3
@@ -740,13 +739,13 @@
                                                   J4                  Q0107
                                                   J4                  Q0108
                                                   J4                  Q0109
-                                                  J5                  Q0110
-                                                  J5                  Q0111
+                                                  J3                  Q0110
+                                                  J3                  Q0111
                                                   J4                  Q0112
                                                   J4                  Q0113
                                                   J4                  Q0114
-                                                  J4                  Q0115
-                                                  J3                  Q0116
+                                                  J3                  Q0115
+                                                  J4                  Q0116
                                                   J3                  Q0117
                                                   J3                  Q0118
                                                   J3    0000          Q0119

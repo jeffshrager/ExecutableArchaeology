@@ -1,0 +1,10 @@
+     DRIVER, NOT PART OF EPAM II.       1
+     WRITE A WORD IMAGE WITH D1. R1 IS  1
+     A ONE-LETTER IMAGE, THE LETTER A   1
+     (Q1). EXPECT THE PRINTED WORD A.   1
+                                        5       00
+     R0. D1 WRITES IMAGE R1               R0    10R1
+                                                00D1    0
+     R1. IMAGE = LIST OF LETTERS          R1    000
+                                                00Q1    0
+     START                              5         R0
