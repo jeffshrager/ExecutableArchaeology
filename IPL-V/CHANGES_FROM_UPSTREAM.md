@@ -105,3 +105,7 @@ All outputs are unchanged (`tests/regress.py`, all pass). The new `tests/fixprob
 - **`load-ipl`'s default `:adv-limit`** is 10^8 (was 100); `run`'s is too (was 1000).
 
 Profile of LT (2.6 s, 650,000 cycles): about 25% is J68's last-cell case, which scans the whole symbol table, and about 24% is symbol-table inserts (cells are never reclaimed). Both belong to the memory model (plan Steps 4-5). The changes above save about 2% of time and bound the history's memory.
+
+## J153 for alphanumeric terms, 2026-10-18 (EPAM II)
+
+- **J153** prints SYMB for an alphanumeric data term (P=2, Q=1), and LINK only for an integer (P=0, Q=1). It printed LINK for any Q=1 term, so EPAM II's E4 printed the letter A as `0`. The Simon/Yngve deck only prints integers with J153, so its output is unchanged (`tests/regress.py`).

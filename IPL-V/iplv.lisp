@@ -2069,7 +2069,10 @@
 	;; on its own line.
 	(PopH0 1)
 	(let ((c (<== [0])))
-	  (format t "~a~%" (if (= (cell-q c) 1) (cell-link c) (cell-symb c)))))
+	  ;; [Fixed: only an integer (P=0, Q=1) keeps its value in LINK; an
+	  ;; alphanumeric term (P=2, Q=1) has its text in SYMB. This printed
+	  ;; LINK for every Q=1 term, so EPAM's E4 printed the letter A as 0.]
+	  (format t "~a~%" (if (and (= (cell-p c) 0) (= (cell-q c) 1)) (cell-link c) (cell-symb c)))))
 
   (defj J154 () "Clear print line" 
 	;; Clear Print Line CLEAR PRINT LINE. Print line 1W24 is cleared and the
