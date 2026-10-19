@@ -103,6 +103,6 @@ After any change, run `python3 IPL-V/tests/regress.py` (9 tests).
   1963 and 48 here; the first 31 match. Explained in `LogicTheorist/README.md`, and allowed by
   `regress.py`.
 - **EPAM II's D0 assigns attributes to data-term responses** (a latent 1959 bug, found because EPAM II
-  was never run). It is patched in `EPAM/make_run.py` and described in `EPAM/EPAM_II_model.md` §6.
+  was never run). It is patched in `EPAM/IPL/make_run.py` and described in `EPAM/EPAM_II_model.md` §6.
 - **J63-J66 don't set H5.** The manual specifies none, and Beyer's library J65 preserves it.
   (`IPL-V/CHANGES_FROM_UPSTREAM.md`)

@@ -22,7 +22,7 @@ Richman (1987) calls EPAM-V "a combination of EPAM III, EPAM IV and ZBIE", and c
 - The theory: macroprocesses M0-M3 and microprocesses D2, F1, F1a, F1b, F2, D8, F0, R, D1 (§2.3-2.4).
 - The program's design (§3.0-3.6).
 - Hand-simulated experiments with List A, KAG LUK RIL PEM ROM TIL: Fig. 4.1 (serial anticipation) and Fig. 4.2 (paired associates).
-- **The Appendix (pp. 133ff, PDF pp. 141-170) is the EPAM II listing**, the source of `epamfixed.card`. "No specific data inputs are shown, with the exception of an example of a capital letter code" (Q1 = A).
+- **The Appendix (pp. 133ff, PDF pp. 141-170) is the EPAM II listing**, the source of `IPL/epamfixed.card`. "No specific data inputs are shown, with the exception of an example of a capital letter code" (Q1 = A).
 - Printed page = PDF page − 8. The page images can be pulled out with pypdf/pillow (see the seshsums); the text layer breaks the listing's columns apart.
 - Feigenbaum thanks Newell, Simon, J. C. Shaw and Fred Tonge (Preface).
 
@@ -53,7 +53,7 @@ Richman (1987) calls EPAM-V "a combination of EPAM III, EPAM IV and ZBIE", and c
 ## Earlier work in the archived IPL-V repo
 
 `~/Desktop/AIHistory/IPL-V -- mostly replaced by Executable Archaeology -- consider stripping and deleting/repo`, commit `22eb767` ("Added EPAM code", 2026-01-27):
-- `EPAM/EPAMFixed.liplv`, the earlier transcription of the P-1817 appendix (now `epamfixed.card` here);
+- `EPAM/EPAMFixed.liplv`, the earlier transcription of the P-1817 appendix (now `EPAM/IPL/epamfixed.card` here);
 - copies of P-1817 and Richman (1987);
 - `1991_EPAM_Typicality_Programs_from_Simon_Archive.pdf`;
 - four Simon-archive PDFs (`Simon_box00008_fld00557...`, `Simon_box00015_fld01056...` ×3).

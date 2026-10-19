@@ -3,7 +3,7 @@
 
 No normalization: every field goes into its card columns unchanged, so the
 deck is the same transcription in card form. The columns are those of the
-Lisp IPL-V card reader (../IPL-V/iplv.lisp, read-card):
+Lisp IPL-V card reader (../../IPL-V/iplv.lisp, read-card):
 
   comment 1-40 (text from col 6), type 41, name 43-47, sign 48, PQ 49-50,
   SYMB 51-55, LINK 57-61, comment 62-70, id 71-80

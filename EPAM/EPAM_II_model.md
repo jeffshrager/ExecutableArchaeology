@@ -70,7 +70,7 @@ Because the hand simulation idealized the codes, a real run should be compared *
 
 ## 6. What runs so far
 
-**First light, 2026-10-18** (`drivers/write-a.card`, tag `epam-first-light`). The writer D1 is given a one-letter image containing Q1, the code for A. D1 sorts it through U1 with D2 and D0. At each testing point D0 executes the A0 marker, then the test Z0, which executes the bit it finds. A's code takes this path:
+**First light, 2026-10-18** (`IPL/drivers/write-a.card`, tag `epam-first-light`). The writer D1 is given a one-letter image containing Q1, the code for A. D1 sorts it through U1 with D2 and D0. At each testing point D0 executes the A0 marker, then the test Z0, which executes the bit it finds. A's code takes this path:
 
 ```
 U1    bit 1 = 1  -> minus      9-20  bit 8 = 0 -> plus
@@ -92,9 +92,9 @@ To our knowledge this is the first time EPAM II code has run.
 
 ## 7. What is reconstructed, not historical
 
-- Every driver in `drivers/` (they stand in for the macroprocesses and the experimenter).
+- Every driver in `IPL/drivers/` (they stand in for the macroprocesses and the experimenter).
 - Letter codes other than A (next step): to be reconstructed from U1's paths, which fix each letter's tested bits, with untested bits set to 0. Each code is checked to sort to its own letter.
-- The run-deck changes listed in `make_run.py`: spelling, section headers, `*0`, the D0 patch.
+- The run-deck changes listed in `IPL/make_run.py`: spelling, section headers, `*0`, the D0 patch.
 
 ## 8. Sources and later versions
 

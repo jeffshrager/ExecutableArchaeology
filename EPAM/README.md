@@ -11,17 +11,18 @@ Start with:
 
 | File | What it is |
 |---|---|
-| `epamfixed.card` | The EPAM II listing (P-1817 appendix) as cards. It is the earlier transcription, corrected only where checked against the page images |
-| `CORRECTIONS.md` | Those corrections, with card IDs and pages |
-| `EPAMFixed.liplv`, `liplv2cards.py` | The earlier `.liplv` transcription, and the converter that produced `epamfixed.card` |
-| `make_run.py` | Builds the runnable `epam2-run.card` from `epamfixed.card` plus a driver. Every change is listed in its header (spelling, sections, the D0 patch, ...) |
-| `drivers/` | Driver decks: *not* part of EPAM II. `write-a.card` sorts and writes the letter A |
+| `IPL/epamfixed.card` | The EPAM II listing (P-1817 appendix) as cards. It is the earlier transcription, corrected only where checked against the page images |
+| `IPL/CORRECTIONS.md` | Those corrections, with card IDs and pages |
+| `IPL/EPAMFixed.liplv`, `IPL/liplv2cards.py` | The earlier `.liplv` transcription, and the converter that produced `epamfixed.card` |
+| `IPL/make_run.py` | Builds the runnable `epam2-run.card` from `epamfixed.card` plus a driver. Every change is listed in its header (spelling, sections, the D0 patch, ...) |
+| `IPL/drivers/` | Driver decks: *not* part of EPAM II. `write-a.card` sorts and writes the letter A |
 | `EPAM_sc0340_1986-052_b56_f2.pdf`, `.txt` | A later EPAM listing (Stanford, Feigenbaum papers), not yet transcribed |
 
 Run the first-light test:
 
 ```sh
+cd IPL
 python3 make_run.py --driver drivers/write-a.card
-sbcl --non-interactive --eval '(load (compile-file "../IPL-V/iplv.lisp"))' \
+sbcl --non-interactive --eval '(load (compile-file "../../IPL-V/iplv.lisp"))' \
      --eval '(progn (set-trace-mode :none) (load-ipl "epam2-run.card"))'   # prints A
 ```

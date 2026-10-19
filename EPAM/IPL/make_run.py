@@ -4,7 +4,7 @@
 epamfixed.card is the earlier transcription of the EPAM II listing in the
 appendix of Feigenbaum, P-1817 (RAND, 9 Oct 1959), pp. 133ff, kept exactly as
 transcribed. This script makes the changes needed to run it on the Lisp IPL-V
-(../IPL-V/iplv.lisp). Each change was checked against the P-1817 appendix:
+(../../IPL-V/iplv.lisp). Each change was checked against the P-1817 appendix:
 
   1. Spelling of symbols:
      - termination written 0000 (as the listing prints it) becomes 0. The
