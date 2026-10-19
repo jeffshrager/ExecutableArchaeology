@@ -30,7 +30,7 @@ The rest of this repository *runs* the historical programs: the original code on
 
 | Model | Lean | Status |
 |---|---|---|
-| **EPAM II** (Feigenbaum 1959; Feigenbaum & Simon 1962) | `EPAM/LEAN/` | 20 theorems proved (no `sorry`): selection (D2), discrimination learning (F1, F1b), association and restoration (F2, R, D8), macroprocesses (M0, M1, M3). Phenomena: stimulus generalization, intralist similarity, oscillation, retroactive inhibition, learning to criterion, serial position effect. |
+| **EPAM II** (Feigenbaum 1959; Feigenbaum & Simon 1962) | `EPAM/LEAN/` | 37 theorems proved (no `sorry`), including Fig. 4.1's PEM/ROM confusion computed for List A: selection (D2), discrimination learning (F1, F1b), association and restoration (F2, R, D8), macroprocesses (M0, M1, M3). Phenomena: stimulus generalization, intralist similarity, oscillation, retroactive inhibition, learning to criterion, serial position effect. |
 | Logic Theorist (Newell, Shaw & Simon 1956) | — | candidate: the "methods" (substitution, detachment, chaining) and claims about search |
 | Heuristic Compiler (Simon 1961-63) | — | candidate |
 | Simon-Yngve generator (1962) | — | candidate: Yngve's depth hypothesis is a claim about bounded memory |

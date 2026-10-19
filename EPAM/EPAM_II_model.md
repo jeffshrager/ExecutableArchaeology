@@ -93,7 +93,7 @@ To our knowledge this is the first time EPAM II code has run.
 ## 7. What is reconstructed, not historical
 
 - Every driver in `IPL/drivers/` (they stand in for the macroprocesses and the experimenter).
-- Letter codes other than A (next step): to be reconstructed from U1's paths, which fix each letter's tested bits, with untested bits set to 0. Each code is checked to sort to its own letter.
+- Letter codes other than A: reconstructed from U1's paths (`IPL/letter_codes.py`, `IPL/letter_codes.txt`), which fix each letter's tested bits, with untested bits set to 0. All 26 sort back to their own letter through U1. With these codes, the Lean model (`LEAN/Epam/ListA.lean`) reproduces Fig. 4.1's trial-4 confusion of PEM with ROM.
 - The run-deck changes listed in `IPL/make_run.py`: spelling, section headers, `*0`, the D0 patch.
 
 ## 8. Sources and later versions

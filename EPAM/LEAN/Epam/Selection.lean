@@ -52,6 +52,9 @@ def path : Net → Item → List Feature
 /-- A stimulus is *recognized* by a net when it selects its own image. -/
 def Recognizes (N : Net) (x : Item) : Prop := N.select x = some x
 
+instance (N : Net) (x : Item) : Decidable (Recognizes N x) :=
+  inferInstanceAs (Decidable (N.select x = some x))
+
 /-- **Selection depends only on noticed features.** Two stimuli that agree
 on every feature the net examines along one of them select the same image. -/
 theorem select_depends_only_on_noticed_features (N : Net) (x y : Item)
