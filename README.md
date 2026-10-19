@@ -98,8 +98,9 @@ on the Lisp IPL-V) is the best place to begin.
   Node.js (`run-ipl.sh my.card`). It is the minimal part of the
   retro-1620 fork needed to test IPL-V decks on a genuine 1960s
   implementation, and it runs the 1620 Yngve decks.
-* **`coglean.md`**: CogLean, stating a model's cognitive propositions in Lean 4 and proving the
-  phenomena it was built to explain. EPAM II (`EPAM/LEAN/`) is the first example.
+* **`coglean.md`**: CogLean, a machine-checked library of cognitive theory in Lean 4, in the spirit
+  of Mathlib. Constructs are defined once, theories are built from them, and phenomena are proved
+  from the theories' assumptions. Its first theory is EPAM (`EPAM/LEAN/`).
 * **`OPEN_ISSUES.md`**: every known open issue, in one list.
 * **`seshsums/`** (and `HeuristicCoder/seshsums/`): working session
   summaries, a running log of how the reconstructions were done.

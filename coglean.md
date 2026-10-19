@@ -1,39 +1,84 @@
-# CogLean: classic cognitive models as checked theories
+# CogLean: a library of cognitive theory in Lean
 
-## The idea
+## The goal
 
-The early cognitive-simulation programs, including EPAM, the Logic Theorist, GPS and the Heuristic Compiler, were offered as *theories*. Feigenbaum says it directly of EPAM: "The precise statement of the theory is given in the language of a digital computer" (P-1817, Summary, 1959). Each program came with a short list of **cognitive propositions** (EPAM's "postulates": selection by a discrimination net, discrimination learning, association by cue codes, a serial mechanism with anchor points, and so on). It also came with a list of **behavioral phenomena** the propositions were meant to explain (stimulus generalization, oscillation, the serial position effect, ...).
+Mathlib is a single, shared, machine-checked library of mathematics. Definitions are made once and reused everywhere, and every theorem is proved from them. CogLean aims at the same thing for **cognitive theory**: one library in which the constructs of cognitive science are defined once, the theories built from them are stated precisely, and the phenomena those theories claim to explain are proved from their assumptions.
 
-The connection between the two was argued in prose, and sometimes demonstrated by running the program, or, for EPAM II, by simulating it by hand. CogLean makes that connection explicit and checkable. For each model:
+- **Constructs:** representations, memories, learning and selection processes, attention, architectures.
+- **Theories:** discrimination-net learning, production systems, search, activation-based memory, connectionist and Bayesian models, and others.
+- **Phenomena:** generalization, interference, forgetting, the serial position effect, capacity limits, practice effects, and others.
 
-1. **State the cognitive propositions** as definitions in Lean 4, at the level of abstraction the authors used (codes, nets, cues, attention), not at the level of their implementation.
-2. **State the phenomena** as theorems, in the qualitative form the original papers claim: "can occur", "increases with", "is bowed".
-3. **Prove the phenomena from the propositions alone**, machine-checked. A proof shows exactly which propositions a phenomenon depends on. A failed proof shows where the original argument needed something it never stated.
+Cognitive theories are usually stated in prose, in simulation code, or as systems of equations fitted to data. What follows from their core assumptions, as distinct from their parameter settings or implementation details, is rarely checked. In CogLean that is what a proof does. A proof shows *which* assumptions a phenomenon depends on. A failed proof shows that a theory needs an assumption it never stated. And because the constructs are shared, theories can be compared on common ground: two theories explain a phenomenon *in the same way* if their proofs use the same lemmas.
 
-## How it relates to executable archaeology
+## What goes in the library
 
-The rest of this repository *runs* the historical programs: the original code on reconstructed interpreters. That tells us what the programs *do*. CogLean says what their *theories* imply. The two check each other:
+| Layer | Contents | Examples |
+|---|---|---|
+| **Representations** | the stuff of cognition | feature codes, symbols and list structures, chunks, propositions, vectors |
+| **Memory structures** | how it is stored and accessed | discrimination nets, associative cue-response links, bounded short-term stores, activation, schemas |
+| **Processes** | what operates on memory | selection and recognition, discrimination learning, association, retrieval with partial cues, search, rule matching |
+| **Control** | how processing is organized | serial mechanisms, attention and its order, time per operation, goal stacks |
+| **Phenomena** | theory-neutral statements of what is observed | "a stimulus similar to a learned one evokes its response", "responses learned earlier can be lost by later learning", "errors are bowed over serial position" |
+| **Theories** | named bundles of the above, with their postulates | EPAM, and in time production-system, activation-based, connectionist and probabilistic theories |
+| **Experiments** | tasks as instances | serial anticipation, paired associates, recognition, list learning, with concrete stimuli |
 
-- **Program → theory.** A behavior observed in a run (e.g. EPAM confusing two syllables) should be an instance of a proved theorem. If it is not, either the program departs from its stated theory, or the theory is incomplete.
-- **Theory → program.** A theorem saying a phenomenon *can* occur names the mechanism. That says which part of the code to examine, and what input should produce it.
-- **Theory without a program.** Some claims were never run at all; EPAM II was only hand-simulated. The propositions can still be checked for whether they really entail what was claimed.
+A *phenomenon* is stated once, independently of any theory, as a property a learner can have. A *theory* then proves that its learners have it, possibly only under stated conditions. A *theory* may also fail to have it, and that failure is itself a theorem.
 
 ## Principles
 
-- **Qualitative, as the originals were.** The 1959-1962 claims are mostly qualitative ("EPAM exhibits oscillation", "the curve is bowed"), so the theorems are too. Quantitative fits are out of scope unless a paper made one.
-- **Faithful to the authors' propositions.** Definitions follow the wording of the original postulates and cite them (paper, section, page). Simplifications are listed openly in each model's README.
-- **Possibility vs necessity.** Where a mechanism is random (e.g. EPAM's tests with missing information), the theorem says what *can* happen, using a relation rather than a probability.
-- **Fully checked.** No `sorry`, and only Lean's standard axioms (`#print axioms`). Core Lean where possible, so the proofs build quickly with no large libraries.
-- **Next to the program.** Each model's Lean lives beside its executable reconstruction (`<Model>/LEAN/` beside `<Model>/IPL/`), so the two can be compared.
+- **Define once, reuse everywhere.** A discrimination net, a cue, a bounded store or an attention schedule is defined in one place and imported by every theory that uses it.
+- **Theory-neutral phenomena.** Phenomena are stated without reference to any mechanism, so that different theories can be proved to have, or lack, the same phenomenon.
+- **Qualitative first.** Most cognitive claims are qualitative ("can occur", "increases with", "is bowed"), and theorems are stated at that level. Quantitative claims can come later, as refinements.
+- **Possibility and necessity.** Stochastic mechanisms are stated relationally: what *can* happen, and what *must*. Probability can be added on top.
+- **Assumptions are explicit.** Each theory's postulates are definitions or hypotheses, cited to their source where there is one, with simplifications listed. Robustness to the arbitrary choices (codes, orders, parameters) is itself tested, by proof or, where the space is too large, by sampling with the cases that matter certified.
+- **Fully checked.** No `sorry`; `#print axioms` shows only Lean's standard axioms. Core Lean where possible, so the library stays light and builds in seconds.
+- **Instances keep the theory honest.** Concrete experiments are computed by the kernel (`decide`) and compared with observed or reported behavior.
 
-## Models
+## Where it stands
 
-| Model | Lean | Status |
-|---|---|---|
-| **EPAM II** (Feigenbaum 1959; Feigenbaum & Simon 1962) | `EPAM/LEAN/` | 48 theorems proved (no `sorry`). Fig. 4.1's whole serial-anticipation run is checked: 33/34 recorded responses under codes reconstructed from U1, 34/34 under others. Feigenbaum's robustness footnote is tested (`analysis/RESULTS.md`). Postulates: selection (D2), discrimination learning (F1, F1b), association and restoration (F2, R, D8), macroprocesses (M0, M1, M3). Phenomena: stimulus generalization, intralist similarity, oscillation, retroactive inhibition, learning to criterion, serial position effect. |
-| Logic Theorist (Newell, Shaw & Simon 1956) | — | candidate: the "methods" (substitution, detachment, chaining) and claims about search |
-| Heuristic Compiler (Simon 1961-63) | — | candidate |
-| Simon-Yngve generator (1962) | — | candidate: Yngve's depth hypothesis is a claim about bounded memory |
+The first theory in the library is **EPAM** (`EPAM/LEAN/`), 48 theorems, no `sorry`:
+
+- **Constructs it defines:**
+  - feature codes;
+  - discrimination nets with selection;
+  - discrimination learning with a noticing order and redundancy;
+  - cue codes and retrieval from partial cues with random branching;
+  - restoration of cues;
+  - serial attention with anchor points;
+  - learner state and learning events for an experiment.
+- **Phenomena it proves:**
+  - stimulus generalization;
+  - the cost of intralist similarity;
+  - oscillation (correct responses that fail and recover);
+  - retroactive inhibition;
+  - learning to criterion without unlearning;
+  - total time growing with the amount to be learned;
+  - the serial position effect.
+- **An experiment it computes:** serial anticipation of a six-syllable list. The responses the postulates make possible are compared trial by trial with a published simulation (33 or 34 of 34 agree, depending on the stimulus codes), and the result's sensitivity to codes, noticing order and parameters is measured (`EPAM/LEAN/analysis/RESULTS.md`).
+
+At present these constructs live inside the EPAM theory. The next step for the library is to lift the general ones out into shared modules.
+
+## Roadmap
+
+1. **Library structure.** Move the general constructs out of `EPAM/LEAN/` into theory-neutral modules. Each phenomenon becomes a predicate on learners, and EPAM proves it about its learner. Proposed layout:
+   - `Cog/Rep` (codes and features)
+   - `Cog/Memory/DiscriminationNet`
+   - `Cog/Memory/Cue`
+   - `Cog/Control/Attention`
+   - `Cog/Phenomena`
+   - `Cog/Theories/EPAM`
+   - `Cog/Experiments/SerialAnticipation`
+2. **Finish EPAM:**
+   - paired associates;
+   - response generalization;
+   - the distribution of error types;
+   - cue codes sized by trial and error;
+   - immediate memory.
+3. **A second, different theory, to test that the constructs really are shared.** Candidates:
+   - a bounded-memory account of sentence production (Yngve's depth hypothesis);
+   - a production-system theory;
+   - an activation-based retrieval theory.
+4. **Comparisons:** for each phenomenon, which theories have it, under what conditions, and through which shared lemmas.
 
 ## Getting started
 

@@ -1,6 +1,6 @@
 # EPAM's cognitive postulates in Lean
 
-This directory states the *cognitive* propositions of EPAM, as Feigenbaum gives them in P-1817 §2.4 (1959), in Lean 4. It then proves, from those propositions alone, the behavioral phenomena EPAM was built to explain. It is the first example of the approach described in `../../coglean.md`.
+EPAM, the first theory in CogLean (`../../coglean.md`), a library of cognitive theory in Lean 4. This directory states EPAM's cognitive propositions (selection by a discrimination net, discrimination learning, association by cue codes, restoration, serial attention with anchor points; P-1817 §2.4). It then proves from them alone the phenomena they explain, and computes a full serial-anticipation experiment.
 
 The proofs are **qualitative**. They show that a phenomenon *follows from* (or *is possible under*) the postulates, not that it matches human data in size. All 48 theorems are machine-checked: `lake build` succeeds, there is no `sorry`, and `#print axioms` shows only Lean's standard `propext`, `Quot.sound` and `Classical.choice`.
 
@@ -119,8 +119,22 @@ Feigenbaum claimed that the qualitative behavior does not depend sensitively on 
 - the PEM/ROM confusion needs the third letter noticed before the vowel;
 - vowel-first noticing fits the figure worst.
 
+## Contribution to the library
+
+Most of what is defined here is not EPAM-specific, and is to be lifted into shared CogLean modules (`../../coglean.md`, roadmap):
+
+| General construct | Here | Destined for |
+|---|---|---|
+| Feature codes | `Item`, `Item.feat` | `Cog/Rep` |
+| Discrimination nets, selection, learning with noticing order and redundancy | `Net`, `select`, `learn`, `learnK`, `NoticingOrder` | `Cog/Memory/DiscriminationNet` |
+| Cue codes, retrieval from partial cues, restoration | `Cue`, `cueOf`, `CueSelects`, `cueResults` | `Cog/Memory/Cue` |
+| Serial attention with anchor points | `anchorDist`, `learnedOnTrial` | `Cog/Control/Attention` |
+| Learner state, learning events, possible responses | `Learner`, `Event`, `responses` | `Cog/Experiments` |
+| Phenomena (generalization, oscillation, interference, serial position, ...) | `Phenomena.lean` | `Cog/Phenomena`, stated theory-neutrally as properties of learners |
+
 ## Next
 
-1. Tie the model to the running IPL-V program (`../IPL/`): run List A with the same codes and check for the same confusions (needs the experiment driver; OPEN_ISSUES #17-18).
+1. Lift the general constructs into shared modules (above).
+2. Tie the model to the running IPL-V program (`../IPL/`): run List A with the same codes and check for the same confusions (needs the experiment driver; OPEN_ISSUES #17-18).
 2. State the rest of Fig. 4.1 (oscillations, trials to criterion) and Fig. 4.2 (paired associates: RIL → LUK, ROM → LUK).
 3. The phenomena not yet stated: response generalization, error types (4.1.1.3.5), serial anticipation vs paired associates (4.1.1.3.6).
